@@ -14,11 +14,11 @@
 
         <ImageView
             android:id="@+id/iV_togo"
-            android:layout_width="200dp"
-            android:layout_height="200dp"
+            android:layout_width="150dp"
+            android:layout_height="150dp"
             android:layout_alignParentTop="true"
             android:layout_centerHorizontal="true"
-            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="60dp"
             android:contentDescription="@string/app_name"
             android:src="@drawable/ic_logo" />
 
@@ -95,16 +95,33 @@
                 android:layout_height="24dp"
                 android:layout_gravity="center_horizontal|center_vertical"
                 android:indeterminate="true"
-                android:visibility="gone"/>
+                android:visibility="gone" />
         </FrameLayout>
 
-        <com.google.android.material.textview.MaterialTextView
+        <androidx.appcompat.widget.LinearLayoutCompat
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:orientation="horizontal"
             android:layout_below="@id/fL_login"
-            android:layout_centerHorizontal="true"
-            android:padding="4dp"
-            android:text="@string/create_account" />
+            android:layout_centerHorizontal="true">
+
+            <com.google.android.material.textview.MaterialTextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingStart="4dp"
+                android:paddingEnd="4dp"
+                android:paddingTop="4dp"
+                android:paddingBottom="4dp"
+                android:text="@string/create_account"/>
+
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/tv_create_account"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingTop="4dp"
+                android:paddingBottom="4dp"
+                android:text="@string/account"/>
+        </androidx.appcompat.widget.LinearLayoutCompat>
     </RelativeLayout>
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>
