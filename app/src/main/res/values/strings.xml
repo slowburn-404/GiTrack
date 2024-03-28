@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">GiTrack</string>
+    <string name="github_issue_tracker">Github Issue Tracker</string>
+    <string name="login_to_your_github_account">Login to your Github Account</string>
+    <string name="email">Email</string>
+    <string name="password">Password</string>
+    <string name="login">Login</string>
+    <string name="create_account">Don\'t have an account?</string>
+    <string name="account">Create one</string>
+    <string name="username">/username</string>
+    <string name="logout">Logout</string>
+    <string name="search_repositories">Search repositories</string>
+    <string name="repository_title">Repository title</string>
+    <string name="repository_desc">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce in ipsum sit amet quam faucibus maximus. Ut lobortis enim rutrum sagittis ultricies. Donec egestas rhoncus erat, nec mattis velit pulvinar eget. Integer nec rhoncus ligula, quis efficitur neque. Suspendisse malesuada, ligula eget maximus porta, nunc nunc consectetur augue, sed interdum nisl augue in augue. Suspendisse feugiat gravida interdum. Vestibulum semper ultricies ipsum, sed porta felis</string>
+    <string name="status">Open</string>
+    <string name="issues">Issues</string>
+    <string name="filter_by">Filter by:</string>
+    <string name="most_recent">Most Recent</string>
+    <string name="most_issues">Most Issues</string>
+    <string name="most_starred">Most Starred</string>
+    <string name="comments">Comments</string>
+    <plurals name="comments">
+        <item quantity="one">%d comment</item>
+        <item quantity="other">%d comments</item>
+    </plurals>
+</resources>
