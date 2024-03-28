@@ -12,7 +12,9 @@
         tools:layout="@layout/fragment_login" >
         <action
             android:id="@+id/action_loginFragment_to_userRepositoriesFragment"
-            app:destination="@id/userRepositoriesFragment" />
+            app:destination="@id/userRepositoriesFragment"
+            app:popUpTo="@id/loginFragment"
+            app:popUpToInclusive="true" />
     </fragment>
     <fragment
         android:id="@+id/userRepositoriesFragment"
@@ -21,11 +23,24 @@
         tools:layout="@layout/fragment_user_repositories" >
         <action
             android:id="@+id/action_userRepositoriesFragment_to_repositoryIssuesFragment"
-            app:destination="@id/repositoryIssuesFragment" />
+            app:destination="@id/repositoryIssuesFragment"
+            app:popUpTo="@id/userRepositoriesFragment"
+            app:popUpToInclusive="false" />
     </fragment>
     <fragment
         android:id="@+id/repositoryIssuesFragment"
         android:name="dev.borisochieng.gitrack.ui.fragments.RepositoryIssuesFragment"
         android:label="fragment_repository_issues"
-        tools:layout="@layout/fragment_repository_issues" />
+        tools:layout="@layout/fragment_repository_issues" >
+        <action
+            android:id="@+id/action_repositoryIssuesFragment_to_issueFragment"
+            app:destination="@id/issueFragment"
+            app:popUpTo="@id/repositoryIssuesFragment"
+            app:popUpToInclusive="false" />
+    </fragment>
+    <fragment
+        android:id="@+id/issueFragment"
+        android:name="dev.borisochieng.gitrack.ui.fragments.IssueFragment"
+        android:label="fragment_issue"
+        tools:layout="@layout/fragment_issue" />
 </navigation>

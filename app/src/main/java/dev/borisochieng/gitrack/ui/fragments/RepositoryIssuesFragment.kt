@@ -5,15 +5,16 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import androidx.recyclerview.widget.RecyclerView.LayoutManager
 import dev.borisochieng.gitrack.R
 import dev.borisochieng.gitrack.databinding.FragmentRepositoryIssuesBinding
 import dev.borisochieng.gitrack.ui.Issue
 import dev.borisochieng.gitrack.ui.adapters.IssueAdapter
+import dev.borisochieng.gitrack.ui.adapters.OnItemClickListener
 
-class RepositoryIssuesFragment : Fragment() {
+class RepositoryIssuesFragment : Fragment(), OnItemClickListener {
     private var _binding: FragmentRepositoryIssuesBinding? = null
     private val binding get() = _binding!!
 
@@ -32,7 +33,7 @@ class RepositoryIssuesFragment : Fragment() {
 
         for (i in 1..10) {
             issuesList.add(Issue(i, "Array Out of bounds exception", "Open", "27 Mar 2024", "slowburn-404", resources.getQuantityString(R.plurals.comments, 6, 6)))
-            issuesList.add(Issue(i, "Illegal argument exception", "Open", "30 Mar 2024", "grave-walker", resources.getQuantityString(R.plurals.comments, 1, 1)))
+            issuesList.add(Issue(i, "Illegal argument exception", "Closed", "30 Mar 2024", "grave-walker", resources.getQuantityString(R.plurals.comments, 1, 1)))
         }
 
         issuesAdapter.setList(issuesList)
@@ -48,7 +49,7 @@ class RepositoryIssuesFragment : Fragment() {
     }
 
     private fun initRecyclerView () {
-        issuesAdapter = IssueAdapter()
+        issuesAdapter = IssueAdapter(this)
         issuesRecyclerView.apply {
             layoutManager = LinearLayoutManager(requireContext())
             setHasFixedSize(true)
@@ -59,5 +60,9 @@ class RepositoryIssuesFragment : Fragment() {
     override fun onDestroyView() {
         super.onDestroyView()
         _binding =  null
+    }
+
+    override fun onItemClick() {
+        findNavController().navigate(R.id.action_repositoryIssuesFragment_to_issueFragment)
     }
 }

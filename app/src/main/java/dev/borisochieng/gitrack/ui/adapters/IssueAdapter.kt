@@ -7,7 +7,7 @@ import androidx.recyclerview.widget.RecyclerView
 import dev.borisochieng.gitrack.databinding.ItemIssueBinding
 import dev.borisochieng.gitrack.ui.Issue
 import dev.borisochieng.gitrack.utils.IssuesDiffUtil
-class IssueAdapter() : RecyclerView.Adapter<IssueAdapter.ViewHolder>() {
+class IssueAdapter(private val onItemClickListener: OnItemClickListener) : RecyclerView.Adapter<IssueAdapter.ViewHolder>() {
 
     inner class ViewHolder(private val binding : ItemIssueBinding) : RecyclerView.ViewHolder(binding.root) {
 
@@ -18,6 +18,10 @@ class IssueAdapter() : RecyclerView.Adapter<IssueAdapter.ViewHolder>() {
                 tvIssueTitle.text = item.issueTitle
                 tvUsername.text = item.username
                 tvCommentCount.text = item.commentCount.toString()
+
+                root.setOnClickListener {
+                    onItemClickListener.onItemClick()
+                }
             }
         }
 
