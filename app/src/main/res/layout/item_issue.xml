@@ -3,8 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_margin="8dp"
-    android:focusable="true">
+    android:layout_margin="8dp">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
@@ -12,74 +11,83 @@
         android:layout_margin="16dp">
 
         <com.google.android.material.textview.MaterialTextView
-            android:id="@+id/repository_title"
+            android:id="@+id/tv_opened_date"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:padding="8dp"
-            android:text="@string/repository_title"
-            android:textSize="24sp"
+            android:text="Opened 23 Mar 2024"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
         <com.google.android.material.textview.MaterialTextView
-            android:id="@+id/repository_desc"
+            android:id="@+id/tv_status"
+            android:layout_width="60dp"
+            android:layout_height="wrap_content"
+            android:background="@drawable/bg_issue_status"
+            android:gravity="center"
+            android:padding="8dp"
+            android:text="Open"
+            android:textColor="@color/md_theme_onPrimary"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/tv_issue_title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:ellipsize="end"
-            android:maxLines="3"
+            android:maxLines="5"
             android:padding="8dp"
             android:text="@string/repository_desc"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/repository_title" />
+            app:layout_constraintTop_toBottomOf="@+id/tv_opened_date" />
 
         <ImageView
-            android:id="@+id/issues"
+            android:id="@+id/iv_avatar"
             android:layout_width="24dp"
             android:layout_height="24dp"
             android:layout_margin="4dp"
-            android:contentDescription="@string/issues"
-            android:src="@drawable/ic_issues"
-            app:layout_constraintBottom_toBottomOf="parent"
+            android:contentDescription="Username"
+            android:src="@drawable/ic_avatar"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/repository_desc" />
+            app:layout_constraintTop_toBottomOf="@+id/tv_issue_title" />
 
         <com.google.android.material.textview.MaterialTextView
-            android:id="@+id/issue_count"
+            android:id="@+id/tv_username"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:gravity="center"
             android:padding="4dp"
-            android:text="200"
-            android:textSize="14sp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toEndOf="@id/issues"
-            app:layout_constraintTop_toBottomOf="@+id/repository_desc" />
-
-        <ImageView
-            android:id="@+id/stars"
-            android:layout_width="24dp"
-            android:layout_height="24dp"
-            android:layout_margin="4dp"
-            android:contentDescription="@string/issues"
-            android:src="@drawable/ic_star"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toEndOf="@+id/issue_count"
-            app:layout_constraintTop_toBottomOf="@+id/repository_desc" />
-
-        <com.google.android.material.textview.MaterialTextView
-            android:id="@+id/stars_count"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:gravity="center"
-            android:padding="4dp"
-            android:text="150"
+            android:text="slowburn-404"
             android:textSize="12sp"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toEndOf="@id/stars"
-            app:layout_constraintTop_toBottomOf="@+id/repository_desc" />
+            app:layout_constraintStart_toEndOf="@id/iv_avatar"
+            app:layout_constraintTop_toBottomOf="@+id/tv_issue_title" />
+
+        <ImageView
+            android:id="@+id/iv_comments"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:layout_margin="4dp"
+            android:contentDescription="@string/comments"
+            android:src="@drawable/ic_comments"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toEndOf="@id/tv_username"
+            app:layout_constraintTop_toBottomOf="@+id/tv_issue_title" />
+
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/tv_comment_count"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:padding="4dp"
+            android:text="100 comments"
+            android:textSize="12sp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toEndOf="@id/iv_comments"
+            app:layout_constraintTop_toBottomOf="@+id/tv_issue_title" />
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>
-
 </com.google.android.material.card.MaterialCardView>

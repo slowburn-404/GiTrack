@@ -10,21 +10,22 @@
     <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:paddingTop="120dp"
         android:layout_marginStart="8dp"
         android:layout_marginEnd="8dp"
         android:layout_marginBottom="8dp"
-        app:layout_behavior="@string/searchbar_scrolling_view_behavior">
+        android:paddingTop="120dp"
+        app:layout_behavior="com.google.android.material.search.SearchBar$ScrollingViewBehavior">
 
-        <androidx.appcompat.widget.LinearLayoutCompat
+        <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="vertical">
+            android:layout_height="wrap_content">
 
             <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/filter_by"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="8dp"
+                app:layout_constraintTop_toTopOf="parent"
                 android:padding="4dp"
                 android:text="@string/filter_by" />
 
@@ -32,6 +33,7 @@
                 android:id="@+id/cg_filter"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                app:layout_constraintTop_toBottomOf="@+id/filter_by"
                 android:padding="8dp"
                 app:singleLine="true">
 
@@ -61,9 +63,10 @@
                 android:id="@+id/rv_repository"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
+                app:layout_constraintTop_toBottomOf="@+id/cg_filter"
                 tools:listitem="@layout/item_repository" />
 
-        </androidx.appcompat.widget.LinearLayoutCompat>
+        </androidx.constraintlayout.widget.ConstraintLayout>
 
     </androidx.core.widget.NestedScrollView>
 
@@ -72,20 +75,16 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:fitsSystemWindows="true"
-        app:liftOnScroll="true">
+        app:liftOnScroll="true"
+        app:statusBarForeground="?attr/colorSurface">
 
-        <com.google.android.material.appbar.MaterialToolbar
+        <com.google.android.material.search.SearchBar
+            android:id="@+id/repository_search_bar"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:layout_scrollEffect="compress"
-            app:layout_scrollFlags="scroll|enterAlways|snap">
+            android:hint="@string/search_repositories"
+            app:navigationIcon="@drawable/ic_navigate_up"/>
 
-            <com.google.android.material.search.SearchBar
-                android:id="@+id/repository_search_bar"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:hint="@string/search_repositories"/>
-        </com.google.android.material.appbar.MaterialToolbar>
     </com.google.android.material.appbar.AppBarLayout>
 
     <com.google.android.material.search.SearchView
@@ -100,8 +99,8 @@
             android:id="@+id/rv_repository_search_results"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            tools:listitem="@layout/item_repository"
-            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"/>
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+            tools:listitem="@layout/item_repository" />
     </com.google.android.material.search.SearchView>
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

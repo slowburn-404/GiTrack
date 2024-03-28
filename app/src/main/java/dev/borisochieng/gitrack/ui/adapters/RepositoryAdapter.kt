@@ -8,7 +8,7 @@ import dev.borisochieng.gitrack.databinding.ItemRepositoryBinding
 import dev.borisochieng.gitrack.ui.Repository
 import dev.borisochieng.gitrack.utils.RVDiffUtil
 
-class RepositoryAdapter() : RecyclerView.Adapter<RepositoryAdapter.ViewHolder>() {
+class RepositoryAdapter(private val onItemClickListener: OnItemClickListener) : RecyclerView.Adapter<RepositoryAdapter.ViewHolder>() {
 
     inner class ViewHolder(private val binding : ItemRepositoryBinding) : RecyclerView.ViewHolder(binding.root) {
 
@@ -16,14 +16,18 @@ class RepositoryAdapter() : RecyclerView.Adapter<RepositoryAdapter.ViewHolder>()
             binding.apply {
                 repositoryTitle.text = item.title
                 repositoryDesc.text = item.desc
-                status.isChecked = item.openStatus
                 issueCount.text = item.issueCount.toString()
                 starsCount.text = item.starCount.toString()
                 //lastUpdated.text = item.lastUpdated
 
+
+                root.setOnClickListener {
+                    onItemClickListener.onItemClick()
+                }
             }
 
         }
+
 
 
     }

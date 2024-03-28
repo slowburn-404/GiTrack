@@ -6,6 +6,5 @@ data class Repository(
     val desc: String,
     val starCount: Long,
     val issueCount: Long,
-    val openStatus: Boolean,
     val lastUpdated: String
 )

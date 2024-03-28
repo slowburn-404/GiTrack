@@ -6,14 +6,16 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import dev.borisochieng.gitrack.R
 import dev.borisochieng.gitrack.databinding.FragmentUserRepositoriesBinding
 import dev.borisochieng.gitrack.ui.Repository
+import dev.borisochieng.gitrack.ui.adapters.OnItemClickListener
 import dev.borisochieng.gitrack.ui.adapters.RepositoryAdapter
 
-class UserRepositoriesFragment : Fragment() {
+class UserRepositoriesFragment : Fragment(), OnItemClickListener {
     private var _binding : FragmentUserRepositoriesBinding? = null
     private val binding get() = _binding!!
 
@@ -33,10 +35,10 @@ class UserRepositoriesFragment : Fragment() {
 
         for(i in 1..10) {
             repositoryList.add(Repository(i,"NoteWave",
-                resources.getString(R.string.repository_desc), 200, 150, true, "10 Feb 2024"))
+                resources.getString(R.string.repository_desc), 200, 150, "10 Feb 2024"))
 
             repositoryList.add(Repository(i,"Boriabe",
-                resources.getString(R.string.repository_desc), 200, 150, false, "20 Mar 2024"))
+                resources.getString(R.string.repository_desc), 200, 150, "20 Mar 2024"))
         }
 
         Log.d("Repository List", repositoryList.toString())
@@ -55,7 +57,7 @@ class UserRepositoriesFragment : Fragment() {
     }
 
     private fun initRecyclerView() {
-        repositoryAdapter  = RepositoryAdapter()
+        repositoryAdapter  = RepositoryAdapter(this)
         repositoryRecyclerView.apply {
             layoutManager = LinearLayoutManager(requireContext())
             setHasFixedSize(true)
@@ -67,6 +69,10 @@ class UserRepositoriesFragment : Fragment() {
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
+    }
+
+    override fun onItemClick() {
+        findNavController().navigate(R.id.action_userRepositoriesFragment_to_repositoryIssuesFragment)
     }
 
 }

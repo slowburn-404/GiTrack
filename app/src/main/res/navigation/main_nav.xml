@@ -18,5 +18,14 @@
         android:id="@+id/userRepositoriesFragment"
         android:name="dev.borisochieng.gitrack.ui.fragments.UserRepositoriesFragment"
         android:label="fragment_user_repositories"
-        tools:layout="@layout/fragment_user_repositories" />
+        tools:layout="@layout/fragment_user_repositories" >
+        <action
+            android:id="@+id/action_userRepositoriesFragment_to_repositoryIssuesFragment"
+            app:destination="@id/repositoryIssuesFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/repositoryIssuesFragment"
+        android:name="dev.borisochieng.gitrack.ui.fragments.RepositoryIssuesFragment"
+        android:label="fragment_repository_issues"
+        tools:layout="@layout/fragment_repository_issues" />
 </navigation>
