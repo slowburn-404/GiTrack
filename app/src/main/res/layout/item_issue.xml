@@ -3,12 +3,14 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_margin="8dp">
+    android:layout_margin="8dp"
+    app:cardCornerRadius="24dp"
+    app:strokeWidth="2dp">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_margin="16dp">
+        android:padding="16dp">
 
         <com.google.android.material.textview.MaterialTextView
             android:id="@+id/tv_opened_date"
@@ -16,6 +18,7 @@
             android:layout_height="wrap_content"
             android:padding="8dp"
             android:text="Opened 23 Mar 2024"
+            android:textColor="@color/md_theme_primary"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
@@ -28,6 +31,7 @@
             android:padding="8dp"
             android:text="Open"
             android:textColor="@color/md_theme_onPrimary"
+            android:textAppearance="@style/TextAppearance.Material3.BodySmall"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
@@ -59,7 +63,8 @@
             android:gravity="center"
             android:padding="4dp"
             android:text="slowburn-404"
-            android:textSize="12sp"
+            android:textColor="@color/md_theme_primary"
+            android:textAppearance="@style/TextAppearance.Gitrack.LabelLarge"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toEndOf="@id/iv_avatar"
             app:layout_constraintTop_toBottomOf="@+id/tv_issue_title" />
@@ -82,7 +87,8 @@
             android:gravity="center"
             android:padding="4dp"
             android:text="100 comments"
-            android:textSize="12sp"
+            android:textAppearance="@style/TextAppearance.Gitrack.LabelLarge"
+            android:textColor="@color/md_theme_primary"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toEndOf="@id/iv_comments"
             app:layout_constraintTop_toBottomOf="@+id/tv_issue_title" />

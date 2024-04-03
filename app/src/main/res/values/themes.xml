@@ -47,6 +47,21 @@
         <item name="colorSurfaceContainer">@color/md_theme_surfaceContainer</item>
         <item name="colorSurfaceContainerHigh">@color/md_theme_surfaceContainerHigh</item>
         <item name="colorSurfaceContainerHighest">@color/md_theme_surfaceContainerHighest</item>
+        <item  name="textAppearanceDisplayLarge">@style/TextAppearance.Gitrack.DisplayLarge</item>
+        <item  name="textAppearanceDisplayMedium">@style/TextAppearance.Gitrack.DisplayMedium</item>
+        <item  name="textAppearanceDisplaySmall">@style/TextAppearance.Gitrack.DisplaySmall</item>
+        <item  name="textAppearanceHeadlineLarge">@style/TextAppearance.Gitrack.HeadlineLarge</item>
+        <item  name="textAppearanceHeadlineMedium">@style/TextAppearance.Gitrack.HeadlineMedium</item>
+        <item  name="textAppearanceHeadlineSmall">@style/TextAppearance.Gitrack.HeadlineSmall</item>
+        <item  name="textAppearanceTitleLarge">@style/TextAppearance.Gitrack.TitleLarge</item>
+        <item  name="textAppearanceTitleMedium">@style/TextAppearance.Gitrack.TitleMedium</item>
+        <item  name="textAppearanceTitleSmall">@style/TextAppearance.Gitrack.TitleSmall</item>
+        <item  name="textAppearanceBodyLarge">@style/TextAppearance.Gitrack.BodyLarge</item>
+        <item  name="textAppearanceBodyMedium">@style/TextAppearance.Gitrack.BodyMedium</item>
+        <item  name="textAppearanceBodySmall">@style/TextAppearance.Gitrack.BodySmall</item>
+        <item  name="textAppearanceLabelLarge">@style/TextAppearance.Gitrack.LabelLarge</item>
+        <item  name="textAppearanceLabelMedium">@style/TextAppearance.Gitrack.LabelMedium</item>
+        <item  name="textAppearanceLabelSmall">@style/TextAppearance.Gitrack.LabelSmall</item>
     </style>
     <!--Splash Screen-->
     <style name="SplashScreen" parent="Theme.SplashScreen">
@@ -55,4 +70,68 @@
         <item name="windowSplashScreenAnimationDuration">1000</item>
         <item name="postSplashScreenTheme">@style/AppTheme</item>
     </style>
+
+    <!-- Typography -->
+    <style name="TextAppearance.Gitrack.DisplayLarge" parent="TextAppearance.Material3.DisplayLarge">
+        <item name="fontFamily">@font/inter_semibold</item>
+
+    </style>
+
+    <style name="TextAppearance.Gitrack.DisplayMedium" parent="TextAppearance.Material3.DisplayMedium">
+        <item name="fontFamily">@font/inter_semibold</item>
+    </style>
+
+    <style name="TextAppearance.Gitrack.DisplaySmall" parent="TextAppearance.Material3.DisplaySmall">
+        <item name="fontFamily">@font/inter_semibold</item>
+    </style>
+
+    <style name="TextAppearance.Gitrack.HeadlineLarge" parent="TextAppearance.Material3.HeadlineLarge">
+        <item name="fontFamily">@font/inter_semibold</item>
+    </style>
+
+    <style name="TextAppearance.Gitrack.HeadlineMedium" parent="TextAppearance.Material3.HeadlineMedium">
+        <item name="fontFamily">@font/inter_semibold</item>
+    </style>
+
+    <style name="TextAppearance.Gitrack.HeadlineSmall" parent="TextAppearance.Material3.HeadlineSmall">
+        <item name="fontFamily">@font/inter_medium</item>
+    </style>
+
+    <style name="TextAppearance.Gitrack.TitleLarge" parent="TextAppearance.Material3.TitleLarge">
+        <item name="fontFamily">@font/inter_semibold</item>
+    </style>
+
+    <style name="TextAppearance.Gitrack.TitleMedium" parent="TextAppearance.Material3.TitleMedium">
+        <item name="fontFamily">@font/inter_regular</item>
+    </style>
+
+    <style name="TextAppearance.Gitrack.TitleSmall" parent="TextAppearance.Material3.TitleSmall">
+        <item name="fontFamily">@font/inter_medium</item>
+    </style>
+
+    <style name="TextAppearance.Gitrack.BodyLarge" parent="TextAppearance.Material3.BodyLarge">
+        <item name="fontFamily">@font/inter_regular</item>
+    </style>
+
+    <style name="TextAppearance.Gitrack.BodyMedium" parent="TextAppearance.Material3.BodyMedium">
+        <item name="fontFamily">@font/inter_medium</item>
+    </style>
+
+    <style name="TextAppearance.Gitrack.BodySmall" parent="TextAppearance.Material3.BodySmall">
+        <item name="fontFamily">@font/inter_medium</item>
+    </style>
+
+    <style name="TextAppearance.Gitrack.LabelLarge" parent="TextAppearance.Material3.LabelLarge">
+        <item name="fontFamily">@font/inter_light</item>
+    </style>
+
+    <style name="TextAppearance.Gitrack.LabelMedium" parent="TextAppearance.Material3.LabelMedium">
+        <item name="fontFamily">@font/inter_light</item>
+    </style>
+
+    <style name="TextAppearance.Gitrack.LabelSmall" parent="TextAppearance.Material3.LabelSmall">
+        <item name="fontFamily">@font/inter_light</item>
+    </style>
+
+
 </resources>

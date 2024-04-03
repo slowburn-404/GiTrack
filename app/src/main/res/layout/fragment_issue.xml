@@ -51,7 +51,7 @@
                 android:layout_height="wrap_content"
                 android:padding="8dp"
                 android:text="Opened 28 Mar 2024"
-                android:textAppearance="@style/TextAppearance.Material3.BodyMedium"
+                android:textAppearance="@style/TextAppearance.Material3.BodySmall"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/tv_issue_title" />
 
@@ -64,6 +64,7 @@
                 android:padding="8dp"
                 android:text="Open"
                 android:textColor="@color/md_theme_onPrimary"
+                android:textAppearance="@style/TextAppearance.Material3.LabelMedium"
                 app:layout_constraintStart_toEndOf="@+id/tv_open_date"
                 app:layout_constraintTop_toBottomOf="@+id/tv_issue_title" />
 

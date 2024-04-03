@@ -17,7 +17,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="@string/search_repositories"
-            app:layout_scrollFlags="scroll|enterAlways|snap"/>
+            app:layout_scrollFlags="scroll|enterAlways|snap"
+            app:menu="@menu/menu_main"/>
 
         <com.google.android.material.chip.ChipGroup
             android:id="@+id/cg_filter"
@@ -64,16 +65,17 @@
             android:orientation="vertical">
 
             <com.google.android.material.textview.MaterialTextView
-                style="@style/TextAppearance.Material3.HeadlineMedium"
                 android:id="@+id/tv_username"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:padding="4dp"
                 android:layout_marginStart="8dp"
-                android:text="@string/username" />
+                android:text="@string/username"
+                android:textColor="@color/md_theme_primary"
+                android:textAppearance="@style/TextAppearance.Material3.HeadlineSmall"/>
 
             <com.google.android.material.textview.MaterialTextView
-                style="@style/TextAppearance.Material3.BodyLarge"
+                style="@style/TextAppearance.Material3.BodySmall"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="8dp"
@@ -96,7 +98,10 @@
         android:layout_height="match_parent"
         android:hint="@string/search_repositories"
         android:imeOptions="actionSearch"
-        app:layout_anchor="@id/repository_search_bar">
+        android:inputType="text"
+        app:closeIcon="@drawable/ic_angle_back"
+        app:layout_anchor="@id/repository_search_bar"
+        app:queryHint="@string/search_repositories">
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/rv_repository_search_results"

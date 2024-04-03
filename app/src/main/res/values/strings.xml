@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">GiTrack</string>
-    <string name="github_issue_tracker">Github Issue Tracker</string>
-    <string name="login_to_your_github_account">Login to your Github Account</string>
+    <string name="github_issue_tracker">A Github Issue Tracker</string>
+    <string name="headline">Unleash Efficiency in GitHub Issue Management!</string>
     <string name="email">Email</string>
     <string name="password">Password</string>
-    <string name="login">Login</string>
+    <string name="login">Login with Github</string>
     <string name="create_account">Don\'t have an account?</string>
     <string name="account">Create one</string>
     <string name="username">/username</string>

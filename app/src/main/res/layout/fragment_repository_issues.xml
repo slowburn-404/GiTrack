@@ -19,7 +19,7 @@
             android:hint="@string/search_issues"
             app:layout_scrollFlags="scroll|enterAlways|snap"
             app:navigationIcon="@drawable/ic_angle_back"
-            app:navigationIconTint="#696969"/>
+            app:navigationIconTint="#696969" />
 
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/til_filter"
@@ -28,13 +28,17 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
             android:hint="@string/filter_by"
-            android:paddingStart="8dp"
-            android:paddingEnd="8dp"
-            app:boxStrokeWidth="0dp"
+            android:padding="8dp"
+            app:boxCornerRadiusBottomEnd="32dp"
+            app:boxCornerRadiusBottomStart="32dp"
+            app:boxCornerRadiusTopEnd="32dp"
+            app:boxCornerRadiusTopStart="32dp"
+            app:boxStrokeWidth="2dp"
             app:endIconDrawable="@drawable/ic_arrow_down"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_scrollFlags="scroll|enterAlways|snap">
+            app:layout_scrollFlags="scroll|enterAlways|snap"
+            app:hintTextAppearance="@style/TextAppearance.Material3.LabelMedium">
 
             <com.google.android.material.textfield.MaterialAutoCompleteTextView
                 android:layout_width="match_parent"
@@ -42,6 +46,7 @@
                 android:inputType="none"
                 app:simpleItems="@array/filterby_items" />
         </com.google.android.material.textfield.TextInputLayout>
+
     </com.google.android.material.appbar.AppBarLayout>
 
     <androidx.core.widget.NestedScrollView
@@ -57,15 +62,16 @@
 
             <com.google.android.material.textview.MaterialTextView
                 android:id="@+id/tv_username"
-                style="@style/TextAppearance.Material3.HeadlineMedium"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="8dp"
                 android:padding="4dp"
-                android:text="@string/repository" />
+                android:text="@string/repository"
+                android:textAppearance="@style/TextAppearance.Material3.HeadlineSmall"
+                android:textColor="@color/md_theme_primary"/>
 
             <com.google.android.material.textview.MaterialTextView
-                style="@style/TextAppearance.Material3.BodyLarge"
+                style="@style/TextAppearance.Material3.BodySmall"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="8dp"
@@ -86,60 +92,11 @@
         android:id="@+id/sv_issues"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:hint="@string/search_repositories"
+        android:hint="@string/search_issues"
         android:imeOptions="actionSearch"
-        app:layout_anchor="@id/issues_search_bar">
-
-        <com.google.android.material.chip.ChipGroup
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal"
-            android:layout_margin="8dp"
-            app:chipSpacing="4dp">
-
-            <com.google.android.material.chip.Chip
-                style="@style/Widget.Material3.Chip.Filter"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:checkable="true"
-                android:text="Tag1" />
-
-            <com.google.android.material.chip.Chip
-                style="@style/Widget.Material3.Chip.Filter"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:checkable="true"
-                android:text="Tag2" />
-
-            <com.google.android.material.chip.Chip
-                style="@style/Widget.Material3.Chip.Filter"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:checkable="true"
-                android:text="Tag3" />
-
-            <com.google.android.material.chip.Chip
-                style="@style/Widget.Material3.Chip.Filter"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:checkable="true"
-                android:text="Tag4" />
-
-            <com.google.android.material.chip.Chip
-                style="@style/Widget.Material3.Chip.Filter"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:checkable="true"
-                android:text="Tag5" />
-
-            <com.google.android.material.chip.Chip
-                style="@style/Widget.Material3.Chip.Filter"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:checkable="true"
-                android:text="Tag6"
-                tools:ignore="TouchTargetSizeCheck" />
-        </com.google.android.material.chip.ChipGroup>
+        android:inputType="text"
+        app:layout_anchor="@id/issues_search_bar"
+        app:queryHint="@string/search_issues">
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/rv_issues_search_results"

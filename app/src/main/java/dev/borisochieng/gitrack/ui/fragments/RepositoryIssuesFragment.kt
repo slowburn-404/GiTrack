@@ -18,9 +18,9 @@ class RepositoryIssuesFragment : Fragment(), OnItemClickListener {
     private var _binding: FragmentRepositoryIssuesBinding? = null
     private val binding get() = _binding!!
 
-    private lateinit var issuesRecyclerView : RecyclerView
-    private lateinit var issuesAdapter : IssueAdapter
-    private val issuesList : MutableList<Issue> = mutableListOf()
+    private lateinit var issuesRecyclerView: RecyclerView
+    private lateinit var issuesAdapter: IssueAdapter
+    private val issuesList: MutableList<Issue> = mutableListOf()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -32,8 +32,26 @@ class RepositoryIssuesFragment : Fragment(), OnItemClickListener {
         initRecyclerView()
 
         for (i in 1..10) {
-            issuesList.add(Issue(i, "Array Out of bounds exception", "Open", "27 Mar 2024", "slowburn-404", resources.getQuantityString(R.plurals.comments, 6, 6)))
-            issuesList.add(Issue(i, "Illegal argument exception", "Closed", "30 Mar 2024", "grave-walker", resources.getQuantityString(R.plurals.comments, 1, 1)))
+            issuesList.add(
+                Issue(
+                    i,
+                    resources.getString(R.string.repository_desc),
+                    "Open",
+                    "Opened 27 Mar 2024",
+                    "slowburn-404",
+                    resources.getQuantityString(R.plurals.comments, 6, 6)
+                )
+            )
+            issuesList.add(
+                Issue(
+                    i,
+                    resources.getString(R.string.repository_desc),
+                    "Closed",
+                    "Opened 30 Mar 2024",
+                    "grave-walker",
+                    resources.getQuantityString(R.plurals.comments, 1, 1)
+                )
+            )
         }
 
         issuesAdapter.setList(issuesList)
@@ -48,7 +66,7 @@ class RepositoryIssuesFragment : Fragment(), OnItemClickListener {
         }
     }
 
-    private fun initRecyclerView () {
+    private fun initRecyclerView() {
         issuesAdapter = IssueAdapter(this)
         issuesRecyclerView.apply {
             layoutManager = LinearLayoutManager(requireContext())
@@ -59,7 +77,7 @@ class RepositoryIssuesFragment : Fragment(), OnItemClickListener {
 
     override fun onDestroyView() {
         super.onDestroyView()
-        _binding =  null
+        _binding = null
     }
 
     override fun onItemClick() {

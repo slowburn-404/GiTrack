@@ -1,0 +1,19 @@
+query GetSingleIssue($name: String!, $owner: String!, $number: Int!,) {
+    repository(name: $name, owner: $owner) {
+        issue(number: $number) {
+            title
+            body
+            createdAt
+            author {
+                login
+            }
+            labels(first: 5) {
+                nodes {
+                    color
+                    name
+                }
+            }
+        }
+    }
+
+}
