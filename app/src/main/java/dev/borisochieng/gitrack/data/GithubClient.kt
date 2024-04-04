@@ -31,11 +31,20 @@ class GithubClient(
             ?: emptyList()
     }
 
-    override suspend fun getRepositoryIssue(): List<Issue> {
-        TODO("Not yet implemented")
+    override suspend fun getRepositoryIssue(repositoryName: String, repositoryOwner: String): List<Issue> {
+        return apolloClient
+            .query(RepositoryIssuesQuery(repositoryName, repositoryOwner, 50))
+            .execute()
+            .data
+            ?.toSimpleIssue() ?: emptyList()
+
     }
 
-    override suspend fun getSingleIssue(): SingleIssue {
-        TODO("Not yet implemented")
+    override suspend fun getSingleIssue(name: String, owner: String, number: Int, first: Int): SingleIssue {
+        return apolloClient
+            .query(SingleIssueQuery(name, owner, number, first))
+            .execute()
+            .data
+            ?.toSimpleSingleIssue() ?: SingleIssue("Title not found", "Unknown date", "Unknown status", "Unknown description", "Unknown author", emptyList())
     }
 }

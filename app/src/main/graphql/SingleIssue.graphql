@@ -1,13 +1,14 @@
-query SingleIssue($name: String!, $owner: String!, $number: Int!,) {
+query SingleIssue($name: String!, $owner: String!, $number: Int!, $first: Int!,) {
     repository(name: $name, owner: $owner) {
         issue(number: $number) {
             title
             body
             createdAt
+            state
             author {
                 login
             }
-            labels(first: 5) {
+            labels(first: $first) {
                 nodes {
                     color
                     name

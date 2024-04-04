@@ -37,6 +37,9 @@
             app:destination="@id/issueFragment"
             app:popUpTo="@id/repositoryIssuesFragment"
             app:popUpToInclusive="false" />
+        <argument
+            android:name="repository"
+            app:argType="dev.borisochieng.gitrack.ui.models.RepositoryParcelable" />
     </fragment>
     <fragment
         android:id="@+id/issueFragment"

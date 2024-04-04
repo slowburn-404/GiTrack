@@ -8,7 +8,7 @@ import dev.borisochieng.gitrack.databinding.ItemRepositoryBinding
 import dev.borisochieng.gitrack.ui.models.Repository
 import dev.borisochieng.gitrack.utils.RVDiffUtil
 
-class RepositoryAdapter(private val onItemClickListener: OnItemClickListener) : RecyclerView.Adapter<RepositoryAdapter.ViewHolder>() {
+class RepositoryAdapter(private val onRepositoryClickListener: OnRepositoryClickListener) : RecyclerView.Adapter<RepositoryAdapter.ViewHolder>() {
 
     inner class ViewHolder(private val binding : ItemRepositoryBinding) : RecyclerView.ViewHolder(binding.root) {
 
@@ -20,15 +20,11 @@ class RepositoryAdapter(private val onItemClickListener: OnItemClickListener) : 
                 starsCount.text = item.starCount.toString()
                 //lastUpdated.text = item.lastUpdated
 
-
                 root.setOnClickListener {
-                    onItemClickListener.onItemClick()
+                    onRepositoryClickListener.onItemClick(item)
                 }
             }
-
         }
-
-
     }
     private val asyncListDiffer = AsyncListDiffer(this, RVDiffUtil())
 

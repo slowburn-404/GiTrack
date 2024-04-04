@@ -7,7 +7,7 @@ import androidx.recyclerview.widget.RecyclerView
 import dev.borisochieng.gitrack.databinding.ItemIssueBinding
 import dev.borisochieng.gitrack.ui.models.Issue
 import dev.borisochieng.gitrack.utils.IssuesDiffUtil
-class IssueAdapter(private val onItemClickListener: OnItemClickListener) : RecyclerView.Adapter<IssueAdapter.ViewHolder>() {
+class IssueAdapter(private val onIssueClickListener: OnIssueClickListener) : RecyclerView.Adapter<IssueAdapter.ViewHolder>() {
 
     inner class ViewHolder(private val binding : ItemIssueBinding) : RecyclerView.ViewHolder(binding.root) {
 
@@ -20,7 +20,7 @@ class IssueAdapter(private val onItemClickListener: OnItemClickListener) : Recyc
                 tvCommentCount.text = item.commentCount.toString()
 
                 root.setOnClickListener {
-                    onItemClickListener.onItemClick()
+                    onIssueClickListener.onClick(item)
                 }
             }
         }
@@ -29,7 +29,7 @@ class IssueAdapter(private val onItemClickListener: OnItemClickListener) : Recyc
 
     private val asyncListDiffer = AsyncListDiffer(this, IssuesDiffUtil())
 
-    fun setList (list: MutableList<Issue>) {
+    fun setList (list: List<Issue>) {
         asyncListDiffer.submitList(list)
     }
 

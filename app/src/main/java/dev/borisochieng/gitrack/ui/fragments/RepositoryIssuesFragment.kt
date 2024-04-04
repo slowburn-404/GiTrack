@@ -5,22 +5,32 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
+import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import dev.borisochieng.gitrack.GitTrackApplication
 import dev.borisochieng.gitrack.R
 import dev.borisochieng.gitrack.databinding.FragmentRepositoryIssuesBinding
 import dev.borisochieng.gitrack.ui.models.Issue
 import dev.borisochieng.gitrack.ui.adapters.IssueAdapter
-import dev.borisochieng.gitrack.ui.adapters.OnItemClickListener
+import dev.borisochieng.gitrack.ui.adapters.OnIssueClickListener
+import dev.borisochieng.gitrack.ui.viewmodels.RepositoryIssuesViewModel
+import dev.borisochieng.gitrack.ui.viewmodels.RepositoryIssuesViewModelFactory
 
-class RepositoryIssuesFragment : Fragment(), OnItemClickListener {
+class RepositoryIssuesFragment : Fragment(), OnIssueClickListener {
     private var _binding: FragmentRepositoryIssuesBinding? = null
     private val binding get() = _binding!!
 
     private lateinit var issuesRecyclerView: RecyclerView
     private lateinit var issuesAdapter: IssueAdapter
-    private val issuesList: MutableList<Issue> = mutableListOf()
+
+    private val navArgs: RepositoryIssuesFragmentArgs by navArgs()
+
+    private val repositoryIssuesViewModel: RepositoryIssuesViewModel by viewModels{
+        RepositoryIssuesViewModelFactory((requireActivity().application as GitTrackApplication).gitTrackRepository)
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -31,31 +41,12 @@ class RepositoryIssuesFragment : Fragment(), OnItemClickListener {
         initViews()
         initRecyclerView()
 
-        for (i in 1..10) {
-            issuesList.add(
-                Issue(
-                    i,
-                    resources.getString(R.string.repository_desc),
-                    "Open",
-                    "Opened 27 Mar 2024",
-                    "slowburn-404",
-                    resources.getQuantityString(R.plurals.comments, 6, 6)
-                )
-            )
-            issuesList.add(
-                Issue(
-                    i,
-                    resources.getString(R.string.repository_desc),
-                    "Closed",
-                    "Opened 30 Mar 2024",
-                    "grave-walker",
-                    resources.getQuantityString(R.plurals.comments, 1, 1)
-                )
-            )
-        }
+        val repoName = navArgs.repository.title
+        val repoOwner = navArgs.repository.username
 
-        issuesAdapter.setList(issuesList)
+        binding.tvReponame.text = repoName
 
+        getIssuesFromViewModel(repoName, repoOwner)
 
         return binding.root
     }
@@ -73,6 +64,14 @@ class RepositoryIssuesFragment : Fragment(), OnItemClickListener {
             setHasFixedSize(true)
             adapter = issuesAdapter
         }
+        issuesAdapter.setList(emptyList())
+    }
+
+    private fun getIssuesFromViewModel (name: String, owner: String) {
+        repositoryIssuesViewModel.issuesLiveData.observe(viewLifecycleOwner) {issues ->
+            issuesAdapter.setList(issues)
+        }
+        repositoryIssuesViewModel.getIssues(name, owner)
     }
 
     override fun onDestroyView() {
@@ -80,7 +79,8 @@ class RepositoryIssuesFragment : Fragment(), OnItemClickListener {
         _binding = null
     }
 
-    override fun onItemClick() {
+    override fun onClick(item: Issue) {
+        val action =
         findNavController().navigate(R.id.action_repositoryIssuesFragment_to_issueFragment)
     }
 }
