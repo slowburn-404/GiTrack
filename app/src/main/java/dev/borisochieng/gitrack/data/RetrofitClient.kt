@@ -1,4 +1,4 @@
-package dev.borisochieng.gitrack.data.remote
+package dev.borisochieng.gitrack.data
 
 import dev.borisochieng.gitrack.utils.Constants.GITHUB_TOKEN_URL
 import okhttp3.OkHttpClient

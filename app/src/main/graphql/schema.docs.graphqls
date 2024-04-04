@@ -4094,7 +4094,7 @@ enum CommentCannotUpdateReason {
   LOGIN_REQUIRED
 
   """
-  Repository is under maintenance.
+  GitTrackRepository is under maintenance.
   """
   MAINTENANCE
 
@@ -15470,7 +15470,7 @@ type JoinedGitHubContribution implements Contribution {
 }
 
 """
-A label for categorizing Issues, Pull Requests, Milestones, or Discussions with a given Repository.
+A label for categorizing Issues, Pull Requests, Milestones, or Discussions with a given GitTrackRepository.
 """
 type Label implements Node {
   """
@@ -17751,7 +17751,7 @@ enum MigrationSourceType {
   BITBUCKET_SERVER
 
   """
-  A GitHub Migration API source.
+  A GitHub Migration APIService source.
   """
   GITHUB_ARCHIVE
 }
@@ -23768,7 +23768,7 @@ enum OrganizationInvitationSource {
   UNKNOWN
 
   """
-  The invitation was created from the web interface or from API
+  The invitation was created from the web interface or from APIService
   """
   MEMBER
 
@@ -24370,22 +24370,22 @@ enum PackageType {
   """
   An npm package.
   """
-  NPM @deprecated(reason: "NPM will be removed from this enum as this type will be migrated to only be used by the Packages REST API. Removal on 2022-11-21 UTC.")
+  NPM @deprecated(reason: "NPM will be removed from this enum as this type will be migrated to only be used by the Packages REST APIService. Removal on 2022-11-21 UTC.")
 
   """
   A rubygems package.
   """
-  RUBYGEMS @deprecated(reason: "RUBYGEMS will be removed from this enum as this type will be migrated to only be used by the Packages REST API. Removal on 2022-12-28 UTC.")
+  RUBYGEMS @deprecated(reason: "RUBYGEMS will be removed from this enum as this type will be migrated to only be used by the Packages REST APIService. Removal on 2022-12-28 UTC.")
 
   """
   A maven package.
   """
-  MAVEN @deprecated(reason: "MAVEN will be removed from this enum as this type will be migrated to only be used by the Packages REST API. Removal on 2023-02-10 UTC.")
+  MAVEN @deprecated(reason: "MAVEN will be removed from this enum as this type will be migrated to only be used by the Packages REST APIService. Removal on 2023-02-10 UTC.")
 
   """
   A docker image.
   """
-  DOCKER @deprecated(reason: "DOCKER will be removed from this enum as this type will be migrated to only be used by the Packages REST API. Removal on 2021-06-21 UTC.")
+  DOCKER @deprecated(reason: "DOCKER will be removed from this enum as this type will be migrated to only be used by the Packages REST APIService. Removal on 2021-06-21 UTC.")
 
   """
   A debian package.
@@ -24395,7 +24395,7 @@ enum PackageType {
   """
   A nuget package.
   """
-  NUGET @deprecated(reason: "NUGET will be removed from this enum as this type will be migrated to only be used by the Packages REST API. Removal on 2022-11-21 UTC.")
+  NUGET @deprecated(reason: "NUGET will be removed from this enum as this type will be migrated to only be used by the Packages REST APIService. Removal on 2022-11-21 UTC.")
 
   """
   A python package.
@@ -26434,7 +26434,7 @@ enum ProjectV2FieldType {
   MILESTONE
 
   """
-  Repository
+  GitTrackRepository
   """
   REPOSITORY
 
@@ -27655,7 +27655,7 @@ type ProjectV2View implements Node {
     field: POSITION
     direction: ASC
   }
-  ): ProjectV2FieldConnection @deprecated(reason: "The `ProjectV2View#order_by` API is deprecated in favour of the more capable `ProjectV2View#group_by_field` API. Check out the `ProjectV2View#group_by_fields` API as an example for the more capable alternative. Removal on 2023-04-01 UTC.")
+  ): ProjectV2FieldConnection @deprecated(reason: "The `ProjectV2View#order_by` APIService is deprecated in favour of the more capable `ProjectV2View#group_by_field` APIService. Check out the `ProjectV2View#group_by_fields` APIService as an example for the more capable alternative. Removal on 2023-04-01 UTC.")
 
   """
   The view's group-by field.
@@ -27694,7 +27694,7 @@ type ProjectV2View implements Node {
   """
   The view's sort-by config.
   """
-  sortBy("Returns the elements in the list that come after the specified cursor." after: String, "Returns the elements in the list that come before the specified cursor." before: String, "Returns the first _n_ elements from the list." first: Int, "Returns the last _n_ elements from the list." last: Int): ProjectV2SortByConnection @deprecated(reason: "The `ProjectV2View#sort_by` API is deprecated in favour of the more capable `ProjectV2View#sort_by_fields` API. Check out the `ProjectV2View#sort_by_fields` API as an example for the more capable alternative. Removal on 2023-04-01 UTC.")
+  sortBy("Returns the elements in the list that come after the specified cursor." after: String, "Returns the elements in the list that come before the specified cursor." before: String, "Returns the first _n_ elements from the list." first: Int, "Returns the last _n_ elements from the list." last: Int): ProjectV2SortByConnection @deprecated(reason: "The `ProjectV2View#sort_by` APIService is deprecated in favour of the more capable `ProjectV2View#sort_by_fields` APIService. Check out the `ProjectV2View#sort_by_fields` APIService as an example for the more capable alternative. Removal on 2023-04-01 UTC.")
 
   """
   The view's sort-by config.
@@ -27713,7 +27713,7 @@ type ProjectV2View implements Node {
     field: POSITION
     direction: ASC
   }
-  ): ProjectV2FieldConnection @deprecated(reason: "The `ProjectV2View#vertical_group_by` API is deprecated in favour of the more capable `ProjectV2View#vertical_group_by_fields` API. Check out the `ProjectV2View#vertical_group_by_fields` API as an example for the more capable alternative. Removal on 2023-04-01 UTC.")
+  ): ProjectV2FieldConnection @deprecated(reason: "The `ProjectV2View#vertical_group_by` APIService is deprecated in favour of the more capable `ProjectV2View#vertical_group_by_fields` APIService. Check out the `ProjectV2View#vertical_group_by_fields` APIService as an example for the more capable alternative. Removal on 2023-04-01 UTC.")
 
   """
   The view's vertical-group-by field.
@@ -27731,7 +27731,7 @@ type ProjectV2View implements Node {
     field: POSITION
     direction: ASC
   }
-  ): ProjectV2FieldConnection @deprecated(reason: "The `ProjectV2View#visibleFields` API is deprecated in favour of the more capable `ProjectV2View#fields` API. Check out the `ProjectV2View#fields` API as an example for the more capable alternative. Removal on 2023-01-01 UTC.")
+  ): ProjectV2FieldConnection @deprecated(reason: "The `ProjectV2View#visibleFields` APIService is deprecated in favour of the more capable `ProjectV2View#fields` APIService. Check out the `ProjectV2View#fields` APIService as an example for the more capable alternative. Removal on 2023-01-01 UTC.")
 }
 
 """
@@ -35225,7 +35225,7 @@ type Repository implements Node & PackageOwner & ProjectOwner & ProjectV2Recent 
   """
   Whether a squash merge commit can use the pull request title as default.
   """
-  squashPrTitleUsedAsDefault: Boolean! @deprecated(reason: "`squashPrTitleUsedAsDefault` will be removed. Use `Repository.squashMergeCommitTitle` instead. Removal on 2023-04-01 UTC.")
+  squashPrTitleUsedAsDefault: Boolean! @deprecated(reason: "`squashPrTitleUsedAsDefault` will be removed. Use `GitTrackRepository.squashMergeCommitTitle` instead. Removal on 2023-04-01 UTC.")
 
   """
   The SSH URL to clone this repository
@@ -35795,7 +35795,7 @@ interface RepositoryInfo {
 }
 
 """
-Repository interaction limit that applies to this object.
+GitTrackRepository interaction limit that applies to this object.
 """
 type RepositoryInteractionAbility {
   """
@@ -36265,7 +36265,7 @@ enum RepositoryOrderField {
 }
 
 """
-Represents an owner of a Repository.
+Represents an owner of a GitTrackRepository.
 """
 interface RepositoryOwner {
   """
@@ -41895,7 +41895,7 @@ interface Starrable {
 }
 
 """
-The connection type for Repository.
+The connection type for GitTrackRepository.
 """
 type StarredRepositoryConnection {
   """
@@ -44287,7 +44287,7 @@ type TeamRemoveRepositoryAuditEntry implements AuditEntry & Node & OrganizationA
 }
 
 """
-The connection type for Repository.
+The connection type for GitTrackRepository.
 """
 type TeamRepositoryConnection {
   """

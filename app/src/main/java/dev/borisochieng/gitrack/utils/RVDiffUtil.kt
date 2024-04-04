@@ -1,8 +1,8 @@
 package dev.borisochieng.gitrack.utils
 
 import androidx.recyclerview.widget.DiffUtil
-import dev.borisochieng.gitrack.ui.Issue
-import dev.borisochieng.gitrack.ui.Repository
+import dev.borisochieng.gitrack.ui.models.Issue
+import dev.borisochieng.gitrack.ui.models.Repository
 
 class RVDiffUtil : DiffUtil.ItemCallback<Repository>() {
     override fun areItemsTheSame(oldItem: Repository, newItem: Repository): Boolean =

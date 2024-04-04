@@ -1,4 +1,4 @@
-query GetIssues($name: String!, $owner: String!, $first: Int!) {
+query RepositoryIssues($name: String!, $owner: String!, $first: Int!) {
     repository(name: $name, owner: $owner) {
         issues(first: $first) {
             edges {

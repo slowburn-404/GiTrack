@@ -5,7 +5,7 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.AsyncListDiffer
 import androidx.recyclerview.widget.RecyclerView
 import dev.borisochieng.gitrack.databinding.ItemRepositoryBinding
-import dev.borisochieng.gitrack.ui.Repository
+import dev.borisochieng.gitrack.ui.models.Repository
 import dev.borisochieng.gitrack.utils.RVDiffUtil
 
 class RepositoryAdapter(private val onItemClickListener: OnItemClickListener) : RecyclerView.Adapter<RepositoryAdapter.ViewHolder>() {
@@ -29,11 +29,10 @@ class RepositoryAdapter(private val onItemClickListener: OnItemClickListener) : 
         }
 
 
-
     }
     private val asyncListDiffer = AsyncListDiffer(this, RVDiffUtil())
 
-    fun setList(list: MutableList<Repository>) {
+    fun setList(list: List<Repository>) {
         asyncListDiffer.submitList(list)
     }
 

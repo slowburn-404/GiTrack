@@ -1,4 +1,4 @@
-package dev.borisochieng.gitrack.ui
+package dev.borisochieng.gitrack.ui.models
 
 data class Issue(
     val id : Int,

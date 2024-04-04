@@ -8,11 +8,19 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
+import androidx.fragment.app.viewModels
+import androidx.lifecycle.Observer
+import androidx.navigation.fragment.findNavController
 import com.google.android.material.snackbar.Snackbar
+import dev.borisochieng.gitrack.GitTrackApplication
+import dev.borisochieng.gitrack.R
 import dev.borisochieng.gitrack.data.models.AccessTokenResponse
-import dev.borisochieng.gitrack.data.remote.GitHubAuthService
-import dev.borisochieng.gitrack.data.remote.RetrofitClient
+import dev.borisochieng.gitrack.data.GitHubAuthService
+import dev.borisochieng.gitrack.data.RetrofitClient
 import dev.borisochieng.gitrack.databinding.FragmentLoginBinding
+import dev.borisochieng.gitrack.ui.viewmodels.LoginViewModel
+import dev.borisochieng.gitrack.ui.viewmodels.LoginViewModelFactory
 import dev.borisochieng.gitrack.utils.AccessTokenManager
 import dev.borisochieng.gitrack.utils.Constants.CLIENT_ID
 import dev.borisochieng.gitrack.utils.Constants.CLIENT_SECRET
@@ -28,6 +36,10 @@ class LoginFragment : Fragment() {
 
     private var isResumedFromDeepLink = false
 
+    private val loginViewModel: LoginViewModel by viewModels {
+        LoginViewModelFactory((requireActivity().application as GitTrackApplication).gitTrackRepository)
+    }
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
     ): View {
@@ -37,6 +49,10 @@ class LoginFragment : Fragment() {
         binding.bTLogin.setOnClickListener {
             launchWebIntent(generateGitHubURL())
         }
+
+        val accessToken = AccessTokenManager.getAccessToken(requireContext())
+        if (accessToken != null)
+            findNavController().navigate(R.id.action_loginFragment_to_userRepositoriesFragment)
 
         Log.d("Auth URL", generateGitHubURL())
 
@@ -66,7 +82,7 @@ class LoginFragment : Fragment() {
     private fun getCodeFromUri(uri: Uri?): String? = uri?.getQueryParameter("code")
 
 
-    //API call to exchange code for access token
+    //APIService call to exchange code for access token
     private fun requestAccessToken(
         code: String?
     ) {
@@ -87,6 +103,10 @@ class LoginFragment : Fragment() {
                         AccessTokenManager.saveAccessToken(
                             requireContext(), it
                         )
+                        binding.piLogin.show()
+                        binding.bTLogin.isEnabled = false
+                        findNavController().navigate(R.id.action_loginFragment_to_userRepositoriesFragment)
+
                     }
 
                 } else {
@@ -100,7 +120,7 @@ class LoginFragment : Fragment() {
             override fun onFailure(call: Call<AccessTokenResponse>, t: Throwable) {
                 //TODO better error handling
                 Snackbar.make(binding.root, "${t.message}", Snackbar.LENGTH_LONG).show()
-                Log.e("API Call Error", t.message.toString())
+                Log.e("APIService Call Error", t.message.toString())
             }
 
         })
@@ -121,9 +141,8 @@ class LoginFragment : Fragment() {
         super.onResume()
         if (isResumedFromDeepLink) {
             handleDeepLink()
-            AccessTokenManager.getAccessToken(requireContext())
-                ?.let { token -> Log.d("Access Token from shared pref", token) }
             isResumedFromDeepLink = false
+
         }
     }
 

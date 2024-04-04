@@ -10,7 +10,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import dev.borisochieng.gitrack.R
 import dev.borisochieng.gitrack.databinding.FragmentRepositoryIssuesBinding
-import dev.borisochieng.gitrack.ui.Issue
+import dev.borisochieng.gitrack.ui.models.Issue
 import dev.borisochieng.gitrack.ui.adapters.IssueAdapter
 import dev.borisochieng.gitrack.ui.adapters.OnItemClickListener
 

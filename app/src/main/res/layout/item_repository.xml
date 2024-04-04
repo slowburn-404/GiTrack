@@ -26,6 +26,7 @@
             android:id="@+id/repository_desc"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:gravity="start"
             android:ellipsize="end"
             android:maxLines="3"
             android:padding="8dp"

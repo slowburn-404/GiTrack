@@ -2,11 +2,15 @@ plugins {
     alias(libs.plugins.androidApplication)
     alias(libs.plugins.jetbrainsKotlinAndroid)
     alias(libs.plugins.apolloGraphQL)
+    alias(libs.plugins.safeArgs)
 }
 
 apollo {
     service("service") {
         packageName.set("dev.borisochieng")
+        outputDirConnection {
+            connectToKotlinSourceSet("main")
+        }
     }
 }
 

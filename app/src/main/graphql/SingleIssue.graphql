@@ -1,4 +1,4 @@
-query GetSingleIssue($name: String!, $owner: String!, $number: Int!,) {
+query SingleIssue($name: String!, $owner: String!, $number: Int!,) {
     repository(name: $name, owner: $owner) {
         issue(number: $number) {
             title

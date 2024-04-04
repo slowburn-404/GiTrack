@@ -5,7 +5,7 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.AsyncListDiffer
 import androidx.recyclerview.widget.RecyclerView
 import dev.borisochieng.gitrack.databinding.ItemIssueBinding
-import dev.borisochieng.gitrack.ui.Issue
+import dev.borisochieng.gitrack.ui.models.Issue
 import dev.borisochieng.gitrack.utils.IssuesDiffUtil
 class IssueAdapter(private val onItemClickListener: OnItemClickListener) : RecyclerView.Adapter<IssueAdapter.ViewHolder>() {
 
