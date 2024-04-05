@@ -1,0 +1,21 @@
+query UserRepositories($login: String!, $last: Int!) {
+    user(login: $login) {
+        repositories(last: $last) {
+            nodes{
+                id
+                name
+                description
+                stargazerCount
+                labels(last: $last) {
+                    nodes {
+                        name
+                    }
+                }
+                issues {
+                    totalCount
+                }
+            }
+
+        }
+    }
+}

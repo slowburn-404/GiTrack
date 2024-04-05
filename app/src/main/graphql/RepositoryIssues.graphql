@@ -1,0 +1,24 @@
+query RepositoryIssues($name: String!, $owner: String!, $first: Int!) {
+    repository(name: $name, owner: $owner) {
+        issues(first: $first) {
+                nodes {
+                    title
+                    state
+                    createdAt
+                    number
+                    author {
+                        login
+                    }
+                    comments {
+                        totalCount
+                    }
+                    labels {
+                        nodes {
+                            color
+                            name
+                        }
+                    }
+                }
+        }
+    }
+}

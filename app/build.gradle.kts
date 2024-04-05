@@ -1,6 +1,17 @@
 plugins {
     alias(libs.plugins.androidApplication)
     alias(libs.plugins.jetbrainsKotlinAndroid)
+    alias(libs.plugins.apolloGraphQL)
+    alias(libs.plugins.safeArgs)
+}
+
+apollo {
+    service("service") {
+        packageName.set("dev.borisochieng")
+        outputDirConnection {
+            connectToKotlinSourceSet("main")
+        }
+    }
 }
 
 android {
@@ -51,4 +62,12 @@ dependencies {
     androidTestImplementation(libs.androidx.espresso.core)
     //splash screen
     implementation(libs.androidx.core.splashscreen)
+    //apollo
+    implementation(libs.apollo.runtime)
+    //retrofit
+    implementation(libs.retrofit)
+    implementation(libs.gson)
+    //okhttp
+    implementation(libs.okhttp)
+    implementation(libs.logging.interceptor)
 }

@@ -4,20 +4,20 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_margin="8dp"
-    android:focusable="true">
+    app:cardCornerRadius="24dp"
+    app:strokeWidth="2dp">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_margin="16dp">
+        android:padding="16dp">
 
         <com.google.android.material.textview.MaterialTextView
             android:id="@+id/repository_title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:padding="8dp"
-            android:text="@string/repository_title"
-            android:textSize="24sp"
+            android:textAppearance="@style/TextAppearance.Material3.HeadlineMedium"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
@@ -25,10 +25,10 @@
             android:id="@+id/repository_desc"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:gravity="start"
             android:ellipsize="end"
             android:maxLines="3"
             android:padding="8dp"
-            android:text="@string/repository_desc"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/repository_title" />
@@ -50,8 +50,8 @@
             android:layout_height="wrap_content"
             android:gravity="center"
             android:padding="4dp"
-            android:text="200"
-            android:textSize="14sp"
+            android:textAppearance="@style/TextAppearance.Gitrack.LabelLarge"
+            android:textColor="@color/md_theme_primary"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toEndOf="@id/issues"
             app:layout_constraintTop_toBottomOf="@+id/repository_desc" />
@@ -73,8 +73,8 @@
             android:layout_height="wrap_content"
             android:gravity="center"
             android:padding="4dp"
-            android:text="150"
-            android:textSize="12sp"
+            android:textAppearance="@style/TextAppearance.Gitrack.LabelLarge"
+            android:textColor="@color/md_theme_primary"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toEndOf="@id/stars"
             app:layout_constraintTop_toBottomOf="@+id/repository_desc" />

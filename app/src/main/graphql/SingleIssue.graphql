@@ -1,0 +1,20 @@
+query SingleIssue($name: String!, $owner: String!, $number: Int!, $first: Int!) {
+    repository(name: $name, owner: $owner) {
+        issue(number: $number) {
+            title
+            body
+            createdAt
+            state
+            author {
+                login
+            }
+            labels(first: $first) {
+                nodes {
+                    color
+                    name
+                }
+            }
+        }
+    }
+
+}
