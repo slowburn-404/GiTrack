@@ -18,10 +18,10 @@ class SingleIssueViewModel(
     val singleIssueLiveData: LiveData<SingleIssue> = _singleIssueLiveData
 
 
-    fun getSingleIssue(name: String, owner: String, number: Int, first: Int) =
+    fun getSingleIssue(name: String, owner: String, number: Int) =
         viewModelScope.launch {
             try {
-                val singleIssue = gitTrackRepository.getSingleIssue(name, owner, number, first)
+                val singleIssue = gitTrackRepository.getSingleIssue(name, owner, number)
                 _singleIssueLiveData.value = singleIssue
             } catch (e: Exception) {
                 Log.e("Error getting the issue", e.message.toString())
@@ -35,6 +35,7 @@ class SingleIssueViewModelFactory(
     override fun <T : ViewModel> create(modelClass: Class<T>): T {
 
         if (modelClass.isAssignableFrom(SingleIssueViewModel::class.java)) {
+            @Suppress("UNCHECKED_CAST")
             return SingleIssueViewModel(gitTrackRepository) as T
         }
 

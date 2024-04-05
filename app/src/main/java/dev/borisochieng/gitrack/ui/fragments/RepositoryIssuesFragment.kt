@@ -16,6 +16,7 @@ import dev.borisochieng.gitrack.databinding.FragmentRepositoryIssuesBinding
 import dev.borisochieng.gitrack.ui.models.Issue
 import dev.borisochieng.gitrack.ui.adapters.IssueAdapter
 import dev.borisochieng.gitrack.ui.adapters.OnIssueClickListener
+import dev.borisochieng.gitrack.ui.models.SingleIssueParcelable
 import dev.borisochieng.gitrack.ui.viewmodels.RepositoryIssuesViewModel
 import dev.borisochieng.gitrack.ui.viewmodels.RepositoryIssuesViewModelFactory
 
@@ -48,6 +49,10 @@ class RepositoryIssuesFragment : Fragment(), OnIssueClickListener {
 
         getIssuesFromViewModel(repoName, repoOwner)
 
+        binding.issuesSearchBar.setNavigationOnClickListener {
+            findNavController().popBackStack()
+        }
+
         return binding.root
     }
 
@@ -64,7 +69,6 @@ class RepositoryIssuesFragment : Fragment(), OnIssueClickListener {
             setHasFixedSize(true)
             adapter = issuesAdapter
         }
-        issuesAdapter.setList(emptyList())
     }
 
     private fun getIssuesFromViewModel (name: String, owner: String) {
@@ -80,7 +84,12 @@ class RepositoryIssuesFragment : Fragment(), OnIssueClickListener {
     }
 
     override fun onClick(item: Issue) {
+        val clickedItem = SingleIssueParcelable(
+            navArgs.repository.repoName,
+            item.username,
+            item.number)
         val action =
-        findNavController().navigate(R.id.action_repositoryIssuesFragment_to_issueFragment)
+            RepositoryIssuesFragmentDirections.actionRepositoryIssuesFragmentToIssueFragment(clickedItem)
+        findNavController().navigate(action)
     }
 }

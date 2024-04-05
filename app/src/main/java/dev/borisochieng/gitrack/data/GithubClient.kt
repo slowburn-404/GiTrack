@@ -40,9 +40,9 @@ class GithubClient(
 
     }
 
-    override suspend fun getSingleIssue(name: String, owner: String, number: Int, first: Int): SingleIssue {
+    override suspend fun getSingleIssue(name: String, owner: String, number: Int): SingleIssue {
         return apolloClient
-            .query(SingleIssueQuery(name, owner, number, first))
+            .query(SingleIssueQuery(name, owner, number, 50))
             .execute()
             .data
             ?.toSimpleSingleIssue() ?: SingleIssue("Title not found", "Unknown date", "Unknown status", "Unknown description", "Unknown author", emptyList())

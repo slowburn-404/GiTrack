@@ -14,7 +14,7 @@
             android:id="@+id/action_loginFragment_to_userRepositoriesFragment"
             app:destination="@id/userRepositoriesFragment"
             app:popUpTo="@id/loginFragment"
-            app:popUpToInclusive="true" />
+            app:popUpToInclusive="false" />
     </fragment>
     <fragment
         android:id="@+id/userRepositoriesFragment"
@@ -43,7 +43,11 @@
     </fragment>
     <fragment
         android:id="@+id/issueFragment"
-        android:name="dev.borisochieng.gitrack.ui.fragments.IssueFragment"
+        android:name="dev.borisochieng.gitrack.ui.fragments.SingleIssueFragment"
         android:label="fragment_issue"
-        tools:layout="@layout/fragment_issue" />
+        tools:layout="@layout/fragment_issue" >
+        <argument
+            android:name="singleIssue"
+            app:argType="dev.borisochieng.gitrack.ui.models.SingleIssueParcelable" />
+    </fragment>
 </navigation>

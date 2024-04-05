@@ -6,9 +6,11 @@ import android.os.Parcelable
 data class RepositoryParcelable(
     val id: String,
     val title: String,
-    val username: String
+    val username: String,
+    val repoName: String
 ) : Parcelable {
     constructor(parcel: Parcel) : this(
+        parcel.readString()!!,
         parcel.readString()!!,
         parcel.readString()!!,
         parcel.readString()!!
@@ -18,6 +20,7 @@ data class RepositoryParcelable(
         parcel.writeString(id)
         parcel.writeString(title)
         parcel.writeString(username)
+        parcel.writeString(repoName)
     }
 
     override fun describeContents(): Int {

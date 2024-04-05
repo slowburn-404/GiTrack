@@ -13,5 +13,5 @@ interface GithubService {
 
     suspend fun getRepositoryIssue(repositoryName: String, repositoryOwner: String): List<Issue>
 
-    suspend fun getSingleIssue(name: String, owner: String, number: Int, first: Int): SingleIssue
+    suspend fun getSingleIssue(name: String, owner: String, number: Int): SingleIssue
 }
