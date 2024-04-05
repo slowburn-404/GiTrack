@@ -2,7 +2,7 @@
 
 GiTrack is a mobile application designed for tracking issues on GitHub. It provides a convenient interface for users to view, manage, and track issues across various GitHub repositories.
 
-## [Figma designs, prototype and wireframe](https://www.figma.com/file/FXLDoaY1uL9sS5W0j1FZtJ/github_issue_tracker?type=design&node-id=0%3A1&mode=design&t=IXb2ZjKRUArJBQSn-1)
+## [Figma design, prototype and wireframe](https://www.figma.com/file/FXLDoaY1uL9sS5W0j1FZtJ/github_issue_tracker?type=design&node-id=0%3A1&mode=design&t=IXb2ZjKRUArJBQSn-1)
 
 
 ## Features
@@ -26,23 +26,80 @@ GiTrack is a mobile application designed for tracking issues on GitHub. It provi
 </p>
 
 ## Installation
+#### Obtain Client ID and Client Secrets
+1. Navigate to the upper right corner on the Github Page and click on your avatar.
+<p align="center">
+<img src="screenshots/Profile.png" alt="single issue dark" style="padding: 20px" width="200">
+</p>
 
-GiTrack is currently available for Android devices and can be installed from the Google Play Store. Simply search for "GiTrack" and follow the installation instructions.
+2. From the drop down menu navigate to settings.
+<p align="center">
+<img src="screenshots/Settings.png" alt="single issue dark" style="padding: 20px" width="200">
+</p>
 
-- Clone the repository to your local machine.
+3. Scroll to developer settings.
+<p align="center">
+<img src="screenshots/DeveloperSettings.png" alt="single issue dark" style="padding: 20px" width="200">
+</p>
+
+4. Click on OAuth Apps.
+<p align="center">
+<img src="screenshots/oauthapp.png" alt="single issue dark" style="padding: 20px" width="200">
+</p>
+
+5. Click on New OAuth App.
+<p align="center">
+<img src="screenshots/Newoauthapp.png" alt="single issue dark" style="padding: 20px" width="200">
+</p>
+
+6. Fill out the form.
+<p align="center">
+<img src="screenshots/form.png" alt="single issue dark" style="padding: 20px" width="200">
+</p>
+
+7. Under Application Name, enter the name of your application; `GiTrack`. Under homepage URL enter the Homepage URL of the app `https://gitrack.borisochieng.dev`. Under Authorization Callback URL enter the URL that GitHub will use to redirect back to your app; `httpsL//gitrack.borisochieng.dev`. This can be same as the Homepage URL.
+
+8. Finally click on register application.
+
+9. Copy the Client ID and Client Secret and store them for use in your app safely.
+
+9. Clone the repository to your local machine.
+
 ```Bash
 git clone https://github.com/slowburn-404/GiTrack.git
 ```
-- Open the project in Android Studio, build and run on a virtual or real device.
+10. Open the project in Android Studio, build and run on a virtual or real device.
+
 ## Usage
 
-1. **Login**: Sign in with your GitHub account to access your repositories and issues.
-2. **Browse Repositories**: Explore your repositories and select one to view its issues.
-3. **View Issues**: Navigate through the list of issues and click on an issue to view its details.
-4. **Search**: Use the search functionality to find specific issues or repositories by title, description, or label.
-5. **Filter**: Filter repositories by most recent, most used and most starred. 
+- **Login**: Sign in with your GitHub account to access your repositories and issues.
+- **Browse Repositories**: Explore your repositories and select one to view its issues.
+- **View Issues**: Navigate through the list of issues and click on an issue to view its details.
+- **Search**: Use the search functionality to find specific issues or repositories by title, description, or label.
+- **Filter**: Filter repositories by most recent, most used and most starred. 
 
-## Architecture
+## Application architecture overview
+
+### OAuth Webflow
+- The application utilizes OAuth webflow authentication instead of device flow to mitigate potential security risks. 
+- The app launches a Web intent to the URL `https://github.com/login/oauth/authorize`. 
+- After the user authorizes the application to access their account, they are redirected back to the App with a code using a Deep Link. 
+- The app then makes a `POST` request to the URL `https://github.com/login/oauth/access_token` with the code to exchange it for an access token. The access token is then used to query the GitHub GraphQL API.
+<p align="center">
+<img src="screenshots/oathwebflow.jpg" alt="login" style="padding:20px>
+
+### Tools, frameworks and libraries
+- **[Retrofit and OKHttp3](https://github.com/square/retrofit)**: This is used for making asynchronous network calls to facilitate authentication using the webflow.
+- **[Apollo](https://github.com/apollographql/apollo-kotlin)**: GraphQL client used for making asynchronous network calls to the GitHub GraphQL API.
+- **[Splashscreen](https://developer.android.com/develop/ui/views/launch/splash-screen)**: For branding purposes.
+- **Kotlin**: programming language for writing logic.
+- **XML**: mark up language for drawing UI elements.
+-**[Material Design Components](https://github.com/material-components/material-components-android)**: Customizable Material Design UI components
+- Android Architecture Components:
+    - Viewmodel lifecycle aware component.
+    - Livedata lifecycle aware component.
+    - Navigation component to handle  navigation between fragments and  [safe arguments](https://developer.android.com/guide/navigation/use-graph/safe-args#kts) Gradle plugin for passing data between fragments.
+    - [Viewbinding](https://developer.android.com/topic/libraries/view-binding) used for binding data to UI elements.
 
 
 
