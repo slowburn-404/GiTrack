@@ -17,7 +17,6 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:padding="8dp"
-            android:text="Opened 23 Mar 2024"
             android:textColor="@color/md_theme_primary"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
@@ -29,7 +28,6 @@
             android:background="@drawable/bg_issue_status"
             android:gravity="center"
             android:padding="8dp"
-            android:text="Open"
             android:textColor="@color/md_theme_onPrimary"
             android:textAppearance="@style/TextAppearance.Material3.BodySmall"
             app:layout_constraintEnd_toEndOf="parent"
@@ -42,7 +40,6 @@
             android:ellipsize="end"
             android:maxLines="5"
             android:padding="8dp"
-            android:text="@string/repository_desc"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/tv_opened_date" />
 
@@ -51,7 +48,7 @@
             android:layout_width="24dp"
             android:layout_height="24dp"
             android:layout_margin="4dp"
-            android:contentDescription="Username"
+            android:contentDescription="@string/username"
             android:src="@drawable/ic_avatar"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/tv_issue_title" />
@@ -62,7 +59,6 @@
             android:layout_height="wrap_content"
             android:gravity="center"
             android:padding="4dp"
-            android:text="slowburn-404"
             android:textColor="@color/md_theme_primary"
             android:textAppearance="@style/TextAppearance.Gitrack.LabelLarge"
             app:layout_constraintBottom_toBottomOf="parent"
@@ -86,7 +82,6 @@
             android:layout_height="wrap_content"
             android:gravity="center"
             android:padding="4dp"
-            android:text="100 comments"
             android:textAppearance="@style/TextAppearance.Gitrack.LabelLarge"
             android:textColor="@color/md_theme_primary"
             app:layout_constraintBottom_toBottomOf="parent"

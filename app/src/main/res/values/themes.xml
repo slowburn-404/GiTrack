@@ -64,7 +64,7 @@
         <item  name="textAppearanceLabelSmall">@style/TextAppearance.Gitrack.LabelSmall</item>
     </style>
     <!--Splash Screen-->
-    <style name="SplashScreen" parent="Theme.SplashScreen">
+    <style name="Theme.CustomSplashScreenTheme" parent="Theme.SplashScreen">
         <item name="windowSplashScreenBackground">@color/md_theme_primary</item>
         <item name="windowSplashScreenAnimatedIcon">@drawable/ic_logo</item>
         <item name="windowSplashScreenAnimationDuration">1000</item>

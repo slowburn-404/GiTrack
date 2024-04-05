@@ -1,3 +1,6 @@
 package dev.borisochieng.gitrack.ui.models
 
-data class SearchItem()
+data class SearchItem(
+    val title: String,
+    val description: String
+)

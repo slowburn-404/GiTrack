@@ -46,7 +46,6 @@ class UserRepositoriesFragment : Fragment(), OnRepositoryClickListener {
 
         initViews()
         initRecyclerView()
-        getUserFromViewModel()
         handleBackPress()
 
         binding.repositorySearchBar.setOnMenuItemClickListener {
