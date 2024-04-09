@@ -3,12 +3,14 @@ package dev.borisochieng.gitrack.data
 import android.icu.text.SimpleDateFormat
 import android.icu.util.TimeZone
 import dev.borisochieng.RepositoryIssuesQuery
+import dev.borisochieng.SearchPublicRepositoryQuery
 import dev.borisochieng.SingleIssueQuery
 import dev.borisochieng.UserQuery
 import dev.borisochieng.UserRepositoriesQuery
 import dev.borisochieng.gitrack.domain.models.User
 import dev.borisochieng.gitrack.ui.models.Issue
 import dev.borisochieng.gitrack.ui.models.Repository
+import dev.borisochieng.gitrack.ui.models.RepositorySearchResult
 import dev.borisochieng.gitrack.ui.models.SingleIssue
 import java.time.LocalDate
 import java.time.LocalDateTime
@@ -39,7 +41,7 @@ fun RepositoryIssuesQuery.Data.toSimpleIssue(): List<Issue> {
             issueTitle = it!!.title,
             issueStatus = it.state.toString(),
             openedAt = "Opened ${formatCreatedAt( it.createdAt)}",
-            username = it.author?.login ?: "Unknown author",
+            repoOwner = it.author?.login ?: "Unknown author",
             commentCount = it.comments.totalCount,
             number = it.number,
             labels = it.labels?.nodes?.mapNotNull { label ->
@@ -47,7 +49,7 @@ fun RepositoryIssuesQuery.Data.toSimpleIssue(): List<Issue> {
                 label?.color
             } ?: emptyList()
         )
-    } ?: emptyList()
+    } ?: mutableListOf<Issue>()
 }
 
 fun SingleIssueQuery.Data.toSimpleSingleIssue(): SingleIssue? {
@@ -64,6 +66,20 @@ fun SingleIssueQuery.Data.toSimpleSingleIssue(): SingleIssue? {
             } ?: emptyList()
         )
     }
+}
+
+fun SearchPublicRepositoryQuery.Data.toSimpleRepositorySearchResult() : List<RepositorySearchResult> {
+    return search.edges?.mapNotNull { edge->
+        edge?.node?.onRepository?.let {
+            RepositorySearchResult(
+                repoId = it.id,
+                repoName= it.name,
+                repoOwner = it.owner.login,
+                repoDescription = it.description ?: "No description",
+                starCount = it.stargazerCount
+            )
+        }
+    }?: emptyList()
 }
 
 private fun formatCreatedAt(createdAt: Any): String {

@@ -1,0 +1,17 @@
+query SearchPublicRepository($query: String!){
+    search(query: $query , type: REPOSITORY, first: 50) {
+        edges {
+            node {
+                ... on Repository {
+                    id
+                    name
+                    stargazerCount
+                    owner {
+                        login
+                    }
+                    description
+                }
+            }
+        }
+    }
+}

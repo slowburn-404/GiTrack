@@ -1,35 +1,48 @@
 package dev.borisochieng.gitrack.ui.fragments
 
 import android.os.Bundle
-import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.inputmethod.EditorInfo
 import androidx.activity.OnBackPressedCallback
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
+import com.google.android.material.progressindicator.CircularProgressIndicator
+import com.google.android.material.search.SearchView
 import dev.borisochieng.gitrack.GitTrackApplication
 import dev.borisochieng.gitrack.R
 import dev.borisochieng.gitrack.databinding.FragmentUserRepositoriesBinding
 import dev.borisochieng.gitrack.ui.models.Repository
 import dev.borisochieng.gitrack.ui.adapters.OnRepositoryClickListener
+import dev.borisochieng.gitrack.ui.adapters.OnSearchResultItemClickListener
 import dev.borisochieng.gitrack.ui.adapters.RepositoryAdapter
+import dev.borisochieng.gitrack.ui.adapters.SearchAdapter
 import dev.borisochieng.gitrack.ui.models.RepositoryParcelable
+import dev.borisochieng.gitrack.ui.models.RepositorySearchResult
 import dev.borisochieng.gitrack.ui.viewmodels.UserRepositoriesViewModel
 import dev.borisochieng.gitrack.ui.viewmodels.UserRepositoriesViewModelFactory
 import dev.borisochieng.gitrack.utils.AccessTokenManager
 
-class UserRepositoriesFragment : Fragment(), OnRepositoryClickListener {
+class UserRepositoriesFragment : Fragment(), OnRepositoryClickListener,
+    OnSearchResultItemClickListener {
     private var _binding: FragmentUserRepositoriesBinding? = null
     private val binding get() = _binding!!
 
     private lateinit var repositoryRecyclerView: RecyclerView
     private lateinit var repositoryAdapter: RepositoryAdapter
+    private lateinit var searchResultsRecyclerView: RecyclerView
+    private lateinit var searchAdapter: SearchAdapter
+    private lateinit var repositoryProgressCircular: CircularProgressIndicator
+    private lateinit var searchProgressCircular: CircularProgressIndicator
+    private lateinit var repositorySearchView: SearchView
+
+    private val repositoryListFromAPI: MutableList<Repository> = mutableListOf()
+    private val searchResultsList: MutableList<RepositorySearchResult> = mutableListOf()
 
     private lateinit var username: String
 
@@ -44,9 +57,15 @@ class UserRepositoriesFragment : Fragment(), OnRepositoryClickListener {
         // Inflate the layout for this fragment
         _binding = FragmentUserRepositoriesBinding.inflate(layoutInflater, container, false)
 
+
         initViews()
+        repositoryProgressCircular.hide()
+        searchProgressCircular.hide()
         initRecyclerView()
+        initSearchRecyclerView()
+        getUserFromViewModel()
         handleBackPress()
+        getSearchResultFromAPI()
 
         binding.repositorySearchBar.setOnMenuItemClickListener {
             showDialog()
@@ -61,6 +80,10 @@ class UserRepositoriesFragment : Fragment(), OnRepositoryClickListener {
     private fun initViews() {
         binding.apply {
             repositoryRecyclerView = rvRepository
+            repositoryProgressCircular = repoProgressCircular
+            searchProgressCircular = searchCircularProgress
+            searchResultsRecyclerView = rvRepositorySearchResults
+            repositorySearchView = svRepository
         }
     }
 
@@ -71,26 +94,68 @@ class UserRepositoriesFragment : Fragment(), OnRepositoryClickListener {
             setHasFixedSize(true)
             adapter = repositoryAdapter
         }
+        repositoryAdapter.setList(repositoryListFromAPI)
+
+    }
+
+    private fun initSearchRecyclerView() {
+        searchAdapter = SearchAdapter(this)
+        searchResultsRecyclerView.apply {
+            layoutManager = LinearLayoutManager(requireContext())
+            setHasFixedSize(true)
+            adapter = searchAdapter
+        }
+
+        searchAdapter.setList(searchResultsList)
 
     }
 
     private fun getRepositoriesFromViewModel(username: String) {
-        userRepositoriesViewModel.getRepositories(username)
-        userRepositoriesViewModel.repositoriesLiveData.observe(viewLifecycleOwner) { repositoryList ->
-            repositoryAdapter.setList(repositoryList)
-            Log.d("Repository List", repositoryList.toString())
+        repositoryProgressCircular.show()
+        repositoryListFromAPI.clear()
+        userRepositoriesViewModel.repositoriesLiveData.observe(viewLifecycleOwner) { repositories ->
+            repositoryListFromAPI.addAll(repositories)
+            repositoryProgressCircular.hide()
+            repositoryAdapter.notifyDataSetChanged()
         }
-
+        userRepositoriesViewModel.getRepositories(username)
 
     }
 
     private fun getUserFromViewModel() {
-        userRepositoriesViewModel.userLiveData.observe(viewLifecycleOwner, Observer {
+        userRepositoriesViewModel.userLiveData.observe(viewLifecycleOwner) {
             binding.tvUsername.text = "/${it.username}"
             username = it.username
             getRepositoriesFromViewModel(it.username)
-        })
+        }
         userRepositoriesViewModel.getUser()
+    }
+
+    private fun getSearchResultsFromViewModel(query: String) {
+        searchProgressCircular.show()
+        searchResultsList.clear()
+        userRepositoriesViewModel.searchResultsLiveData.observe(viewLifecycleOwner) { searchResults ->
+            searchResultsList.addAll(searchResults)
+            searchProgressCircular.hide()
+            searchAdapter.notifyDataSetChanged()
+        }
+        userRepositoriesViewModel.searchPublicRepositories(query)
+    }
+
+    private fun getSearchResultFromAPI() {
+        repositorySearchView.apply {
+            //remove any listener
+            editText.setOnEditorActionListener(null)
+
+            editText.setOnEditorActionListener { v, actionId, _ ->
+                if (actionId == EditorInfo.IME_ACTION_SEARCH) {
+                    val query = v.text.trim().toString()
+                    getSearchResultsFromViewModel(query)
+
+                }
+                true
+            }
+        }
     }
 
     private fun handleBackPress() {
@@ -121,9 +186,9 @@ class UserRepositoriesFragment : Fragment(), OnRepositoryClickListener {
         _binding = null
     }
 
-    override fun onStart() {
-        super.onStart()
-        getUserFromViewModel()
+    override fun onResume() {
+        super.onResume()
+        repositoryListFromAPI.clear()
     }
 
     override fun onItemClick(item: Repository) {
@@ -133,6 +198,21 @@ class UserRepositoriesFragment : Fragment(), OnRepositoryClickListener {
                 item.title,
                 username,
                 item.title
+            )
+        val action =
+            UserRepositoriesFragmentDirections.actionUserRepositoriesFragmentToRepositoryIssuesFragment(
+                clickedItem
+            )
+        findNavController().navigate(action)
+    }
+
+    override fun onSearchItemClick(item: RepositorySearchResult) {
+        val clickedItem =
+            RepositoryParcelable(
+                item.repoId,
+                item.repoName,
+                item.repoOwner,
+                item.repoName
             )
         val action =
             UserRepositoriesFragmentDirections.actionUserRepositoriesFragmentToRepositoryIssuesFragment(

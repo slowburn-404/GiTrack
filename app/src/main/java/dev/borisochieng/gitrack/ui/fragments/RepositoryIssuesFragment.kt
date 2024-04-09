@@ -10,8 +10,8 @@ import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.google.android.material.progressindicator.CircularProgressIndicator
 import dev.borisochieng.gitrack.GitTrackApplication
-import dev.borisochieng.gitrack.R
 import dev.borisochieng.gitrack.databinding.FragmentRepositoryIssuesBinding
 import dev.borisochieng.gitrack.ui.models.Issue
 import dev.borisochieng.gitrack.ui.adapters.IssueAdapter
@@ -26,8 +26,11 @@ class RepositoryIssuesFragment : Fragment(), OnIssueClickListener {
 
     private lateinit var issuesRecyclerView: RecyclerView
     private lateinit var issuesAdapter: IssueAdapter
+    private lateinit var progressIndicator: CircularProgressIndicator
 
-    private val navArgs: RepositoryIssuesFragmentArgs by navArgs()
+    private val issuesListFromAPi: MutableList<Issue> = mutableListOf()
+
+    private val navArgs: RepositoryIssuesFragmentArgs by navArgs<RepositoryIssuesFragmentArgs>()
 
     private val repositoryIssuesViewModel: RepositoryIssuesViewModel by viewModels{
         RepositoryIssuesViewModelFactory((requireActivity().application as GitTrackApplication).gitTrackRepository)
@@ -39,14 +42,16 @@ class RepositoryIssuesFragment : Fragment(), OnIssueClickListener {
     ): View {
         // Inflate the layout for this fragment
         _binding = FragmentRepositoryIssuesBinding.inflate(layoutInflater, container, false)
-        initViews()
-        initRecyclerView()
 
         val repoName = navArgs.repository.title
         val repoOwner = navArgs.repository.username
 
         binding.tvReponame.text = repoName
 
+
+        initViews()
+        progressIndicator.hide()
+        initRecyclerView()
         getIssuesFromViewModel(repoName, repoOwner)
 
         binding.issuesSearchBar.setNavigationOnClickListener {
@@ -59,6 +64,7 @@ class RepositoryIssuesFragment : Fragment(), OnIssueClickListener {
     private fun initViews() {
         binding.apply {
             issuesRecyclerView = rvIssues
+            progressIndicator = issuesProgressCircular
         }
     }
 
@@ -69,11 +75,16 @@ class RepositoryIssuesFragment : Fragment(), OnIssueClickListener {
             setHasFixedSize(true)
             adapter = issuesAdapter
         }
+        issuesAdapter.setList(issuesListFromAPi)
     }
 
     private fun getIssuesFromViewModel (name: String, owner: String) {
+      progressIndicator.show()
+        issuesListFromAPi.clear()
         repositoryIssuesViewModel.issuesLiveData.observe(viewLifecycleOwner) {issues ->
-            issuesAdapter.setList(issues)
+            issuesListFromAPi.addAll(issues)
+            issuesAdapter.notifyDataSetChanged()
+            progressIndicator.hide()
         }
         repositoryIssuesViewModel.getIssues(name, owner)
     }
@@ -83,10 +94,15 @@ class RepositoryIssuesFragment : Fragment(), OnIssueClickListener {
         _binding = null
     }
 
+    override fun onResume() {
+        super.onResume()
+        issuesListFromAPi.clear()
+    }
+
     override fun onClick(item: Issue) {
         val clickedItem = SingleIssueParcelable(
             navArgs.repository.repoName,
-            item.username,
+            item.repoOwner,
             item.number)
         val action =
             RepositoryIssuesFragmentDirections.actionRepositoryIssuesFragmentToIssueFragment(clickedItem)

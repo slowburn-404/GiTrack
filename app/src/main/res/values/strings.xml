@@ -10,7 +10,7 @@
     <string name="account">Create one</string>
     <string name="username">/username</string>
     <string name="logout">Logout</string>
-    <string name="search_repositories">Search repositories</string>
+    <string name="search_repositories">Search public repositories</string>
     <string name="search_issues">Search issues</string>
     <string name="repository_title">Repository title</string>
     <string name="repository_desc">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce in ipsum sit amet quam faucibus maximus. Ut lobortis enim rutrum sagittis ultricies. Donec egestas rhoncus erat, nec mattis velit pulvinar eget. Integer nec rhoncus ligula, quis efficitur neque. Suspendisse malesuada, ligula eget maximus porta, nunc nunc consectetur augue, sed interdum nisl augue in augue. Suspendisse feugiat gravida interdum. Vestibulum semper ultricies ipsum, sed porta felis</string>
@@ -32,4 +32,6 @@
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="no">No</string>
     <string name="confirm_logout">Are you sure you want to logout?</string>
+    <string name="repository_owner">Repository Owner</string>
+    <string name="star_count">Star count</string>
 </resources>

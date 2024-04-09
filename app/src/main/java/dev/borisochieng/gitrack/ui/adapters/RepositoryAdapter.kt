@@ -1,18 +1,21 @@
 package dev.borisochieng.gitrack.ui.adapters
 
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.AsyncListDiffer
 import androidx.recyclerview.widget.RecyclerView
 import dev.borisochieng.gitrack.databinding.ItemRepositoryBinding
 import dev.borisochieng.gitrack.ui.models.Repository
-import dev.borisochieng.gitrack.utils.RVDiffUtil
+import androidx.recyclerview.widget.DiffUtil
 
-class RepositoryAdapter(private val onRepositoryClickListener: OnRepositoryClickListener) : RecyclerView.Adapter<RepositoryAdapter.ViewHolder>() {
+class RepositoryAdapter(private val onRepositoryClickListener: OnRepositoryClickListener) :
+    RecyclerView.Adapter<RepositoryAdapter.ViewHolder>() {
 
-    inner class ViewHolder(private val binding : ItemRepositoryBinding) : RecyclerView.ViewHolder(binding.root) {
+    inner class ViewHolder(private val binding: ItemRepositoryBinding) :
+        RecyclerView.ViewHolder(binding.root) {
 
-        fun bind (item: Repository) {
+        fun bind(item: Repository) {
             binding.apply {
                 repositoryTitle.text = item.title
                 repositoryDesc.text = item.desc
@@ -26,22 +29,38 @@ class RepositoryAdapter(private val onRepositoryClickListener: OnRepositoryClick
             }
         }
     }
-    private val asyncListDiffer = AsyncListDiffer(this, RVDiffUtil())
+
+    private val asyncListDiffer = AsyncListDiffer(this, DIFF_CALLBACK)
 
     fun setList(list: List<Repository>) {
         asyncListDiffer.submitList(list)
+        Log.d("Set List", list.toString())
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-        val itemBinding = ItemRepositoryBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+        val itemBinding =
+            ItemRepositoryBinding.inflate(LayoutInflater.from(parent.context), parent, false)
 
         return ViewHolder(itemBinding)
     }
 
-    override fun getItemCount(): Int  = asyncListDiffer.currentList.size
+    override fun getItemCount(): Int = asyncListDiffer.currentList.size
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val item = asyncListDiffer.currentList[position]
-         holder.bind(item)
+        holder.bind(item)
+    }
+
+    companion object {
+        val DIFF_CALLBACK = object : DiffUtil.ItemCallback<Repository>() {
+            override fun areItemsTheSame(oldItem: Repository, newItem: Repository): Boolean =
+                oldItem.id == newItem.id
+
+
+            override fun areContentsTheSame(oldItem: Repository, newItem: Repository): Boolean =
+                oldItem == newItem
+
+
+        }
     }
 }
