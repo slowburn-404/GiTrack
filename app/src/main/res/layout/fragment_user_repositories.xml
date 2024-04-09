@@ -53,21 +53,17 @@
         </com.google.android.material.chip.ChipGroup>
     </com.google.android.material.appbar.AppBarLayout>
 
-    <androidx.core.widget.NestedScrollView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_margin="8dp"
-        app:layout_behavior="@string/appbar_scrolling_view_behavior">
-
         <androidx.appcompat.widget.LinearLayoutCompat
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:orientation="vertical">
+            android:orientation="vertical"
+            android:layout_margin="8dp"
+            app:layout_behavior="com.google.android.material.appbar.AppBarLayout$ScrollingViewBehavior">
 
             <com.google.android.material.textview.MaterialTextView
                 android:id="@+id/tv_username"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
+                android:layout_height="wrap_content"
                 android:padding="4dp"
                 android:layout_marginStart="8dp"
                 android:text="@string/username"
@@ -82,6 +78,11 @@
                 android:padding="4dp"
                 android:text="@string/repositories"/>
 
+            <com.google.android.material.divider.MaterialDivider
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="8dp"/>
+
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/rv_repository"
                 android:layout_width="match_parent"
@@ -89,8 +90,6 @@
                 tools:listitem="@layout/item_repository" />
 
         </androidx.appcompat.widget.LinearLayoutCompat>
-
-    </androidx.core.widget.NestedScrollView>
 
     <com.google.android.material.search.SearchView
         android:id="@+id/sv_repository"

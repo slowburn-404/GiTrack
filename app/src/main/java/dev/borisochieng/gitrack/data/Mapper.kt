@@ -47,7 +47,7 @@ fun RepositoryIssuesQuery.Data.toSimpleIssue(): List<Issue> {
                 label?.color
             } ?: emptyList()
         )
-    } ?: emptyList()
+    } ?: mutableListOf<Issue>()
 }
 
 fun SingleIssueQuery.Data.toSimpleSingleIssue(): SingleIssue? {

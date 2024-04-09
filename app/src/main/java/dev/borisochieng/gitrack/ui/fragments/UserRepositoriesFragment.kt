@@ -31,6 +31,8 @@ class UserRepositoriesFragment : Fragment(), OnRepositoryClickListener {
     private lateinit var repositoryRecyclerView: RecyclerView
     private lateinit var repositoryAdapter: RepositoryAdapter
 
+    private val repositoryListFromAPI: MutableList<Repository> = mutableListOf()
+
     private lateinit var username: String
 
     private val userRepositoriesViewModel: UserRepositoriesViewModel by viewModels {
@@ -44,6 +46,7 @@ class UserRepositoriesFragment : Fragment(), OnRepositoryClickListener {
         // Inflate the layout for this fragment
         _binding = FragmentUserRepositoriesBinding.inflate(layoutInflater, container, false)
 
+        getUserFromViewModel()
         initViews()
         initRecyclerView()
         handleBackPress()
@@ -71,16 +74,18 @@ class UserRepositoriesFragment : Fragment(), OnRepositoryClickListener {
             setHasFixedSize(true)
             adapter = repositoryAdapter
         }
+        repositoryAdapter.setList(repositoryListFromAPI)
 
     }
 
     private fun getRepositoriesFromViewModel(username: String) {
-        userRepositoriesViewModel.getRepositories(username)
-        userRepositoriesViewModel.repositoriesLiveData.observe(viewLifecycleOwner) { repositoryList ->
-            repositoryAdapter.setList(repositoryList)
-            Log.d("Repository List", repositoryList.toString())
+        repositoryListFromAPI.clear()
+        userRepositoriesViewModel.repositoriesLiveData.observe(viewLifecycleOwner) { repositories ->
+            repositoryListFromAPI.addAll(repositories)
+            repositoryAdapter.setList(repositoryListFromAPI)
+            repositoryAdapter.notifyDataSetChanged()
         }
-
+        userRepositoriesViewModel.getRepositories(username)
 
     }
 
@@ -119,11 +124,6 @@ class UserRepositoriesFragment : Fragment(), OnRepositoryClickListener {
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
-    }
-
-    override fun onStart() {
-        super.onStart()
-        getUserFromViewModel()
     }
 
     override fun onItemClick(item: Repository) {

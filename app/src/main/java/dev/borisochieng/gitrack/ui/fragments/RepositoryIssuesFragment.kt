@@ -27,6 +27,8 @@ class RepositoryIssuesFragment : Fragment(), OnIssueClickListener {
     private lateinit var issuesRecyclerView: RecyclerView
     private lateinit var issuesAdapter: IssueAdapter
 
+    private val issuesListFromAPi: MutableList<Issue> = mutableListOf()
+
     private val navArgs: RepositoryIssuesFragmentArgs by navArgs()
 
     private val repositoryIssuesViewModel: RepositoryIssuesViewModel by viewModels{
@@ -39,8 +41,6 @@ class RepositoryIssuesFragment : Fragment(), OnIssueClickListener {
     ): View {
         // Inflate the layout for this fragment
         _binding = FragmentRepositoryIssuesBinding.inflate(layoutInflater, container, false)
-        initViews()
-        initRecyclerView()
 
         val repoName = navArgs.repository.title
         val repoOwner = navArgs.repository.username
@@ -48,6 +48,8 @@ class RepositoryIssuesFragment : Fragment(), OnIssueClickListener {
         binding.tvReponame.text = repoName
 
         getIssuesFromViewModel(repoName, repoOwner)
+        initViews()
+        initRecyclerView()
 
         binding.issuesSearchBar.setNavigationOnClickListener {
             findNavController().popBackStack()
@@ -69,11 +71,15 @@ class RepositoryIssuesFragment : Fragment(), OnIssueClickListener {
             setHasFixedSize(true)
             adapter = issuesAdapter
         }
+        issuesAdapter.setList(issuesListFromAPi)
     }
 
     private fun getIssuesFromViewModel (name: String, owner: String) {
+        issuesListFromAPi.clear()
         repositoryIssuesViewModel.issuesLiveData.observe(viewLifecycleOwner) {issues ->
-            issuesAdapter.setList(issues)
+            issuesListFromAPi.addAll(issues)
+            issuesAdapter.setList(issuesListFromAPi)
+            issuesAdapter.notifyDataSetChanged()
         }
         repositoryIssuesViewModel.getIssues(name, owner)
     }
