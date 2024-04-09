@@ -13,6 +13,7 @@ import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
+import com.google.android.material.progressindicator.CircularProgressIndicator
 import dev.borisochieng.gitrack.GitTrackApplication
 import dev.borisochieng.gitrack.R
 import dev.borisochieng.gitrack.databinding.FragmentUserRepositoriesBinding
@@ -30,6 +31,7 @@ class UserRepositoriesFragment : Fragment(), OnRepositoryClickListener {
 
     private lateinit var repositoryRecyclerView: RecyclerView
     private lateinit var repositoryAdapter: RepositoryAdapter
+    private lateinit var repositoryProgressCircular: CircularProgressIndicator
 
     private val repositoryListFromAPI: MutableList<Repository> = mutableListOf()
 
@@ -46,9 +48,11 @@ class UserRepositoriesFragment : Fragment(), OnRepositoryClickListener {
         // Inflate the layout for this fragment
         _binding = FragmentUserRepositoriesBinding.inflate(layoutInflater, container, false)
 
-        getUserFromViewModel()
+
         initViews()
+        repositoryProgressCircular.hide()
         initRecyclerView()
+        getUserFromViewModel()
         handleBackPress()
 
         binding.repositorySearchBar.setOnMenuItemClickListener {
@@ -64,6 +68,7 @@ class UserRepositoriesFragment : Fragment(), OnRepositoryClickListener {
     private fun initViews() {
         binding.apply {
             repositoryRecyclerView = rvRepository
+            repositoryProgressCircular = repoProgressCircular
         }
     }
 
@@ -79,10 +84,11 @@ class UserRepositoriesFragment : Fragment(), OnRepositoryClickListener {
     }
 
     private fun getRepositoriesFromViewModel(username: String) {
+        repositoryProgressCircular.show()
         repositoryListFromAPI.clear()
         userRepositoriesViewModel.repositoriesLiveData.observe(viewLifecycleOwner) { repositories ->
             repositoryListFromAPI.addAll(repositories)
-            repositoryAdapter.setList(repositoryListFromAPI)
+            repositoryProgressCircular.hide()
             repositoryAdapter.notifyDataSetChanged()
         }
         userRepositoriesViewModel.getRepositories(username)
@@ -124,6 +130,11 @@ class UserRepositoriesFragment : Fragment(), OnRepositoryClickListener {
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
+    }
+
+    override fun onResume() {
+        super.onResume()
+        repositoryListFromAPI.clear()
     }
 
     override fun onItemClick(item: Repository) {

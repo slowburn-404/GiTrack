@@ -35,10 +35,10 @@
             app:boxCornerRadiusTopStart="32dp"
             app:boxStrokeWidth="2dp"
             app:endIconDrawable="@drawable/ic_arrow_down"
+            app:hintTextAppearance="@style/TextAppearance.Material3.LabelMedium"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_scrollFlags="scroll|enterAlways|snap"
-            app:hintTextAppearance="@style/TextAppearance.Material3.LabelMedium">
+            app:layout_scrollFlags="scroll|enterAlways|snap">
 
             <com.google.android.material.textfield.MaterialAutoCompleteTextView
                 android:layout_width="match_parent"
@@ -68,7 +68,7 @@
                 android:padding="4dp"
                 android:text="@string/repository"
                 android:textAppearance="@style/TextAppearance.Material3.HeadlineSmall"
-                android:textColor="@color/md_theme_primary"/>
+                android:textColor="@color/md_theme_primary" />
 
             <com.google.android.material.textview.MaterialTextView
                 style="@style/TextAppearance.Material3.BodySmall"
@@ -78,12 +78,26 @@
                 android:padding="4dp"
                 android:text="@string/issues" />
 
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/rv_issues"
+            <FrameLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_margin="4dp"
-                tools:listitem="@layout/item_issue" />
+                android:layout_height="match_parent">
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/rv_issues"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="4dp"
+                    tools:listitem="@layout/item_issue" />
+
+                <com.google.android.material.progressindicator.CircularProgressIndicator
+                    android:id="@+id/issues_progress_circular"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="top|center_horizontal"
+                    android:layout_margin="8dp"
+                    android:indeterminate="true"/>
+            </FrameLayout>
+
 
         </androidx.appcompat.widget.LinearLayoutCompat>
     </androidx.core.widget.NestedScrollView>

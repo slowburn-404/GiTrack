@@ -10,8 +10,8 @@ import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.google.android.material.progressindicator.CircularProgressIndicator
 import dev.borisochieng.gitrack.GitTrackApplication
-import dev.borisochieng.gitrack.R
 import dev.borisochieng.gitrack.databinding.FragmentRepositoryIssuesBinding
 import dev.borisochieng.gitrack.ui.models.Issue
 import dev.borisochieng.gitrack.ui.adapters.IssueAdapter
@@ -26,10 +26,11 @@ class RepositoryIssuesFragment : Fragment(), OnIssueClickListener {
 
     private lateinit var issuesRecyclerView: RecyclerView
     private lateinit var issuesAdapter: IssueAdapter
+    private lateinit var progressIndicator: CircularProgressIndicator
 
     private val issuesListFromAPi: MutableList<Issue> = mutableListOf()
 
-    private val navArgs: RepositoryIssuesFragmentArgs by navArgs()
+    private val navArgs: RepositoryIssuesFragmentArgs by navArgs<RepositoryIssuesFragmentArgs>()
 
     private val repositoryIssuesViewModel: RepositoryIssuesViewModel by viewModels{
         RepositoryIssuesViewModelFactory((requireActivity().application as GitTrackApplication).gitTrackRepository)
@@ -47,9 +48,11 @@ class RepositoryIssuesFragment : Fragment(), OnIssueClickListener {
 
         binding.tvReponame.text = repoName
 
-        getIssuesFromViewModel(repoName, repoOwner)
+
         initViews()
+        progressIndicator.hide()
         initRecyclerView()
+        getIssuesFromViewModel(repoName, repoOwner)
 
         binding.issuesSearchBar.setNavigationOnClickListener {
             findNavController().popBackStack()
@@ -61,6 +64,7 @@ class RepositoryIssuesFragment : Fragment(), OnIssueClickListener {
     private fun initViews() {
         binding.apply {
             issuesRecyclerView = rvIssues
+            progressIndicator = issuesProgressCircular
         }
     }
 
@@ -75,11 +79,12 @@ class RepositoryIssuesFragment : Fragment(), OnIssueClickListener {
     }
 
     private fun getIssuesFromViewModel (name: String, owner: String) {
+      progressIndicator.show()
         issuesListFromAPi.clear()
         repositoryIssuesViewModel.issuesLiveData.observe(viewLifecycleOwner) {issues ->
             issuesListFromAPi.addAll(issues)
-            issuesAdapter.setList(issuesListFromAPi)
             issuesAdapter.notifyDataSetChanged()
+            progressIndicator.hide()
         }
         repositoryIssuesViewModel.getIssues(name, owner)
     }
@@ -87,6 +92,11 @@ class RepositoryIssuesFragment : Fragment(), OnIssueClickListener {
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
+    }
+
+    override fun onResume() {
+        super.onResume()
+        issuesListFromAPi.clear()
     }
 
     override fun onClick(item: Issue) {

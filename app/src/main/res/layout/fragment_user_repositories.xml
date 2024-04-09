@@ -18,7 +18,7 @@
             android:layout_height="wrap_content"
             android:hint="@string/search_repositories"
             app:layout_scrollFlags="scroll|enterAlways|snap"
-            app:menu="@menu/menu_main"/>
+            app:menu="@menu/menu_main" />
 
         <com.google.android.material.chip.ChipGroup
             android:id="@+id/cg_filter"
@@ -27,8 +27,8 @@
             android:layout_marginStart="8dp"
             android:layout_marginEnd="8dp"
             android:padding="8dp"
-            app:layout_scrollFlags="scroll|enterAlways|snap"
-            app:layout_scrollEffect="compress">
+            app:layout_scrollEffect="compress"
+            app:layout_scrollFlags="scroll|enterAlways|snap">
 
             <com.google.android.material.chip.Chip
                 style="@style/Widget.Material3.Chip.Filter"
@@ -53,35 +53,39 @@
         </com.google.android.material.chip.ChipGroup>
     </com.google.android.material.appbar.AppBarLayout>
 
-        <androidx.appcompat.widget.LinearLayoutCompat
+    <androidx.appcompat.widget.LinearLayoutCompat
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_margin="8dp"
+        android:orientation="vertical"
+        app:layout_behavior="com.google.android.material.appbar.AppBarLayout$ScrollingViewBehavior">
+
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/tv_username"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="vertical"
-            android:layout_margin="8dp"
-            app:layout_behavior="com.google.android.material.appbar.AppBarLayout$ScrollingViewBehavior">
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:padding="4dp"
+            android:text="@string/username"
+            android:textAppearance="@style/TextAppearance.Material3.HeadlineSmall"
+            android:textColor="@color/md_theme_primary" />
 
-            <com.google.android.material.textview.MaterialTextView
-                android:id="@+id/tv_username"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:padding="4dp"
-                android:layout_marginStart="8dp"
-                android:text="@string/username"
-                android:textColor="@color/md_theme_primary"
-                android:textAppearance="@style/TextAppearance.Material3.HeadlineSmall"/>
+        <com.google.android.material.textview.MaterialTextView
+            style="@style/TextAppearance.Material3.BodySmall"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:padding="4dp"
+            android:text="@string/repositories" />
 
-            <com.google.android.material.textview.MaterialTextView
-                style="@style/TextAppearance.Material3.BodySmall"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="8dp"
-                android:padding="4dp"
-                android:text="@string/repositories"/>
+        <com.google.android.material.divider.MaterialDivider
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="8dp" />
 
-            <com.google.android.material.divider.MaterialDivider
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_margin="8dp"/>
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/rv_repository"
@@ -89,7 +93,18 @@
                 android:layout_height="match_parent"
                 tools:listitem="@layout/item_repository" />
 
-        </androidx.appcompat.widget.LinearLayoutCompat>
+            <com.google.android.material.progressindicator.CircularProgressIndicator
+                android:id="@+id/repo_progress_circular"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="top|center_horizontal"
+                android:layout_margin="8dp"
+                android:indeterminate="true" />
+
+        </FrameLayout>
+
+
+    </androidx.appcompat.widget.LinearLayoutCompat>
 
     <com.google.android.material.search.SearchView
         android:id="@+id/sv_repository"
@@ -101,6 +116,7 @@
         app:closeIcon="@drawable/ic_angle_back"
         app:layout_anchor="@id/repository_search_bar"
         app:queryHint="@string/search_repositories">
+
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/rv_repository_search_results"
