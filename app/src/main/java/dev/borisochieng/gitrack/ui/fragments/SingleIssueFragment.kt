@@ -17,7 +17,7 @@ class SingleIssueFragment : Fragment() {
     private var _binding : FragmentIssueBinding? = null
     private val binding get() = _binding!!
 
-    private val navArgs: SingleIssueFragmentArgs by navArgs()
+    private val navArgs: SingleIssueFragmentArgs by navArgs<SingleIssueFragmentArgs>()
 
     private val singleIssueViewModel: SingleIssueViewModel by viewModels {
         SingleIssueViewModelFactory((requireActivity().application as GitTrackApplication).gitTrackRepository)

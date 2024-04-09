@@ -3,6 +3,7 @@ package dev.borisochieng.gitrack.domain
 import dev.borisochieng.gitrack.domain.models.User
 import dev.borisochieng.gitrack.ui.models.Issue
 import dev.borisochieng.gitrack.ui.models.Repository
+import dev.borisochieng.gitrack.ui.models.RepositorySearchResult
 import dev.borisochieng.gitrack.ui.models.SingleIssue
 
 interface GithubService {
@@ -14,4 +15,6 @@ interface GithubService {
     suspend fun getRepositoryIssue(repositoryName: String, repositoryOwner: String): List<Issue>
 
     suspend fun getSingleIssue(name: String, owner: String, number: Int): SingleIssue
+
+    suspend fun searchPublicRepositories(query: String): List<RepositorySearchResult>
 }

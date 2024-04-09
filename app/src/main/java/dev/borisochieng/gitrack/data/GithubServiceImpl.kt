@@ -2,6 +2,7 @@ package dev.borisochieng.gitrack.data
 
 import com.apollographql.apollo3.ApolloClient
 import dev.borisochieng.RepositoryIssuesQuery
+import dev.borisochieng.SearchPublicRepositoryQuery
 import dev.borisochieng.SingleIssueQuery
 import dev.borisochieng.UserQuery
 import dev.borisochieng.gitrack.domain.models.User
@@ -9,8 +10,8 @@ import dev.borisochieng.UserRepositoriesQuery
 import dev.borisochieng.gitrack.domain.GithubService
 import dev.borisochieng.gitrack.ui.models.Issue
 import dev.borisochieng.gitrack.ui.models.Repository
+import dev.borisochieng.gitrack.ui.models.RepositorySearchResult
 import dev.borisochieng.gitrack.ui.models.SingleIssue
-
 
 class GithubServiceImpl(
     private val apolloClient: ApolloClient
@@ -29,8 +30,7 @@ class GithubServiceImpl(
             .execute()
             .data
             ?.toSimpleRepository()
-            ?: mutableListOf()
-
+            ?: emptyList()
     }
 
     override suspend fun getRepositoryIssue(
@@ -41,8 +41,8 @@ class GithubServiceImpl(
             .query(RepositoryIssuesQuery(repositoryName, repositoryOwner, 50))
             .execute()
             .data
-            ?.toSimpleIssue() ?: mutableListOf()
-
+            ?.toSimpleIssue()
+            ?: emptyList()
 
     }
 
@@ -51,13 +51,23 @@ class GithubServiceImpl(
             .query(SingleIssueQuery(name, owner, number, 50))
             .execute()
             .data
-            ?.toSimpleSingleIssue() ?: SingleIssue(
-            "Title not found",
-            "Unknown date",
-            "Unknown status",
-            "Unknown description",
-            "Unknown author",
-            mutableListOf()
-        )
+            ?.toSimpleSingleIssue()
+            ?: SingleIssue(
+                "Title not found",
+                "Unknown date",
+                "Unknown status",
+                "Unknown description",
+                "Unknown author",
+                emptyList()
+            )
+    }
+
+    override suspend fun searchPublicRepositories(query: String): List<RepositorySearchResult> {
+        return apolloClient
+            .query(SearchPublicRepositoryQuery(query))
+            .execute()
+            .data
+            ?.toSimpleRepositorySearchResult()
+            ?: emptyList()
     }
 }

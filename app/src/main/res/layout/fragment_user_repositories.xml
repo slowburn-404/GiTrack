@@ -117,13 +117,26 @@
         app:layout_anchor="@id/repository_search_bar"
         app:queryHint="@string/search_repositories">
 
-
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/rv_repository_search_results"
+        <FrameLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-            tools:listitem="@layout/item_search" />
+            android:layout_height="match_parent">
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/rv_repository_search_results"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                tools:listitem="@layout/item_search" />
+
+            <com.google.android.material.progressindicator.CircularProgressIndicator
+                android:id="@+id/search_circular_progress"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="8dp"
+                android:layout_gravity="top|center_horizontal"
+                android:indeterminate="true"/>
+
+        </FrameLayout>
     </com.google.android.material.search.SearchView>
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

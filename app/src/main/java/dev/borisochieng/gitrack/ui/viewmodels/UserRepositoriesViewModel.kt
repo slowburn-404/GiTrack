@@ -9,6 +9,7 @@ import androidx.lifecycle.viewModelScope
 import dev.borisochieng.gitrack.data.GitTrackRepository
 import dev.borisochieng.gitrack.domain.models.User
 import dev.borisochieng.gitrack.ui.models.Repository
+import dev.borisochieng.gitrack.ui.models.RepositorySearchResult
 import kotlinx.coroutines.launch
 
 class UserRepositoriesViewModel(
@@ -20,12 +21,16 @@ class UserRepositoriesViewModel(
     private val _userLiveData = MutableLiveData<User>()
     val userLiveData: LiveData<User> = _userLiveData
 
+    private val _searchResultsLiveData = MutableLiveData<List<RepositorySearchResult>>()
+    val searchResultsLiveData : LiveData<List<RepositorySearchResult>> = _searchResultsLiveData
+
     fun getUser() =
         viewModelScope.launch {
             try {
                 val user = gitTrackRepository.getUser()
                 _userLiveData.value = user
             } catch (e: Exception) {
+                e.printStackTrace()
                 Log.e("Error fetching user:", e.message.toString())
             }
         }
@@ -36,7 +41,19 @@ class UserRepositoriesViewModel(
                 val userRepositories = gitTrackRepository.getRepositories(username)
                 _repositoriesLiveData.value = userRepositories
             }catch (e: Exception) {
+                e.printStackTrace()
                 Log.e("Error fetching repositories", e.message.toString())
+            }
+        }
+
+    fun searchPublicRepositories(query: String) =
+        viewModelScope.launch {
+            try {
+                val searchResults = gitTrackRepository.searchPublicRepositories(query)
+                _searchResultsLiveData.value = searchResults
+            }catch (e: Exception) {
+                e.printStackTrace()
+                Log.e("Error searching", e.message.toString())
             }
         }
 }

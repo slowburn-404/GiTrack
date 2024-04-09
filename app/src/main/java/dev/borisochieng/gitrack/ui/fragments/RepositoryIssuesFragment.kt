@@ -102,7 +102,7 @@ class RepositoryIssuesFragment : Fragment(), OnIssueClickListener {
     override fun onClick(item: Issue) {
         val clickedItem = SingleIssueParcelable(
             navArgs.repository.repoName,
-            item.username,
+            item.repoOwner,
             item.number)
         val action =
             RepositoryIssuesFragmentDirections.actionRepositoryIssuesFragmentToIssueFragment(clickedItem)

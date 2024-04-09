@@ -19,7 +19,7 @@ class IssueAdapter(private val onIssueClickListener: OnIssueClickListener) :
                 tvOpenedDate.text = item.openedAt
                 tvStatus.text = item.issueStatus
                 tvIssueTitle.text = item.issueTitle
-                tvUsername.text = item.username
+                tvUsername.text = item.repoOwner
                 tvCommentCount.text = item.commentCount.toString()
 
                 root.setOnClickListener {
