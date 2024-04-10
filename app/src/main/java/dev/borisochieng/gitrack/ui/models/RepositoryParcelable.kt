@@ -4,23 +4,20 @@ import android.os.Parcel
 import android.os.Parcelable
 
 data class RepositoryParcelable(
-    val id: String,
-    val title: String,
-    val username: String,
-    val repoName: String
+    val databaseID: Int,
+    val name: String,
+    val owner: String
 ) : Parcelable {
     constructor(parcel: Parcel) : this(
+        parcel.readInt(),
         parcel.readString()!!,
         parcel.readString()!!,
-        parcel.readString()!!,
-        parcel.readString()!!
     )
 
     override fun writeToParcel(parcel: Parcel, flags: Int) {
-        parcel.writeString(id)
-        parcel.writeString(title)
-        parcel.writeString(username)
-        parcel.writeString(repoName)
+        parcel.writeInt(databaseID)
+        parcel.writeString(name)
+        parcel.writeString(owner)
     }
 
     override fun describeContents(): Int {

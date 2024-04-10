@@ -12,6 +12,8 @@ class SearchAdapter(
     private val onSearchResultItemClickListener: OnSearchResultItemClickListener
 ) : RecyclerView.Adapter<SearchAdapter.ViewHolder>() {
 
+    private val asyncListDiffer = AsyncListDiffer(this, DIFF_CALLBACK)
+
     inner class ViewHolder(private val binding: ItemSearchBinding) :
         RecyclerView.ViewHolder(binding.root) {
         fun bind(item: RepositorySearchResult) {
@@ -28,8 +30,6 @@ class SearchAdapter(
             }
         }
     }
-
-    private val asyncListDiffer = AsyncListDiffer(this, DIFF_CALLBACK)
 
     fun setList(list: List<RepositorySearchResult>) {
         asyncListDiffer.submitList(list)
@@ -50,12 +50,12 @@ class SearchAdapter(
 
 
     companion object {
-        val DIFF_CALLBACK = object : DiffUtil.ItemCallback<RepositorySearchResult>() {
+        private val DIFF_CALLBACK = object : DiffUtil.ItemCallback<RepositorySearchResult>() {
             override fun areItemsTheSame(
                 oldItem: RepositorySearchResult,
                 newItem: RepositorySearchResult
             ): Boolean =
-                oldItem.repoId == newItem.repoId
+                oldItem.databaseId == newItem.databaseId
 
 
             override fun areContentsTheSame(

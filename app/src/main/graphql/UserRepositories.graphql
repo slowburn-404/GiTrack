@@ -2,10 +2,13 @@ query UserRepositories($login: String!, $last: Int!) {
     user(login: $login) {
         repositories(last: $last) {
             nodes{
-                id
+                databaseId
                 name
                 description
                 stargazerCount
+                owner {
+                    login
+                }
                 labels(last: $last) {
                     nodes {
                         name

@@ -6,7 +6,7 @@ import android.os.Parcelable
 data class SingleIssueParcelable(
     val repoName: String,
     val repoOwner: String,
-    val number: Int
+    val issueNumber: Int
 ) : Parcelable {
     constructor(parcel: Parcel) : this(
         parcel.readString()!!,
@@ -17,7 +17,7 @@ data class SingleIssueParcelable(
     override fun writeToParcel(dest: Parcel, flags: Int) {
         dest.writeString(repoName)
         dest.writeString(repoOwner)
-        dest.writeInt(number)
+        dest.writeInt(issueNumber)
     }
 
     override fun describeContents(): Int {

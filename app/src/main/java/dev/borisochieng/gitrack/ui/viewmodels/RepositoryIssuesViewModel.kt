@@ -21,6 +21,7 @@ class RepositoryIssuesViewModel(
                 val issues = gitTrackRepository.getRepositoryIssues(name, owner)
                 _issuesLiveData.value = issues
             } catch (e: Exception) {
+                e.printStackTrace()
                 Log.e("Error fetching issues", e.message.toString())
             }
         }
