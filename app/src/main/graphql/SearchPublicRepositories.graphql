@@ -3,7 +3,7 @@ query SearchPublicRepository($query: String!){
         edges {
             node {
                 ... on Repository {
-                    id
+                    databaseId
                     name
                     stargazerCount
                     owner {

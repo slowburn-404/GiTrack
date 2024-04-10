@@ -1,8 +1,11 @@
 package dev.borisochieng.gitrack.ui.models
 
+import java.time.LocalDate
+
 data class Repository(
-    val id: String,
-    val title: String,
+    val databaseId: Int,
+    val name: String,
+    val owner: String,
     val desc: String?,
     val starCount: Int?,
     val issueCount: Int?,

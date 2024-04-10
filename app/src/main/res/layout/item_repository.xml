@@ -13,7 +13,7 @@
         android:padding="16dp">
 
         <com.google.android.material.textview.MaterialTextView
-            android:id="@+id/repository_title"
+            android:id="@+id/repository_name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:padding="8dp"
@@ -25,13 +25,11 @@
             android:id="@+id/repository_desc"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:gravity="start"
             android:ellipsize="end"
             android:maxLines="3"
             android:padding="8dp"
-            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/repository_title" />
+            app:layout_constraintTop_toBottomOf="@+id/repository_name" />
 
         <ImageView
             android:id="@+id/issues"

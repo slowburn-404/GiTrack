@@ -41,7 +41,6 @@ class UserRepositoriesFragment : Fragment(), OnRepositoryClickListener,
     private lateinit var searchProgressCircular: CircularProgressIndicator
     private lateinit var repositorySearchView: SearchView
 
-    private val repositoryListFromAPI: MutableList<Repository> = mutableListOf()
     private val searchResultsList: MutableList<RepositorySearchResult> = mutableListOf()
 
     private lateinit var username: String
@@ -72,8 +71,6 @@ class UserRepositoriesFragment : Fragment(), OnRepositoryClickListener,
             true
         }
 
-
-
         return binding.root
     }
 
@@ -94,8 +91,6 @@ class UserRepositoriesFragment : Fragment(), OnRepositoryClickListener,
             setHasFixedSize(true)
             adapter = repositoryAdapter
         }
-        repositoryAdapter.setList(repositoryListFromAPI)
-
     }
 
     private fun initSearchRecyclerView() {
@@ -112,13 +107,11 @@ class UserRepositoriesFragment : Fragment(), OnRepositoryClickListener,
 
     private fun getRepositoriesFromViewModel(username: String) {
         repositoryProgressCircular.show()
-        repositoryListFromAPI.clear()
-        userRepositoriesViewModel.repositoriesLiveData.observe(viewLifecycleOwner) { repositories ->
-            repositoryListFromAPI.addAll(repositories)
-            repositoryProgressCircular.hide()
-            repositoryAdapter.notifyDataSetChanged()
-        }
         userRepositoriesViewModel.getRepositories(username)
+        userRepositoriesViewModel.repositoriesLiveData.observe(viewLifecycleOwner) { repositories ->
+            repositoryAdapter.setList(repositories)
+            repositoryProgressCircular.hide()
+        }
 
     }
 
@@ -186,20 +179,14 @@ class UserRepositoriesFragment : Fragment(), OnRepositoryClickListener,
         _binding = null
     }
 
-    override fun onResume() {
-        super.onResume()
-        repositoryListFromAPI.clear()
-    }
-
     override fun onItemClick(item: Repository) {
         val clickedItem =
             RepositoryParcelable(
-                item.id,
-                item.title,
-                username,
-                item.title
+                item.databaseId,
+                item.name,
+                item.owner
             )
-        val action =
+        val action: UserRepositoriesFragmentDirections.ActionUserRepositoriesFragmentToRepositoryIssuesFragment =
             UserRepositoriesFragmentDirections.actionUserRepositoriesFragmentToRepositoryIssuesFragment(
                 clickedItem
             )
@@ -209,10 +196,9 @@ class UserRepositoriesFragment : Fragment(), OnRepositoryClickListener,
     override fun onSearchItemClick(item: RepositorySearchResult) {
         val clickedItem =
             RepositoryParcelable(
-                item.repoId,
+                item.databaseId,
                 item.repoName,
-                item.repoOwner,
-                item.repoName
+                item.repoOwner
             )
         val action =
             UserRepositoriesFragmentDirections.actionUserRepositoriesFragmentToRepositoryIssuesFragment(

@@ -36,7 +36,7 @@ class SingleIssueFragment : Fragment() {
         }
         val repoName = navArgs.singleIssue.repoName
         val repoOwner = navArgs.singleIssue.repoOwner
-        val issueNumber = navArgs.singleIssue.number
+        val issueNumber = navArgs.singleIssue.issueNumber
 
         binding.mtIssue.title = "Issue #$issueNumber"
 

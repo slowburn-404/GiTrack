@@ -17,7 +17,7 @@ class RepositoryAdapter(private val onRepositoryClickListener: OnRepositoryClick
 
         fun bind(item: Repository) {
             binding.apply {
-                repositoryTitle.text = item.title
+                repositoryName.text = item.name
                 repositoryDesc.text = item.desc
                 issueCount.text = item.issueCount.toString()
                 starsCount.text = item.starCount.toString()
@@ -34,7 +34,6 @@ class RepositoryAdapter(private val onRepositoryClickListener: OnRepositoryClick
 
     fun setList(list: List<Repository>) {
         asyncListDiffer.submitList(list)
-        Log.d("Set List", list.toString())
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
@@ -52,9 +51,9 @@ class RepositoryAdapter(private val onRepositoryClickListener: OnRepositoryClick
     }
 
     companion object {
-        val DIFF_CALLBACK = object : DiffUtil.ItemCallback<Repository>() {
+        private val DIFF_CALLBACK = object : DiffUtil.ItemCallback<Repository>() {
             override fun areItemsTheSame(oldItem: Repository, newItem: Repository): Boolean =
-                oldItem.id == newItem.id
+                oldItem.databaseId == newItem.databaseId
 
 
             override fun areContentsTheSame(oldItem: Repository, newItem: Repository): Boolean =

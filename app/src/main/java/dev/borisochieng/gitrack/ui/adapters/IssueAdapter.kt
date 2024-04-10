@@ -1,5 +1,6 @@
 package dev.borisochieng.gitrack.ui.adapters
 
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.AsyncListDiffer
@@ -19,7 +20,7 @@ class IssueAdapter(private val onIssueClickListener: OnIssueClickListener) :
                 tvOpenedDate.text = item.openedAt
                 tvStatus.text = item.issueStatus
                 tvIssueTitle.text = item.issueTitle
-                tvUsername.text = item.repoOwner
+                tvUsername.text = item.author
                 tvCommentCount.text = item.commentCount.toString()
 
                 root.setOnClickListener {
@@ -29,7 +30,6 @@ class IssueAdapter(private val onIssueClickListener: OnIssueClickListener) :
         }
 
     }
-
     private val asyncListDiffer = AsyncListDiffer(this, DIFF_CALLBACK)
 
     fun setList(list: List<Issue>) {
@@ -51,13 +51,12 @@ class IssueAdapter(private val onIssueClickListener: OnIssueClickListener) :
     }
 
     companion object {
-        val DIFF_CALLBACK = object : DiffUtil.ItemCallback<Issue>() {
+        private val DIFF_CALLBACK = object : DiffUtil.ItemCallback<Issue>() {
+            override fun areItemsTheSame(oldItem: Issue, newItem: Issue): Boolean =
+                oldItem.databaseId == newItem.databaseId
+
             override fun areContentsTheSame(oldItem: Issue, newItem: Issue): Boolean =
                 oldItem == newItem
-
-
-            override fun areItemsTheSame(oldItem: Issue, newItem: Issue): Boolean =
-                oldItem.number == newItem.number
         }
     }
 }

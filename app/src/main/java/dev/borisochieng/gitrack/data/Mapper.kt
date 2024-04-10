@@ -14,6 +14,7 @@ import dev.borisochieng.gitrack.ui.models.RepositorySearchResult
 import dev.borisochieng.gitrack.ui.models.SingleIssue
 import java.time.LocalDate
 import java.time.LocalDateTime
+import java.time.format.DateTimeFormatter
 import java.util.Locale
 
 fun UserQuery.Viewer.toSimpleUser(): User {
@@ -21,27 +22,30 @@ fun UserQuery.Viewer.toSimpleUser(): User {
 }
 
 fun UserRepositoriesQuery.Data.toSimpleRepository(): List<Repository> {
-    return user?.repositories?.nodes?.map { node ->
-        Repository(
-            id = node!!.id,
-            title = node.name,
-            desc = node.description ?: "No description",
-            starCount = node.stargazerCount,
-            issueCount = node.issues.totalCount,
-            labels = node.labels?.nodes?.mapNotNull { label ->
-                label?.name
-            } ?: emptyList()
-        )
-    } ?: emptyList()
+    return user?.repositories?.nodes?.mapNotNull { node ->
+            Repository(
+                databaseId = node!!.databaseId!!,
+                name = node.name,
+                owner = node.owner.login,
+                desc = node.description ?: "No description",
+                starCount = node.stargazerCount,
+                issueCount = node.issues.totalCount,
+                labels = node.labels?.nodes?.mapNotNull { label ->
+                    label?.name
+                } ?: emptyList()
+            )
+
+    }?: emptyList()
 }
 
 fun RepositoryIssuesQuery.Data.toSimpleIssue(): List<Issue> {
     return repository?.issues?.nodes?.map {
         Issue(
-            issueTitle = it!!.title,
+            databaseId = it!!.databaseId!!,
+            issueTitle = it.title,
             issueStatus = it.state.toString(),
             openedAt = "Opened ${formatCreatedAt( it.createdAt)}",
-            repoOwner = it.author?.login ?: "Unknown author",
+            author = it.author?.login ?: "Unknown author",
             commentCount = it.comments.totalCount,
             number = it.number,
             labels = it.labels?.nodes?.mapNotNull { label ->
@@ -49,7 +53,9 @@ fun RepositoryIssuesQuery.Data.toSimpleIssue(): List<Issue> {
                 label?.color
             } ?: emptyList()
         )
-    } ?: mutableListOf<Issue>()
+    }?.sortedByDescending {
+        it.number
+    } ?: mutableListOf()
 }
 
 fun SingleIssueQuery.Data.toSimpleSingleIssue(): SingleIssue? {
@@ -72,21 +78,23 @@ fun SearchPublicRepositoryQuery.Data.toSimpleRepositorySearchResult() : List<Rep
     return search.edges?.mapNotNull { edge->
         edge?.node?.onRepository?.let {
             RepositorySearchResult(
-                repoId = it.id,
+                databaseId = it.databaseId!!,
                 repoName= it.name,
                 repoOwner = it.owner.login,
                 repoDescription = it.description ?: "No description",
                 starCount = it.stargazerCount
             )
         }
-    }?: emptyList()
+    }?.sortedByDescending {
+        it.starCount
+    } ?: emptyList()
 }
 
 private fun formatCreatedAt(createdAt: Any): String {
     val dateString = createdAt.toString()
     val inputFormat = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'Z", Locale.getDefault())
     val outPutFormat = SimpleDateFormat("dd MMMM yyyy", Locale.getDefault())
-    inputFormat.timeZone = TimeZone.getTimeZone("GMT")
+    inputFormat.timeZone = TimeZone.getTimeZone("GMT+3:00")
     val date = inputFormat.parse(dateString)
 
     return outPutFormat.format(date)

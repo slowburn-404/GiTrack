@@ -1,6 +1,7 @@
 package dev.borisochieng.gitrack.ui.fragments
 
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -28,11 +29,11 @@ class RepositoryIssuesFragment : Fragment(), OnIssueClickListener {
     private lateinit var issuesAdapter: IssueAdapter
     private lateinit var progressIndicator: CircularProgressIndicator
 
-    private val issuesListFromAPi: MutableList<Issue> = mutableListOf()
+    //private val issuesListFromAPi: MutableList<Issue> = mutableListOf()
 
     private val navArgs: RepositoryIssuesFragmentArgs by navArgs<RepositoryIssuesFragmentArgs>()
 
-    private val repositoryIssuesViewModel: RepositoryIssuesViewModel by viewModels{
+    private val repositoryIssuesViewModel: RepositoryIssuesViewModel by viewModels {
         RepositoryIssuesViewModelFactory((requireActivity().application as GitTrackApplication).gitTrackRepository)
     }
 
@@ -43,10 +44,10 @@ class RepositoryIssuesFragment : Fragment(), OnIssueClickListener {
         // Inflate the layout for this fragment
         _binding = FragmentRepositoryIssuesBinding.inflate(layoutInflater, container, false)
 
-        val repoName = navArgs.repository.title
-        val repoOwner = navArgs.repository.username
+        val repoName = navArgs.repository.name
+        val repoOwner = navArgs.repository.owner
 
-        binding.tvReponame.text = repoName
+        binding.tvReponame.text = "/$repoName"
 
 
         initViews()
@@ -75,18 +76,15 @@ class RepositoryIssuesFragment : Fragment(), OnIssueClickListener {
             setHasFixedSize(true)
             adapter = issuesAdapter
         }
-        issuesAdapter.setList(issuesListFromAPi)
     }
 
-    private fun getIssuesFromViewModel (name: String, owner: String) {
-      progressIndicator.show()
-        issuesListFromAPi.clear()
-        repositoryIssuesViewModel.issuesLiveData.observe(viewLifecycleOwner) {issues ->
-            issuesListFromAPi.addAll(issues)
-            issuesAdapter.notifyDataSetChanged()
+    private fun getIssuesFromViewModel(name: String, owner: String) {
+        progressIndicator.show()
+        repositoryIssuesViewModel.getIssues(name, owner)
+        repositoryIssuesViewModel.issuesLiveData.observe(viewLifecycleOwner) { issues ->
+            issuesAdapter.setList(issues)
             progressIndicator.hide()
         }
-        repositoryIssuesViewModel.getIssues(name, owner)
     }
 
     override fun onDestroyView() {
@@ -94,18 +92,17 @@ class RepositoryIssuesFragment : Fragment(), OnIssueClickListener {
         _binding = null
     }
 
-    override fun onResume() {
-        super.onResume()
-        issuesListFromAPi.clear()
-    }
-
     override fun onClick(item: Issue) {
         val clickedItem = SingleIssueParcelable(
-            navArgs.repository.repoName,
-            item.repoOwner,
-            item.number)
-        val action =
-            RepositoryIssuesFragmentDirections.actionRepositoryIssuesFragmentToIssueFragment(clickedItem)
+            repoName = navArgs.repository.name,
+            repoOwner = navArgs.repository.owner,
+            issueNumber = item.number
+
+        )
+        val action: RepositoryIssuesFragmentDirections.ActionRepositoryIssuesFragmentToIssueFragment =
+            RepositoryIssuesFragmentDirections.actionRepositoryIssuesFragmentToIssueFragment(
+                clickedItem
+            )
         findNavController().navigate(action)
     }
 }
