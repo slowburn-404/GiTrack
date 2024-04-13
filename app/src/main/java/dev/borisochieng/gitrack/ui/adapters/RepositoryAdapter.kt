@@ -1,6 +1,5 @@
 package dev.borisochieng.gitrack.ui.adapters
 
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.AsyncListDiffer
@@ -58,7 +57,6 @@ class RepositoryAdapter(private val onRepositoryClickListener: OnRepositoryClick
 
             override fun areContentsTheSame(oldItem: Repository, newItem: Repository): Boolean =
                 oldItem == newItem
-
 
         }
     }

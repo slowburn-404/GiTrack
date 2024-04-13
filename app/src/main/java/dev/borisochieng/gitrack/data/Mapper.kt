@@ -12,9 +12,6 @@ import dev.borisochieng.gitrack.ui.models.Issue
 import dev.borisochieng.gitrack.ui.models.Repository
 import dev.borisochieng.gitrack.ui.models.RepositorySearchResult
 import dev.borisochieng.gitrack.ui.models.SingleIssue
-import java.time.LocalDate
-import java.time.LocalDateTime
-import java.time.format.DateTimeFormatter
 import java.util.Locale
 
 fun UserQuery.Viewer.toSimpleUser(): User {
@@ -23,64 +20,57 @@ fun UserQuery.Viewer.toSimpleUser(): User {
 
 fun UserRepositoriesQuery.Data.toSimpleRepository(): List<Repository> {
     return user?.repositories?.nodes?.mapNotNull { node ->
-            Repository(
-                databaseId = node!!.databaseId!!,
-                name = node.name,
-                owner = node.owner.login,
-                desc = node.description ?: "No description",
-                starCount = node.stargazerCount,
-                issueCount = node.issues.totalCount,
-                createdAt = formatCreatedAt(node.createdAt),
-                labels = node.labels?.nodes?.mapNotNull { label ->
-                    label?.name
-                } ?: emptyList()
-            )
+        Repository(databaseId = node!!.databaseId!!,
+            name = node.name,
+            owner = node.owner.login,
+            desc = node.description ?: "No description",
+            starCount = node.stargazerCount,
+            issueCount = node.issues.totalCount,
+            createdAt = formatCreatedAt(node.createdAt),
+            labels = node.labels?.nodes?.mapNotNull { label ->
+                label?.name
+            } ?: emptyList())
 
-    }?: emptyList()
+    } ?: emptyList()
 }
 
 fun RepositoryIssuesQuery.Data.toSimpleIssue(): List<Issue> {
-    return repository?.issues?.nodes?.map {
+    return repository?.issues?.nodes?.map { issue ->
         Issue(
-            databaseId = it!!.databaseId!!,
-            issueTitle = it.title,
-            issueStatus = it.state.toString(),
-            openedAt = "Opened ${formatCreatedAt( it.createdAt)}",
-            author = it.author?.login ?: "Unknown author",
-            commentCount = it.comments.totalCount,
-            number = it.number,
-            labels = it.labels?.nodes?.mapNotNull { label ->
+            issueTitle = issue!!.title,
+            issueStatus = issue.state.toString(),
+            openedAt = "Opened ${formatCreatedAt(issue.createdAt)}",
+            author = issue.author?.login ?: "Unknown author",
+            commentCount = issue.comments.totalCount,
+            number = issue.number,
+            labels = issue.labels?.nodes?.mapNotNull { label ->
                 label?.name
-                label?.color
-            } ?: emptyList()
+            }?.toSet() ?: emptySet()
         )
     }?.sortedByDescending {
         it.number
-    } ?: mutableListOf()
+    } ?: emptyList()
 }
 
 fun SingleIssueQuery.Data.toSimpleSingleIssue(): SingleIssue? {
     return repository?.issue?.let { issueResponse ->
-        SingleIssue(
-            title = issueResponse.title,
-            createdAt = "Opened ${formatCreatedAt( issueResponse.createdAt)}",
+        SingleIssue(title = issueResponse.title,
+            createdAt = "Opened ${formatCreatedAt(issueResponse.createdAt)}",
             status = issueResponse.state.toString(),
             description = issueResponse.body,
             author = issueResponse.author!!.login,
             labels = issueResponse.labels?.nodes?.mapNotNull { label ->
                 label?.name
-                label?.color
-            } ?: emptyList()
-        )
+            } ?: emptyList())
     }
 }
 
-fun SearchPublicRepositoryQuery.Data.toSimpleRepositorySearchResult() : List<RepositorySearchResult> {
-    return search.edges?.mapNotNull { edge->
+fun SearchPublicRepositoryQuery.Data.toSimpleRepositorySearchResult(): List<RepositorySearchResult> {
+    return search.edges?.mapNotNull { edge ->
         edge?.node?.onRepository?.let {
             RepositorySearchResult(
                 databaseId = it.databaseId!!,
-                repoName= it.name,
+                repoName = it.name,
                 repoOwner = it.owner.login,
                 repoDescription = it.description ?: "No description",
                 starCount = it.stargazerCount

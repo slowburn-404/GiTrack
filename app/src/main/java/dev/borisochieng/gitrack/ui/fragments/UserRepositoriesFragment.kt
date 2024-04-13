@@ -118,8 +118,8 @@ class UserRepositoriesFragment : Fragment(), OnRepositoryClickListener,
     private fun getRepositoriesFromViewModel(username: String) {
         repositoryProgressCircular.show()
         userRepositoriesViewModel.getRepositories(username)
-        userRepositoriesViewModel.repositoriesLiveData.observe(viewLifecycleOwner) { repositories ->
-            repositoryAdapter.setList(repositories)
+        userRepositoriesViewModel.repositoriesLiveData.observe(viewLifecycleOwner) { repositoriesList ->
+            repositoryAdapter.setList(repositoriesList)
             repositoryProgressCircular.hide()
         }
 

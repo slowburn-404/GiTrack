@@ -77,8 +77,6 @@ class UserRepositoriesViewModel(
             }
 
         _repositoriesLiveData.value = filteredList ?: emptyList()
-
-        Log.d("Filtered list", filteredList.toString())
     }
 
     private fun parseDate(dateString: String): LocalDate {

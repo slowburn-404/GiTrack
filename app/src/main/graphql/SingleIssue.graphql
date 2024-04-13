@@ -10,7 +10,6 @@ query SingleIssue($name: String!, $owner: String!, $number: Int!, $first: Int!) 
             }
             labels(first: $first) {
                 nodes {
-                    color
                     name
                 }
             }

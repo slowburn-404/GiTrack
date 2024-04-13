@@ -30,7 +30,8 @@ class IssueAdapter(private val onIssueClickListener: OnIssueClickListener) :
         }
 
     }
-    private val asyncListDiffer = AsyncListDiffer(this, DIFF_CALLBACK)
+
+    private val asyncListDiffer = AsyncListDiffer(this, ISSUES_DIFF_CALLBACK)
 
     fun setList(list: List<Issue>) {
         asyncListDiffer.submitList(list)
@@ -51,12 +52,16 @@ class IssueAdapter(private val onIssueClickListener: OnIssueClickListener) :
     }
 
     companion object {
-        private val DIFF_CALLBACK = object : DiffUtil.ItemCallback<Issue>() {
-            override fun areItemsTheSame(oldItem: Issue, newItem: Issue): Boolean =
-                oldItem.databaseId == newItem.databaseId
+        private val ISSUES_DIFF_CALLBACK = object : DiffUtil.ItemCallback<Issue>() {
+            override fun areItemsTheSame(oldItem: Issue, newItem: Issue): Boolean {
+                Log.d("DiffUtil", "areItemsTheSame: oldItem=$oldItem, newItem=$newItem")
+                return oldItem.number == newItem.number
+            }
 
-            override fun areContentsTheSame(oldItem: Issue, newItem: Issue): Boolean =
-                oldItem == newItem
+            override fun areContentsTheSame(oldItem: Issue, newItem: Issue): Boolean {
+                Log.d("DiffUtil", "areContentsTheSame: oldItem=$oldItem, newItem=$newItem")
+                return oldItem == newItem
+            }
         }
     }
 }
