@@ -17,7 +17,7 @@
     <string name="status">Open</string>
     <string name="issues">issues</string>
     <string name="single_issue">Issue</string>
-    <string name="filter_by">Filter by:</string>
+    <string name="sort_by">Sort by:</string>
     <string name="most_recent">Most Recent</string>
     <string name="most_issues">Most Issues</string>
     <string name="most_starred">Most Starred</string>

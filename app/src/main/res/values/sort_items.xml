@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="sortby_items">
+        <item>Most Recent</item>
+        <item>Most Stars</item>
+        <item>Most Issues</item>
+    </string-array>
+
+</resources>

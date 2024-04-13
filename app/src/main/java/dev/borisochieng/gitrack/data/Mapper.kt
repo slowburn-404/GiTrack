@@ -30,6 +30,7 @@ fun UserRepositoriesQuery.Data.toSimpleRepository(): List<Repository> {
                 desc = node.description ?: "No description",
                 starCount = node.stargazerCount,
                 issueCount = node.issues.totalCount,
+                createdAt = formatCreatedAt(node.createdAt),
                 labels = node.labels?.nodes?.mapNotNull { label ->
                     label?.name
                 } ?: emptyList()

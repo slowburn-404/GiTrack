@@ -11,10 +11,13 @@ import dev.borisochieng.gitrack.domain.models.User
 import dev.borisochieng.gitrack.ui.models.Repository
 import dev.borisochieng.gitrack.ui.models.RepositorySearchResult
 import kotlinx.coroutines.launch
+import java.time.LocalDate
+import java.time.format.DateTimeFormatter
+import java.util.Locale
 
 class UserRepositoriesViewModel(
     private val gitTrackRepository: GitTrackRepository
-): ViewModel() {
+) : ViewModel() {
     private val _repositoriesLiveData = MutableLiveData<List<Repository>>()
     val repositoriesLiveData = _repositoriesLiveData
 
@@ -22,7 +25,7 @@ class UserRepositoriesViewModel(
     val userLiveData: LiveData<User> = _userLiveData
 
     private val _searchResultsLiveData = MutableLiveData<List<RepositorySearchResult>>()
-    val searchResultsLiveData : LiveData<List<RepositorySearchResult>> = _searchResultsLiveData
+    val searchResultsLiveData: LiveData<List<RepositorySearchResult>> = _searchResultsLiveData
 
     fun getUser() =
         viewModelScope.launch {
@@ -40,7 +43,7 @@ class UserRepositoriesViewModel(
             try {
                 val userRepositories = gitTrackRepository.getRepositories(username)
                 _repositoriesLiveData.value = userRepositories
-            }catch (e: Exception) {
+            } catch (e: Exception) {
                 e.printStackTrace()
                 Log.e("Error fetching repositories", e.message.toString())
             }
@@ -51,18 +54,44 @@ class UserRepositoriesViewModel(
             try {
                 val searchResults = gitTrackRepository.searchPublicRepositories(query)
                 _searchResultsLiveData.value = searchResults
-            }catch (e: Exception) {
+            } catch (e: Exception) {
                 e.printStackTrace()
                 Log.e("Error searching", e.message.toString())
             }
         }
+
+    fun sortBy(filterCondition: String) {
+        val originalList = repositoriesLiveData.value
+        val filteredList = when (filterCondition) {
+                "Most Recent" -> {
+                    originalList?.sortedByDescending { parseDate(it.createdAt) }
+                }
+
+                "Most Stars" -> {
+                    originalList?.sortedByDescending { it.starCount }
+                }
+
+                else -> {
+                    originalList?.sortedByDescending { it.issueCount }
+                }
+            }
+
+        _repositoriesLiveData.value = filteredList ?: emptyList()
+
+        Log.d("Filtered list", filteredList.toString())
+    }
+
+    private fun parseDate(dateString: String): LocalDate {
+        val formatter = DateTimeFormatter.ofPattern("dd MMMM yyyy", Locale.getDefault())
+        return LocalDate.parse(dateString, formatter)
+    }
 }
 
 class UserRepositoriesViewModelFactory(
     private val gitTrackRepository: GitTrackRepository
-): ViewModelProvider.Factory {
+) : ViewModelProvider.Factory {
     override fun <T : ViewModel> create(modelClass: Class<T>): T {
-        if(modelClass.isAssignableFrom(UserRepositoriesViewModel::class.java)) {
+        if (modelClass.isAssignableFrom(UserRepositoriesViewModel::class.java)) {
             @Suppress("UNCHECKED_CAST")
             return UserRepositoriesViewModel(gitTrackRepository) as T
         }

@@ -1,12 +1,18 @@
 package dev.borisochieng.gitrack.ui.fragments
 
+import android.content.Context
 import android.os.Bundle
+import android.text.Editable
+import android.text.TextWatcher
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.inputmethod.EditorInfo
+import android.view.inputmethod.InputMethodManager
+import android.widget.AutoCompleteTextView
 import androidx.activity.OnBackPressedCallback
+import androidx.core.widget.addTextChangedListener
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -40,6 +46,7 @@ class UserRepositoriesFragment : Fragment(), OnRepositoryClickListener,
     private lateinit var repositoryProgressCircular: CircularProgressIndicator
     private lateinit var searchProgressCircular: CircularProgressIndicator
     private lateinit var repositorySearchView: SearchView
+    private lateinit var sortByExposedDropDownMenu: AutoCompleteTextView
 
     private val searchResultsList: MutableList<RepositorySearchResult> = mutableListOf()
 
@@ -64,7 +71,9 @@ class UserRepositoriesFragment : Fragment(), OnRepositoryClickListener,
         initSearchRecyclerView()
         getUserFromViewModel()
         handleBackPress()
+        sortBy()
         getSearchResultFromAPI()
+
 
         binding.repositorySearchBar.setOnMenuItemClickListener {
             showDialog()
@@ -81,6 +90,7 @@ class UserRepositoriesFragment : Fragment(), OnRepositoryClickListener,
             searchProgressCircular = searchCircularProgress
             searchResultsRecyclerView = rvRepositorySearchResults
             repositorySearchView = svRepository
+            sortByExposedDropDownMenu = actvSortby
         }
     }
 
@@ -141,14 +151,41 @@ class UserRepositoriesFragment : Fragment(), OnRepositoryClickListener,
             editText.setOnEditorActionListener(null)
 
             editText.setOnEditorActionListener { v, actionId, _ ->
-                if (actionId == EditorInfo.IME_ACTION_SEARCH) {
-                    val query = v.text.trim().toString()
+                if (actionId == EditorInfo.IME_ACTION_SEARCH && v.text != null) {
+                    val query: String = v.text.trim().toString()
                     getSearchResultsFromViewModel(query)
+                    hideKeyBoard(v)
 
                 }
                 true
             }
+
+            editText.addTextChangedListener(object : TextWatcher {
+                override fun beforeTextChanged(
+                    s: CharSequence?,
+                    start: Int,
+                    count: Int,
+                    after: Int
+                ) {
+                }
+
+                override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+                    s?.let {
+                        getSearchResultsFromViewModel(s.toString())
+                    }
+                }
+
+                override fun afterTextChanged(s: Editable?) {
+
+                }
+
+            })
         }
+    }
+
+    private fun hideKeyBoard(view: View) {
+        val imm = view.context.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+        imm.hideSoftInputFromWindow(view.windowToken, 0)
     }
 
     private fun handleBackPress() {
@@ -172,6 +209,17 @@ class UserRepositoriesFragment : Fragment(), OnRepositoryClickListener,
             .setNegativeButton(resources.getString(R.string.no)) { dialog, _ ->
                 dialog.dismiss()
             }.show()
+    }
+
+    private fun sortBy() {
+        val filterConditions = resources.getStringArray(R.array.sortby_items)
+        sortByExposedDropDownMenu.setOnItemClickListener { _, _, position, _ ->
+            userRepositoriesViewModel.sortBy(filterConditions[position])
+            //scroll to the top of the recycler view
+            repositoryRecyclerView.post {
+                repositoryRecyclerView.scrollToPosition(0)
+            }
+        }
     }
 
     override fun onDestroyView() {

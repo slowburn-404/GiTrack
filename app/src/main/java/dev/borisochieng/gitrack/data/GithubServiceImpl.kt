@@ -12,6 +12,8 @@ import dev.borisochieng.gitrack.ui.models.Issue
 import dev.borisochieng.gitrack.ui.models.Repository
 import dev.borisochieng.gitrack.ui.models.RepositorySearchResult
 import dev.borisochieng.gitrack.ui.models.SingleIssue
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.flow
 
 class GithubServiceImpl(
     private val apolloClient: ApolloClient
@@ -26,11 +28,11 @@ class GithubServiceImpl(
 
     override suspend fun getUserRepositories(username: String): List<Repository> {
         return apolloClient
-            .query(UserRepositoriesQuery(username, 50))
-            .execute()
-            .data
-            ?.toSimpleRepository()
-            ?: emptyList()
+                .query(UserRepositoriesQuery(username, 50))
+                .execute()
+                .data
+                ?.toSimpleRepository()
+                ?: emptyList()
     }
 
     override suspend fun getRepositoryIssue(
