@@ -1,15 +1,24 @@
+import java.util.Properties
+
 plugins {
     alias(libs.plugins.androidApplication)
     alias(libs.plugins.jetbrainsKotlinAndroid)
     alias(libs.plugins.apolloGraphQL)
     alias(libs.plugins.safeArgs)
 }
+val properties = Properties()
 
 apollo {
+
     service("service") {
         packageName.set("dev.borisochieng")
         outputDirConnection {
             connectToKotlinSourceSet("main")
+        }
+        introspection {
+            endpointUrl.set("https://api.github.com/graphql")
+            headers.put("Authorization", "bearer ${project.properties["client_secret"]}")
+            schemaFile.set(file("src/main/graphql/schema.graphqls"))
         }
     }
 }
@@ -26,6 +35,17 @@ android {
         versionName = "1.0"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+
+        buildConfigField(
+            "String",
+            "CLIENT_ID",
+            "\"${project.properties["client_id"]}\""
+        )
+        buildConfigField(
+            "String",
+            "CLIENT_SECRET",
+            "\"${project.properties["client_secret"]}\""
+        )
     }
 
     buildTypes {
@@ -46,6 +66,7 @@ android {
     }
     buildFeatures {
         viewBinding = true
+        buildConfig = true
     }
 }
 
