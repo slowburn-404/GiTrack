@@ -18,10 +18,13 @@ GiTrack is a mobile application designed for tracking issues on GitHub. It provi
 
 <p align="center">
 <img src="screenshots/Lobby.jpg" alt="login" style="padding: 20px" width="200">
-<img src="screenshots/Repositories.jpg" alt="repositories" style="padding: 20px" width="200">
-<img src="screenshots/IssuesLight.jpg" alt="issues light" style="padding: 20px" width="200">
+<img src="screenshots/repositories.png" alt="repositories" style="padding: 20px" width="200">
+<img src="screenshots/search_public_repo.png" alt="repositories" style="padding: 20px" width="200">
+<img src="screenshots/issues_list.png" alt="issues list" style="padding: 20px" width="200">
+<img src="screenshots/search_issues.png" alt="search issues" style="padding: 20px" width="200">
 <img src="screenshots/IssuesDark.jpg" alt="issues dark" style="padding: 20px" width="200">
-<img src="screenshots/SingleIssue.jpg" alt="single issue" style="padding: 20px" width="200">
+<img src="screenshots/labels.png" alt="labels" style="padding: 20px" width="200">
+<img src="screenshots/single_issue.png" alt="single issue" style="padding: 20px" width="200">
 <img src="screenshots/SingleIssueDark.jpg" alt="single issue dark" style="padding: 20px" width="200">
 </p>
 
@@ -92,7 +95,7 @@ git clone https://github.com/slowburn-404/GiTrack.git
 - The app launches a Web intent to the URL `https://github.com/login/oauth/authorize`. 
 - After the user authorizes the application to access their account, they are redirected back to the App with a code using a Deep Link. 
 - The app then makes a `POST` request to the URL `https://github.com/login/oauth/access_token` with the code to exchange it for an access token. The access token is then used to query the GitHub GraphQL API.
-<img src="" alt="login" style="padding:20px>
+- 
 ![OAuth Webflow](screenshots/oathwebflow.jpg = 200*200)
 
 ### Tools, frameworks and libraries
