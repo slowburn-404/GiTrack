@@ -16,7 +16,6 @@ GiTrack is a mobile application designed for tracking issues on GitHub. It provi
 
 ## Screenshots
 
-<p align="center">
 <img src="screenshots/Lobby.jpg" alt="login" style="padding: 20px" width="200">
 <img src="screenshots/repositories.png" alt="repositories" style="padding: 20px" width="200">
 <img src="screenshots/search_public_repo.png" alt="repositories" style="padding: 20px" width="200">
@@ -26,39 +25,21 @@ GiTrack is a mobile application designed for tracking issues on GitHub. It provi
 <img src="screenshots/labels.png" alt="labels" style="padding: 20px" width="200">
 <img src="screenshots/single_issue.png" alt="single issue" style="padding: 20px" width="200">
 <img src="screenshots/SingleIssueDark.jpg" alt="single issue dark" style="padding: 20px" width="200">
-</p>
 
 ## Installation
 #### Obtain Client ID and Client Secrets
 1. Navigate to the upper right corner of the GitHub Page and click on your avatar.
-<p align="center">
 <img src="screenshots/Profile.png" alt="single issue dark" style="padding: 20px" width="200">
-</p>
-
 2. From the drop-down menu navigate to settings.
-<p align="center">
 <img src="screenshots/Settings.png" alt="single issue dark" style="padding: 20px" width="200">
-</p>
-
 3. Scroll to developer settings.
-<p align="center">
 <img src="screenshots/DeveloperSettings.png" alt="single issue dark" style="padding: 20px" width="200">
-</p>
-
 4. Click on OAuth Apps.
-<p align="center">
 <img src="screenshots/oauthapp.png" alt="single issue dark" style="padding: 20px" width="200">
-</p>
-
 5. Click on the New OAuth App.
-<p align="center">
 <img src="screenshots/Newoauthapp.png" alt="single issue dark" style="padding: 20px" width="200">
-</p>
-
 6. Fill out the form.
-<p align="center">
 <img src="screenshots/form.png" alt="single issue dark" style="padding: 20px" width="200">
-</p>
 
 7. Under Application Name, enter the name of your application; `GiTrack`. Under the homepage URL enter the Homepage URL of the app `https://gitrack.borisochieng.dev`. Under Authorization Callback URL enter the URL that GitHub will use to redirect back to your app; `httpsL//gitrack.borisochieng.dev`. This can be the same as the Homepage URL.
 
@@ -67,17 +48,15 @@ GiTrack is a mobile application designed for tracking issues on GitHub. It provi
 9. Copy the Client ID and Client Secret and store them for use in your app safely.
 
 10. Add the Client Id and Client Secret to the `/local.properties` file.
-
 ```
 client_id=YOUR_CLIENT_ID
 client_secret=YOUR_CLIENT_SECRET
 ```
-
 11. Clone the repository to your local machine.
-
 ```Bash
 git clone https://github.com/slowburn-404/GiTrack.git
 ```
+
 12. Open the project in Android Studio, build and run on a virtual or real device.
 
 ## Usage
@@ -95,8 +74,8 @@ git clone https://github.com/slowburn-404/GiTrack.git
 - The app launches a Web intent to the URL `https://github.com/login/oauth/authorize`. 
 - After the user authorizes the application to access their account, they are redirected back to the App with a code using a Deep Link. 
 - The app then makes a `POST` request to the URL `https://github.com/login/oauth/access_token` with the code to exchange it for an access token. The access token is then used to query the GitHub GraphQL API.
-- 
-![OAuth Webflow](screenshots/oathwebflow.jpg = 200*200)
+
+![OAuth Web flow](screenshots/oathwebflow.jpg = 200*200)
 
 ### Tools, frameworks and libraries
                                                           
