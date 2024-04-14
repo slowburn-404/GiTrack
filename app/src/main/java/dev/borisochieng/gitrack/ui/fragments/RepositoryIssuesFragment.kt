@@ -3,6 +3,7 @@ package dev.borisochieng.gitrack.ui.fragments
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -40,8 +41,6 @@ class RepositoryIssuesFragment : Fragment() {
     private lateinit var labelsChipGroup: ChipGroup
     private lateinit var searchResultSearchView: SearchView
 
-    //private val issuesListFromAPi: MutableList<Issue> = mutableListOf()
-
     private val navArgs: RepositoryIssuesFragmentArgs by navArgs<RepositoryIssuesFragmentArgs>()
 
     private val repositoryIssuesViewModel: RepositoryIssuesViewModel by viewModels {
@@ -67,6 +66,7 @@ class RepositoryIssuesFragment : Fragment() {
         initSearchRecyclerView()
         getIssuesFromViewModel(repoName, repoOwner)
         listenForTextChangesOnSearchView()
+        filterBySelectedLabels()
 
 
         binding.issuesSearchBar.setNavigationOnClickListener {
@@ -202,6 +202,25 @@ class RepositoryIssuesFragment : Fragment() {
                 }
 
             })
+        }
+    }
+
+    private fun filterBySelectedLabels() {
+        val selectedChipValues = mutableListOf<String>()
+        labelsChipGroup.setOnCheckedStateChangeListener { group, checkedIds ->
+            checkedIds.forEach { checkedId ->
+                val selectedChip = group.findViewById<Chip>(checkedId)
+                selectedChipValues.add("${selectedChip.text}")
+            }
+            repositoryIssuesViewModel.filterByLabel(selectedChipValues.toSet())
+            getFilteredListFromViewModel()
+        }
+
+    }
+
+    private fun getFilteredListFromViewModel() {
+        repositoryIssuesViewModel.filteredListLiveData.observe(viewLifecycleOwner) { filteredIssues ->
+            issuesAdapter.setList(filteredIssues)
         }
     }
 

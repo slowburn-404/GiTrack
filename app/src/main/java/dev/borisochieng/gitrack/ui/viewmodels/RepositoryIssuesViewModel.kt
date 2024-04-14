@@ -20,6 +20,9 @@ class RepositoryIssuesViewModel(
     private val _searchIssueLiveData = MutableLiveData<List<IssueSearchResult>>()
     val searchResultLiveData = _searchIssueLiveData
 
+    private val _filteredListLiveData = MutableLiveData<List<Issue>>()
+    val filteredListLiveData = _filteredListLiveData
+
     fun getIssues(name: String, owner: String) =
         viewModelScope.launch {
             try {
@@ -46,6 +49,15 @@ class RepositoryIssuesViewModel(
             } else {
                 _searchIssueLiveData.value = emptyList()
             }
+        }
+    }
+    fun filterByLabel(filterOptions: Set<String>) {
+        viewModelScope.launch {
+            val filteredList = _issuesLiveData.value?.filter { issue ->
+                issue.labels.containsAll(filterOptions)
+            }
+
+            _filteredListLiveData.value = filteredList ?: emptyList()
         }
     }
 
