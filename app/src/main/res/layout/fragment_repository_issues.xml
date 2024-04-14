@@ -21,86 +21,78 @@
             app:navigationIcon="@drawable/ic_angle_back"
             app:navigationIconTint="#696969" />
 
-        <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/til_filter"
-            style="@style/Widget.Material3.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
-            android:layout_width="wrap_content"
+        <HorizontalScrollView
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
-            android:hint="@string/filter_by"
-            android:padding="8dp"
-            app:boxCornerRadiusBottomEnd="32dp"
-            app:boxCornerRadiusBottomStart="32dp"
-            app:boxCornerRadiusTopEnd="32dp"
-            app:boxCornerRadiusTopStart="32dp"
-            app:boxStrokeWidth="2dp"
-            app:endIconDrawable="@drawable/ic_arrow_down"
-            app:hintTextAppearance="@style/TextAppearance.Material3.LabelMedium"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
+            android:scrollbars="none"
+            app:layout_scrollEffect="compress"
             app:layout_scrollFlags="scroll|enterAlways|snap">
 
-            <com.google.android.material.textfield.MaterialAutoCompleteTextView
-                android:layout_width="match_parent"
+            <com.google.android.material.chip.ChipGroup
+                android:id="@+id/cg_labels"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:inputType="none"
-                app:simpleItems="@array/filterby_items" />
-        </com.google.android.material.textfield.TextInputLayout>
+                android:layout_marginStart="8dp"
+                android:layout_marginEnd="8dp"
+                android:padding="8dp"
+                app:singleLine="true"
+                app:singleSelection="false" />
+        </HorizontalScrollView>
 
     </com.google.android.material.appbar.AppBarLayout>
 
-    <androidx.core.widget.NestedScrollView
+    <androidx.appcompat.widget.LinearLayoutCompat
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
         android:layout_margin="8dp"
+        android:orientation="vertical"
         app:layout_behavior="com.google.android.material.appbar.AppBarLayout$ScrollingViewBehavior">
 
-        <androidx.appcompat.widget.LinearLayoutCompat
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/tv_reponame"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="vertical">
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:padding="4dp"
+            android:text="@string/repository"
+            android:textAppearance="@style/TextAppearance.Material3.HeadlineSmall"
+            android:textColor="@color/md_theme_primary" />
 
-            <com.google.android.material.textview.MaterialTextView
-                android:id="@+id/tv_reponame"
+        <com.google.android.material.textview.MaterialTextView
+            style="@style/TextAppearance.Material3.BodySmall"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:padding="4dp"
+            android:text="@string/issues" />
+
+        <com.google.android.material.divider.MaterialDivider
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="8dp" />
+
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/rv_issues"
                 android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_margin="4dp"
+                tools:listitem="@layout/item_issue" />
+
+            <com.google.android.material.progressindicator.CircularProgressIndicator
+                android:id="@+id/issues_progress_circular"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="8dp"
-                android:padding="4dp"
-                android:text="@string/repository"
-                android:textAppearance="@style/TextAppearance.Material3.HeadlineSmall"
-                android:textColor="@color/md_theme_primary" />
-
-            <com.google.android.material.textview.MaterialTextView
-                style="@style/TextAppearance.Material3.BodySmall"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="8dp"
-                android:padding="4dp"
-                android:text="@string/issues" />
-
-            <FrameLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent">
-
-                <androidx.recyclerview.widget.RecyclerView
-                    android:id="@+id/rv_issues"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_margin="4dp"
-                    tools:listitem="@layout/item_issue" />
-
-                <com.google.android.material.progressindicator.CircularProgressIndicator
-                    android:id="@+id/issues_progress_circular"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="top|center_horizontal"
-                    android:layout_margin="8dp"
-                    android:indeterminate="true"/>
-            </FrameLayout>
+                android:layout_gravity="top|center_horizontal"
+                android:layout_margin="8dp"
+                android:indeterminate="true" />
+        </FrameLayout>
 
 
-        </androidx.appcompat.widget.LinearLayoutCompat>
-    </androidx.core.widget.NestedScrollView>
+    </androidx.appcompat.widget.LinearLayoutCompat>
 
     <com.google.android.material.search.SearchView
         android:id="@+id/sv_issues"
@@ -117,7 +109,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-            tools:listitem="@layout/item_repository" />
+            tools:listitem="@layout/item_issues_search" />
     </com.google.android.material.search.SearchView>
 
 

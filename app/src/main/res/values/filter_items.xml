@@ -1,9 +1,0 @@
-<?xml version="1.0" encoding="utf-8"?>
-<resources>
-    <string-array name="filterby_items">
-        <item>Last opened</item>
-        <item>Comments</item>
-        <item>Status</item>
-    </string-array>
-
-</resources>

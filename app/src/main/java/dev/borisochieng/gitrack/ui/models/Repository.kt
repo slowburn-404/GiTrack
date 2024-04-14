@@ -9,5 +9,6 @@ data class Repository(
     val desc: String?,
     val starCount: Int?,
     val issueCount: Int?,
+    val createdAt: String,
     val labels: List<String>?
 )

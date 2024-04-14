@@ -2,7 +2,6 @@ query RepositoryIssues($name: String!, $owner: String!, $first: Int!) {
     repository(name: $name, owner: $owner) {
         issues(first: $first) {
                 nodes {
-                    databaseId
                     title
                     state
                     createdAt
@@ -13,9 +12,8 @@ query RepositoryIssues($name: String!, $owner: String!, $first: Int!) {
                     comments {
                         totalCount
                     }
-                    labels {
+                    labels(first: $first) {
                         nodes {
-                            color
                             name
                         }
                     }

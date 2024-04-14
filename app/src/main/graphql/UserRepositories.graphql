@@ -6,6 +6,7 @@ query UserRepositories($login: String!, $last: Int!) {
                 name
                 description
                 stargazerCount
+                createdAt
                 owner {
                     login
                 }

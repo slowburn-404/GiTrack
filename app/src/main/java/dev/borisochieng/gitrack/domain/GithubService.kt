@@ -5,6 +5,7 @@ import dev.borisochieng.gitrack.ui.models.Issue
 import dev.borisochieng.gitrack.ui.models.Repository
 import dev.borisochieng.gitrack.ui.models.RepositorySearchResult
 import dev.borisochieng.gitrack.ui.models.SingleIssue
+import kotlinx.coroutines.flow.Flow
 
 interface GithubService {
 

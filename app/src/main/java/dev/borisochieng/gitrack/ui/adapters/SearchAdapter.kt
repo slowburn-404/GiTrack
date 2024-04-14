@@ -9,7 +9,7 @@ import dev.borisochieng.gitrack.databinding.ItemSearchBinding
 import dev.borisochieng.gitrack.ui.models.RepositorySearchResult
 
 class SearchAdapter(
-    private val onSearchResultItemClickListener: OnSearchResultItemClickListener
+    private val onSearchResultItemClickListener: SetRecyclerViewItemClickListener<RepositorySearchResult>
 ) : RecyclerView.Adapter<SearchAdapter.ViewHolder>() {
 
     private val asyncListDiffer = AsyncListDiffer(this, DIFF_CALLBACK)
@@ -24,7 +24,7 @@ class SearchAdapter(
                 tvStarCount.text = item.starCount.toString()
 
                 root.setOnClickListener {
-                    onSearchResultItemClickListener.onSearchItemClick(item)
+                    onSearchResultItemClickListener.setOnItemClickListener(item)
                 }
 
             }

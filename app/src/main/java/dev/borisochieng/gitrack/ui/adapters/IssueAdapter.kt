@@ -1,6 +1,5 @@
 package dev.borisochieng.gitrack.ui.adapters
 
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.AsyncListDiffer
@@ -9,8 +8,9 @@ import androidx.recyclerview.widget.RecyclerView
 import dev.borisochieng.gitrack.databinding.ItemIssueBinding
 import dev.borisochieng.gitrack.ui.models.Issue
 
-class IssueAdapter(private val onIssueClickListener: OnIssueClickListener) :
-    RecyclerView.Adapter<IssueAdapter.ViewHolder>() {
+class IssueAdapter(
+    private val onIssueClickListener: SetRecyclerViewItemClickListener<Issue>
+) : RecyclerView.Adapter<IssueAdapter.ViewHolder>() {
 
     inner class ViewHolder(private val binding: ItemIssueBinding) :
         RecyclerView.ViewHolder(binding.root) {
@@ -24,13 +24,14 @@ class IssueAdapter(private val onIssueClickListener: OnIssueClickListener) :
                 tvCommentCount.text = item.commentCount.toString()
 
                 root.setOnClickListener {
-                    onIssueClickListener.onClick(item)
+                    onIssueClickListener.setOnItemClickListener(item)
                 }
             }
         }
 
     }
-    private val asyncListDiffer = AsyncListDiffer(this, DIFF_CALLBACK)
+
+    private val asyncListDiffer = AsyncListDiffer(this, ISSUES_DIFF_CALLBACK)
 
     fun setList(list: List<Issue>) {
         asyncListDiffer.submitList(list)
@@ -51,12 +52,14 @@ class IssueAdapter(private val onIssueClickListener: OnIssueClickListener) :
     }
 
     companion object {
-        private val DIFF_CALLBACK = object : DiffUtil.ItemCallback<Issue>() {
+        private val ISSUES_DIFF_CALLBACK = object : DiffUtil.ItemCallback<Issue>() {
             override fun areItemsTheSame(oldItem: Issue, newItem: Issue): Boolean =
-                oldItem.databaseId == newItem.databaseId
+                oldItem.number == newItem.number
+
 
             override fun areContentsTheSame(oldItem: Issue, newItem: Issue): Boolean =
                 oldItem == newItem
+
         }
     }
 }
