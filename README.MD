@@ -11,7 +11,7 @@ GiTrack is a mobile application designed for tracking issues on GitHub. It provi
 - **Issue Tracking**: View and manage issues from multiple GitHub repositories.
 - **Issue Details**: Get detailed information about each issue, including title, description, status, and date opened.
 - **Repository Navigation**: Easily navigate between repositories and view their issues.
-- **Search Functionality**: Search for specific issues within repositories.
+- **Search Functionality**: Search for public repositories on GitHub or specific issues within repositories.
 - **Dark Mode Support**: Seamlessly switch between light and dark themes for comfortable viewing based on device theme.
 
 ## Screenshots
@@ -63,12 +63,19 @@ GiTrack is a mobile application designed for tracking issues on GitHub. It provi
 
 9. Copy the Client ID and Client Secret and store them for use in your app safely.
 
-9. Clone the repository to your local machine.
+10. Add the Client Id and Client Secret to the `/local.properties` file.
+
+```
+client_id=YOUR_CLIENT_ID
+client_secret=YOUR_CLIENT_SECRET
+```
+
+11. Clone the repository to your local machine.
 
 ```Bash
 git clone https://github.com/slowburn-404/GiTrack.git
 ```
-10. Open the project in Android Studio, build and run on a virtual or real device.
+12. Open the project in Android Studio, build and run on a virtual or real device.
 
 ## Usage
 
@@ -85,8 +92,9 @@ git clone https://github.com/slowburn-404/GiTrack.git
 - The app launches a Web intent to the URL `https://github.com/login/oauth/authorize`. 
 - After the user authorizes the application to access their account, they are redirected back to the App with a code using a Deep Link. 
 - The app then makes a `POST` request to the URL `https://github.com/login/oauth/access_token` with the code to exchange it for an access token. The access token is then used to query the GitHub GraphQL API.
-<p align="center">
+- 
 <img src="screenshots/oathwebflow.jpg" alt="login" style="padding:20px>
+
 
 ### Tools, frameworks and libraries
 - **[Retrofit and OKHttp3](https://github.com/square/retrofit)**: This is used for making asynchronous network calls to facilitate authentication using the webflow.
