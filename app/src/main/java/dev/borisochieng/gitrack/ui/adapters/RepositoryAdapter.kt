@@ -8,7 +8,7 @@ import dev.borisochieng.gitrack.databinding.ItemRepositoryBinding
 import dev.borisochieng.gitrack.ui.models.Repository
 import androidx.recyclerview.widget.DiffUtil
 
-class RepositoryAdapter(private val onRepositoryClickListener: OnRepositoryClickListener) :
+class RepositoryAdapter(private val onRepositoryClickListener: SetRecyclerViewItemClickListener<Repository>) :
     RecyclerView.Adapter<RepositoryAdapter.ViewHolder>() {
 
     inner class ViewHolder(private val binding: ItemRepositoryBinding) :
@@ -23,7 +23,7 @@ class RepositoryAdapter(private val onRepositoryClickListener: OnRepositoryClick
                 //lastUpdated.text = item.lastUpdated
 
                 root.setOnClickListener {
-                    onRepositoryClickListener.onItemClick(item)
+                    onRepositoryClickListener.setOnItemClickListener(item)
                 }
             }
         }

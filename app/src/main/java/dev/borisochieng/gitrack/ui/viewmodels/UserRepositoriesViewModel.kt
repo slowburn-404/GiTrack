@@ -18,7 +18,7 @@ import java.util.Locale
 class UserRepositoriesViewModel(
     private val gitTrackRepository: GitTrackRepository
 ) : ViewModel() {
-    private val _repositoriesLiveData = MutableLiveData<List<Repository>>()
+    private val _repositoriesLiveData = MutableLiveData<List<Repository>?>()
     val repositoriesLiveData = _repositoriesLiveData
 
     private val _userLiveData = MutableLiveData<User>()
@@ -51,18 +51,21 @@ class UserRepositoriesViewModel(
 
     fun searchPublicRepositories(query: String) =
         viewModelScope.launch {
-            try {
-                val searchResults = gitTrackRepository.searchPublicRepositories(query)
-                _searchResultsLiveData.value = searchResults
-            } catch (e: Exception) {
-                e.printStackTrace()
-                Log.e("Error searching", e.message.toString())
+            if (query.isNotEmpty()) {
+                try {
+                    val searchResults = gitTrackRepository.searchPublicRepositories(query)
+                    _searchResultsLiveData.value = searchResults
+                } catch (e: Exception) {
+                    e.printStackTrace()
+                    Log.e("Error searching", e.message.toString())
+                }
             }
         }
 
-    fun sortBy(filterCondition: String) {
-        val originalList = repositoriesLiveData.value
-        val filteredList = when (filterCondition) {
+    fun sortBy(filterCondition: String) =
+        viewModelScope.launch {
+            val originalList = _repositoriesLiveData.value
+            val filteredList = when (filterCondition) {
                 "Most Recent" -> {
                     originalList?.sortedByDescending { parseDate(it.createdAt) }
                 }
@@ -75,9 +78,9 @@ class UserRepositoriesViewModel(
                     originalList?.sortedByDescending { it.issueCount }
                 }
             }
+            _repositoriesLiveData.value = filteredList
+        }
 
-        _repositoriesLiveData.value = filteredList ?: emptyList()
-    }
 
     private fun parseDate(dateString: String): LocalDate {
         val formatter = DateTimeFormatter.ofPattern("dd MMMM yyyy", Locale.getDefault())

@@ -1,6 +1,6 @@
 package dev.borisochieng.gitrack.ui.fragments
 
-import android.content.Context
+import android.os.Build
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
@@ -8,11 +8,10 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.view.inputmethod.EditorInfo
-import android.view.inputmethod.InputMethodManager
+import android.widget.ArrayAdapter
 import android.widget.AutoCompleteTextView
 import androidx.activity.OnBackPressedCallback
-import androidx.core.widget.addTextChangedListener
+import androidx.annotation.RequiresApi
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -24,8 +23,7 @@ import dev.borisochieng.gitrack.GitTrackApplication
 import dev.borisochieng.gitrack.R
 import dev.borisochieng.gitrack.databinding.FragmentUserRepositoriesBinding
 import dev.borisochieng.gitrack.ui.models.Repository
-import dev.borisochieng.gitrack.ui.adapters.OnRepositoryClickListener
-import dev.borisochieng.gitrack.ui.adapters.OnSearchResultItemClickListener
+import dev.borisochieng.gitrack.ui.adapters.SetRecyclerViewItemClickListener
 import dev.borisochieng.gitrack.ui.adapters.RepositoryAdapter
 import dev.borisochieng.gitrack.ui.adapters.SearchAdapter
 import dev.borisochieng.gitrack.ui.models.RepositoryParcelable
@@ -34,8 +32,7 @@ import dev.borisochieng.gitrack.ui.viewmodels.UserRepositoriesViewModel
 import dev.borisochieng.gitrack.ui.viewmodels.UserRepositoriesViewModelFactory
 import dev.borisochieng.gitrack.utils.AccessTokenManager
 
-class UserRepositoriesFragment : Fragment(), OnRepositoryClickListener,
-    OnSearchResultItemClickListener {
+class UserRepositoriesFragment : Fragment() {
     private var _binding: FragmentUserRepositoriesBinding? = null
     private val binding get() = _binding!!
 
@@ -47,8 +44,6 @@ class UserRepositoriesFragment : Fragment(), OnRepositoryClickListener,
     private lateinit var searchProgressCircular: CircularProgressIndicator
     private lateinit var repositorySearchView: SearchView
     private lateinit var sortByExposedDropDownMenu: AutoCompleteTextView
-
-    private val searchResultsList: MutableList<RepositorySearchResult> = mutableListOf()
 
     private lateinit var username: String
 
@@ -95,7 +90,8 @@ class UserRepositoriesFragment : Fragment(), OnRepositoryClickListener,
     }
 
     private fun initRecyclerView() {
-        repositoryAdapter = RepositoryAdapter(this)
+        val repositoryClickListener = setOnRepositoryItemClickListener()
+        repositoryAdapter = RepositoryAdapter(repositoryClickListener)
         repositoryRecyclerView.apply {
             layoutManager = LinearLayoutManager(requireContext())
             setHasFixedSize(true)
@@ -103,23 +99,53 @@ class UserRepositoriesFragment : Fragment(), OnRepositoryClickListener,
         }
     }
 
+    private fun setOnRepositoryItemClickListener() =
+        SetRecyclerViewItemClickListener<Repository> { item ->
+            val clickedItem =
+                RepositoryParcelable(
+                    item.databaseId,
+                    item.name,
+                    item.owner
+                )
+            val action: UserRepositoriesFragmentDirections.ActionUserRepositoriesFragmentToRepositoryIssuesFragment =
+                UserRepositoriesFragmentDirections.actionUserRepositoriesFragmentToRepositoryIssuesFragment(
+                    clickedItem
+                )
+            findNavController().navigate(action)
+        }
+
     private fun initSearchRecyclerView() {
-        searchAdapter = SearchAdapter(this)
+        val searchResultClickListener = setonSearchResultClickListener()
+        searchAdapter = SearchAdapter(searchResultClickListener)
         searchResultsRecyclerView.apply {
             layoutManager = LinearLayoutManager(requireContext())
             setHasFixedSize(true)
             adapter = searchAdapter
         }
-
-        searchAdapter.setList(searchResultsList)
-
     }
+
+    private fun setonSearchResultClickListener() =
+        SetRecyclerViewItemClickListener<RepositorySearchResult> { item ->
+            val clickedItem =
+                RepositoryParcelable(
+                    item.databaseId,
+                    item.repoName,
+                    item.repoOwner
+                )
+            val action =
+                UserRepositoriesFragmentDirections.actionUserRepositoriesFragmentToRepositoryIssuesFragment(
+                    clickedItem
+                )
+            findNavController().navigate(action)
+        }
 
     private fun getRepositoriesFromViewModel(username: String) {
         repositoryProgressCircular.show()
         userRepositoriesViewModel.getRepositories(username)
         userRepositoriesViewModel.repositoriesLiveData.observe(viewLifecycleOwner) { repositoriesList ->
-            repositoryAdapter.setList(repositoriesList)
+            if (repositoriesList != null) {
+                repositoryAdapter.setList(repositoriesList)
+            }
             repositoryProgressCircular.hide()
         }
 
@@ -136,56 +162,37 @@ class UserRepositoriesFragment : Fragment(), OnRepositoryClickListener,
 
     private fun getSearchResultsFromViewModel(query: String) {
         searchProgressCircular.show()
-        searchResultsList.clear()
-        userRepositoriesViewModel.searchResultsLiveData.observe(viewLifecycleOwner) { searchResults ->
-            searchResultsList.addAll(searchResults)
-            searchProgressCircular.hide()
-            searchAdapter.notifyDataSetChanged()
-        }
         userRepositoriesViewModel.searchPublicRepositories(query)
+        userRepositoriesViewModel.searchResultsLiveData.observe(viewLifecycleOwner) { searchResults ->
+            searchAdapter.setList(searchResults)
+            searchProgressCircular.hide()
+        }
     }
 
     private fun getSearchResultFromAPI() {
-        repositorySearchView.apply {
-            //remove any listener
-            editText.setOnEditorActionListener(null)
-
-            editText.setOnEditorActionListener { v, actionId, _ ->
-                if (actionId == EditorInfo.IME_ACTION_SEARCH && v.text != null) {
-                    val query: String = v.text.trim().toString()
-                    getSearchResultsFromViewModel(query)
-                    hideKeyBoard(v)
-
-                }
-                true
+        repositorySearchView.editText.addTextChangedListener(object : TextWatcher {
+            override fun beforeTextChanged(
+                s: CharSequence?,
+                start: Int,
+                count: Int,
+                after: Int
+            ) {
             }
 
-            editText.addTextChangedListener(object : TextWatcher {
-                override fun beforeTextChanged(
-                    s: CharSequence?,
-                    start: Int,
-                    count: Int,
-                    after: Int
-                ) {
-                }
-
-                override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
-                    s?.let {
+            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+                s?.let { query ->
+                    if (query.isNotEmpty()) {
                         getSearchResultsFromViewModel(s.toString())
                     }
                 }
+            }
 
-                override fun afterTextChanged(s: Editable?) {
+            override fun afterTextChanged(s: Editable?) {
 
-                }
+            }
 
-            })
-        }
-    }
+        })
 
-    private fun hideKeyBoard(view: View) {
-        val imm = view.context.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
-        imm.hideSoftInputFromWindow(view.windowToken, 0)
     }
 
     private fun handleBackPress() {
@@ -225,34 +232,6 @@ class UserRepositoriesFragment : Fragment(), OnRepositoryClickListener,
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
-    }
-
-    override fun onItemClick(item: Repository) {
-        val clickedItem =
-            RepositoryParcelable(
-                item.databaseId,
-                item.name,
-                item.owner
-            )
-        val action: UserRepositoriesFragmentDirections.ActionUserRepositoriesFragmentToRepositoryIssuesFragment =
-            UserRepositoriesFragmentDirections.actionUserRepositoriesFragmentToRepositoryIssuesFragment(
-                clickedItem
-            )
-        findNavController().navigate(action)
-    }
-
-    override fun onSearchItemClick(item: RepositorySearchResult) {
-        val clickedItem =
-            RepositoryParcelable(
-                item.databaseId,
-                item.repoName,
-                item.repoOwner
-            )
-        val action =
-            UserRepositoriesFragmentDirections.actionUserRepositoriesFragmentToRepositoryIssuesFragment(
-                clickedItem
-            )
-        findNavController().navigate(action)
     }
 
 }
