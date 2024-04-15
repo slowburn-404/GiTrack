@@ -2,7 +2,9 @@
 
 GiTrack is a mobile application designed for tracking issues on GitHub. It provides a convenient interface for users to view, manage, and track issues across various GitHub repositories.
 
-## [Figma design, prototype and wireframe](https://www.figma.com/file/FXLDoaY1uL9sS5W0j1FZtJ/github_issue_tracker?type=design&node-id=0%3A1&mode=design&t=IXb2ZjKRUArJBQSn-1)
+## [Figma wireframe and prototype](https://www.figma.com/file/FXLDoaY1uL9sS5W0j1FZtJ/github_issue_tracker?type=design&node-id=0%3A1&mode=design&t=IXb2ZjKRUArJBQSn-1)
+
+## [Google PlayStore](https://play.google.com/apps/internaltest/4700997486750488391)
 
 
 ## Features
@@ -56,7 +58,6 @@ client_secret=YOUR_CLIENT_SECRET
 ```Bash
 git clone https://github.com/slowburn-404/GiTrack.git
 ```
-
 12. Open the project in Android Studio, build and run on a virtual or real device.
 
 ## Usage
@@ -75,7 +76,7 @@ git clone https://github.com/slowburn-404/GiTrack.git
 - After the user authorizes the application to access their account, they are redirected back to the App with a code using a Deep Link. 
 - The app then makes a `POST` request to the URL `https://github.com/login/oauth/access_token` with the code to exchange it for an access token. The access token is then used to query the GitHub GraphQL API.
 
-<img src="screenshots/oathwebflow.jpg" alt="oath flow" style="padding: 20px" width="200">
+<img src="screenshots/oathwebflow.jpg" alt="oath flow" style="padding: 20px">
 
 ### Tools, frameworks and libraries
                                                           
@@ -86,10 +87,10 @@ git clone https://github.com/slowburn-404/GiTrack.git
 - **XML**: mark up language for drawing UI elements.
 -**[Material Design Components](https://github.com/material-components/material-components-android)**: Customizable Material Design UI components
 - Android Architecture Components:
-    - Viewmodel lifecycle aware component.
-    - Livedata lifecycle aware component.
+    - Viewmodel; lifecycle aware component.
+    - Livedata; lifecycle aware component.
     - Navigation component to handle  navigation between fragments and  [safe arguments](https://developer.android.com/guide/navigation/use-graph/safe-args#kts) Gradle plugin for passing data between fragments.
-    - [Viewbinding](https://developer.android.com/topic/libraries/view-binding) used for binding data to UI elements.
+    - [ViewBinding](https://developer.android.com/topic/libraries/view-binding) used for binding data to UI elements.
 
 
 
