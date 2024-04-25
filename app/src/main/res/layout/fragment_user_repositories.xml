@@ -44,7 +44,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:inputType="none"
-                app:simpleItems="@array/sortby_items"/>
+                app:simpleItems="@array/sortby_items" />
         </com.google.android.material.textfield.TextInputLayout>
 
     </com.google.android.material.appbar.AppBarLayout>
@@ -78,6 +78,16 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="8dp" />
+
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/tv_no_repos"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="4dp"
+            android:gravity="center"
+            android:layout_gravity="center_horizontal"
+            android:text="@string/no_repositories"
+            android:textAppearance="@style/TextAppearance.Gitrack.BodySmall"/>
 
         <FrameLayout
             android:layout_width="match_parent"
@@ -128,9 +138,9 @@
                 android:id="@+id/search_circular_progress"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_margin="8dp"
                 android:layout_gravity="top|center_horizontal"
-                android:indeterminate="true"/>
+                android:layout_margin="8dp"
+                android:indeterminate="true" />
 
         </FrameLayout>
     </com.google.android.material.search.SearchView>

@@ -75,7 +75,6 @@ class LoginFragment : Fragment() {
         requireActivity().startActivity(intent.apply {
             addCategory(Intent.CATEGORY_BROWSABLE)
             addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
-
         })
     }
 

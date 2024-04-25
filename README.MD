@@ -75,13 +75,8 @@ git clone https://github.com/slowburn-404/GiTrack.git
 - The app launches a Web intent to the URL `https://github.com/login/oauth/authorize`. 
 - After the user authorizes the application to access their account, they are redirected back to the App with a code using a Deep Link. 
 - The app then makes a `POST` request to the URL `https://github.com/login/oauth/access_token` with the code to exchange it for an access token. The access token is then used to query the GitHub GraphQL API.
-<<<<<<< HEAD
-=======
 <p align="center">
 <img src="screenshots/oathwebflow.jpg" alt="login" style="padding:20px/>
->>>>>>> main
-
-<img src="screenshots/oathwebflow.jpg" alt="oath flow" style="padding: 20px">
 
 ### Tools, frameworks and libraries
                                                           
