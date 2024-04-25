@@ -34,4 +34,6 @@
     <string name="confirm_logout">Are you sure you want to logout?</string>
     <string name="repository_owner">Repository Owner</string>
     <string name="star_count">Star count</string>
+    <string name="no_repositories">You have no repositories. \n Head over to GitHub and create one</string>
+    <string name="no_issues">This repository has no issues</string>
 </resources>

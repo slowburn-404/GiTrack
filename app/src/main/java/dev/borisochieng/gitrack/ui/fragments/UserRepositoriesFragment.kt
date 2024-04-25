@@ -1,6 +1,5 @@
 package dev.borisochieng.gitrack.ui.fragments
 
-import android.os.Build
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
@@ -8,10 +7,8 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ArrayAdapter
 import android.widget.AutoCompleteTextView
 import androidx.activity.OnBackPressedCallback
-import androidx.annotation.RequiresApi
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -86,6 +83,7 @@ class UserRepositoriesFragment : Fragment() {
             searchResultsRecyclerView = rvRepositorySearchResults
             repositorySearchView = svRepository
             sortByExposedDropDownMenu = actvSortby
+            tvNoRepos.visibility = View.GONE
         }
     }
 
@@ -143,8 +141,11 @@ class UserRepositoriesFragment : Fragment() {
         repositoryProgressCircular.show()
         userRepositoriesViewModel.getRepositories(username)
         userRepositoriesViewModel.repositoriesLiveData.observe(viewLifecycleOwner) { repositoriesList ->
-            if (repositoriesList != null) {
+            if (repositoriesList?.isNotEmpty() == true) {
                 repositoryAdapter.setList(repositoriesList)
+            } else {
+                repositoryRecyclerView.visibility = View.GONE
+                binding.tvNoRepos.visibility = View.VISIBLE
             }
             repositoryProgressCircular.hide()
         }

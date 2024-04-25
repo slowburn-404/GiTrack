@@ -3,7 +3,6 @@ package dev.borisochieng.gitrack.ui.fragments
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
-import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -83,6 +82,7 @@ class RepositoryIssuesFragment : Fragment() {
             labelsChipGroup = cgLabels
             searchResultRecyclerView = rvIssuesSearchResults
             searchResultSearchView = svIssues
+            tvNoIssues.visibility = View.GONE
         }
     }
 
@@ -141,13 +141,18 @@ class RepositoryIssuesFragment : Fragment() {
         progressIndicator.show()
         repositoryIssuesViewModel.getIssues(name, owner)
         repositoryIssuesViewModel.issuesLiveData.observe(viewLifecycleOwner) { issuesList ->
-            issuesAdapter.setList(issuesList)
-            val uniqueLabels = mutableSetOf<String>()
-            issuesList.flatMap { issue -> issue.labels }
-                .forEach { label ->
-                    uniqueLabels.add(label)
-                    addLabelsToChipGroup(uniqueLabels)
-                }
+            if (issuesList.isNotEmpty()) {
+                issuesAdapter.setList(issuesList)
+                val uniqueLabels = mutableSetOf<String>()
+                issuesList.flatMap { issue -> issue.labels }
+                    .forEach { label ->
+                        uniqueLabels.add(label)
+                        addLabelsToChipGroup(uniqueLabels)
+                    }
+            } else {
+                issuesRecyclerView.visibility = View.GONE
+                binding.tvNoIssues.visibility = View.VISIBLE
+            }
             progressIndicator.hide()
         }
     }

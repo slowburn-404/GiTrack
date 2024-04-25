@@ -1,3 +1,4 @@
+import java.io.FileInputStream
 import java.util.Properties
 
 plugins {
@@ -6,7 +7,11 @@ plugins {
     alias(libs.plugins.apolloGraphQL)
     alias(libs.plugins.safeArgs)
 }
-val properties = Properties()
+fun getLocalProperty(key: String): String {
+    val localProperties = Properties()
+    localProperties.load(FileInputStream(rootProject.file("local.properties")))
+    return localProperties.getProperty(key)
+}
 
 apollo {
 
@@ -17,7 +22,7 @@ apollo {
         }
         introspection {
             endpointUrl.set("https://api.github.com/graphql")
-            headers.put("Authorization", "bearer ${project.properties["client_secret"]}")
+            headers.put("Authorization", "bearer ${getLocalProperty("client_secret")}")
             schemaFile.set(file("src/main/graphql/schema.graphqls"))
         }
     }
@@ -31,20 +36,20 @@ android {
         applicationId = "dev.borisochieng.gitrack"
         minSdk = 26
         targetSdk = 34
-        versionCode = 2
-        versionName = "1.1"
+        versionCode = 3
+        versionName = "1.2"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
 
         buildConfigField(
             "String",
             "CLIENT_ID",
-            "\"${project.properties["client_id"]}\""
+            "\"${getLocalProperty("client_id")}\""
         )
         buildConfigField(
             "String",
             "CLIENT_SECRET",
-            "\"${project.properties["client_secret"]}\""
+            "\"${getLocalProperty("client_secret")}\""
         )
     }
 
