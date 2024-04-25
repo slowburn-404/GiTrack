@@ -57,7 +57,7 @@ GiTrack is a mobile application designed for tracking issues on GitHub. It provi
 <img src="screenshots/form.png" alt="single issue dark" style="padding: 20px" width="200">
 </p>
 
-7. Under Application Name, enter the name of your application; `GiTrack`. Under the homepage URL enter the Homepage URL of the app `https://gitrack.borisochieng.dev`. Under Authorization Callback URL enter the URL that GitHub will use to redirect back to your app; `httpsL//gitrack.borisochieng.dev`. This can be the same as the Homepage URL.
+7. Under Application Name, enter the name of your application; `GiTrack`. Under the homepage URL enter the Homepage URL of the app `https://gitrack.borisochieng.dev`. Under Authorization Callback URL enter the URL that GitHub will use to redirect back to your app; `https://gitrack.borisochieng.dev`. This can be the same as the Homepage URL.
 
 8. Finally click on register application.
 
@@ -86,7 +86,7 @@ git clone https://github.com/slowburn-404/GiTrack.git
 - After the user authorizes the application to access their account, they are redirected back to the App with a code using a Deep Link. 
 - The app then makes a `POST` request to the URL `https://github.com/login/oauth/access_token` with the code to exchange it for an access token. The access token is then used to query the GitHub GraphQL API.
 <p align="center">
-<img src="screenshots/oathwebflow.jpg" alt="login" style="padding:20px>
+<img src="screenshots/oathwebflow.jpg" alt="login" style="padding:20px/>
 
 ### Tools, frameworks, and libraries
 
@@ -95,7 +95,7 @@ git clone https://github.com/slowburn-404/GiTrack.git
 - **[Splashscreen](https://developer.android.com/develop/ui/views/launch/splash-screen)**: For branding purposes.
 - **Kotlin**: programming language for writing logic.
 - **XML**: mark up language for drawing UI elements.
--**[Material Design Components](https://github.com/material-components/material-components-android)**: Customizable Material Design UI components
+- **[Material Design Components](https://github.com/material-components/material-components-android)**: Customizable Material Design UI components
 - Android Architecture Components:
     - Viewmodel lifecycle aware component.
     - Livedata lifecycle aware component.
