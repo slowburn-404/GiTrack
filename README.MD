@@ -4,7 +4,7 @@ GiTrack is a mobile application designed for tracking issues on GitHub. It provi
 
 ## [Figma wireframe and prototype](https://www.figma.com/file/FXLDoaY1uL9sS5W0j1FZtJ/github_issue_tracker?type=design&node-id=0%3A1&mode=design&t=IXb2ZjKRUArJBQSn-1)
 
-## [Google PlayStore](https://play.google.com/apps/internaltest/4700997486750488391)
+## [Get it on Google Play](https://play.google.com/apps/internaltest/4700997486750488391)
 
 
 ## Features
