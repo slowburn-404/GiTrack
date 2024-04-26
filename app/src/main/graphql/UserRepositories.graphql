@@ -7,13 +7,13 @@ query UserRepositories($login: String!, $last: Int!) {
                 description
                 stargazerCount
                 createdAt
-                owner {
-                    login
-                }
-                labels(last: $last) {
+                languages(last: $last){
                     nodes {
                         name
                     }
+                }
+                owner {
+                    login
                 }
                 issues {
                     totalCount

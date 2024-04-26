@@ -27,10 +27,9 @@ fun UserRepositoriesQuery.Data.toSimpleRepository(): List<Repository> {
             starCount = node.stargazerCount,
             issueCount = node.issues.totalCount,
             createdAt = formatCreatedAt(node.createdAt),
-            labels = node.labels?.nodes?.mapNotNull { label ->
-                label?.name
+            languages = node.languages?.nodes?.mapNotNull { language ->
+                language?.name
             } ?: emptyList())
-
     } ?: emptyList()
 }
 

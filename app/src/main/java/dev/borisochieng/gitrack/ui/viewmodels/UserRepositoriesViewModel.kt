@@ -81,6 +81,15 @@ class UserRepositoriesViewModel(
             _repositoriesLiveData.value = filteredList
         }
 
+    fun filterByLanguage(selectedLanguage: String) {
+        viewModelScope.launch {
+            val filteredList = _repositoriesLiveData.value?.filter {
+                it.languages!!.contains(selectedLanguage)
+            }
+            _repositoriesLiveData.value = filteredList ?: emptyList()
+        }
+    }
+
 
     private fun parseDate(dateString: String): LocalDate {
         val formatter = DateTimeFormatter.ofPattern("dd MMMM yyyy", Locale.getDefault())

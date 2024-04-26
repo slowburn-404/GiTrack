@@ -20,7 +20,7 @@
     <string name="sort_by">Sort by:</string>
     <string name="most_recent">Most Recent</string>
     <string name="most_issues">Most Issues</string>
-    <string name="most_starred">Most Starred</string>
+    <string name="most_starred">Most Stars</string>
     <string name="comments">Comments</string>
     <string name="repositories">repositories</string>
     <string name="repository">/repository</string>
