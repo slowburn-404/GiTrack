@@ -27,6 +27,9 @@ class UserRepositoriesViewModel(
     private val _searchResultsLiveData = MutableLiveData<List<RepositorySearchResult>>()
     val searchResultsLiveData: LiveData<List<RepositorySearchResult>> = _searchResultsLiveData
 
+    private val _filteredListLiveData = MutableLiveData<List<Repository>>()
+    val filteredListLiveData = _filteredListLiveData
+
     fun getUser() =
         viewModelScope.launch {
             try {
@@ -62,31 +65,48 @@ class UserRepositoriesViewModel(
             }
         }
 
-    fun sortBy(filterCondition: String) =
+    fun sortBy(sortCondition: String) =
         viewModelScope.launch {
-            val originalList = _repositoriesLiveData.value
-            val filteredList = when (filterCondition) {
+            val originalList = _repositoriesLiveData.value ?: return@launch
+            val filteredList = _filteredListLiveData.value
+            val sortedList = when (sortCondition) {
                 "Most Recent" -> {
-                    originalList?.sortedByDescending { parseDate(it.createdAt) }
+                    (filteredList ?: originalList).sortedByDescending { parseDate(it.createdAt) }
                 }
 
                 "Most Stars" -> {
-                    originalList?.sortedByDescending { it.starCount }
+                    (filteredList ?: originalList).sortedByDescending { it.starCount }
                 }
 
                 else -> {
-                    originalList?.sortedByDescending { it.issueCount }
+                    (filteredList ?: originalList).sortedByDescending { it.issueCount }
                 }
             }
-            _repositoriesLiveData.value = filteredList
+            if(filteredList != null) {
+                _filteredListLiveData.value = sortedList
+            }else{
+                _repositoriesLiveData.value = sortedList
+            }
         }
 
     fun filterByLanguage(selectedLanguage: String) {
         viewModelScope.launch {
-            val filteredList = _repositoriesLiveData.value?.filter {
-                it.languages!!.contains(selectedLanguage)
+            //return early if the list is null
+            val originalList = _repositoriesLiveData.value ?: return@launch
+            val filteredList = if (selectedLanguage.isBlank()) {
+                originalList
+            } else {
+                originalList.filter {
+                    it.languages?.contains(selectedLanguage) == true
+                }
             }
-            _repositoriesLiveData.value = filteredList ?: emptyList()
+            _filteredListLiveData.value = filteredList
+        }
+    }
+    fun clearFilter() {
+        viewModelScope.launch {
+            val originalList = _repositoriesLiveData.value ?: return@launch
+            _filteredListLiveData.value = originalList
         }
     }
 

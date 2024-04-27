@@ -90,10 +90,17 @@ class UserRepositoriesFragment : Fragment() {
             )
             showSortByMenu(v, R.menu.menu_sort_by)
         }
-        languagesChipGroup.setOnCheckedStateChangeListener { group, checkIds ->
-            checkIds.forEach { checkedId ->
-                val selectedChip = group.findViewById<Chip>(checkedId)
-                userRepositoriesViewModel.filterByLanguage(selectedChip.text.toString())
+        languagesChipGroup.setOnCheckedStateChangeListener { group, _ ->
+            sortByTextView.text = resources.getString(R.string.sort_by)
+            val selectedChipId = group.checkedChipId
+            if (selectedChipId != -1) {
+                val selectedChip = group.findViewById<Chip>(selectedChipId)
+                val selectedLanguage = selectedChip.text.toString()
+                userRepositoriesViewModel.filterByLanguage(selectedLanguage)
+                getFilteredListFromViewModel()
+            } else {
+                userRepositoriesViewModel.clearFilter()
+
             }
         }
 
@@ -308,6 +315,14 @@ class UserRepositoriesFragment : Fragment() {
                 isCheckable = true
             }
             languagesChipGroup.addView(languageChip)
+        }
+    }
+
+    private fun getFilteredListFromViewModel() {
+        userRepositoriesViewModel.filteredListLiveData.observe(viewLifecycleOwner) { filteredList ->
+            if (filteredList.isNotEmpty()) {
+                repositoryAdapter.setList(filteredList)
+            }
         }
     }
 
