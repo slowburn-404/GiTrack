@@ -1,4 +1,4 @@
-package dev.borisochieng.gitrack.ui.adapters
+package dev.borisochieng.gitrack.presentation.adapters
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
@@ -6,7 +6,7 @@ import androidx.recyclerview.widget.AsyncListDiffer
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import dev.borisochieng.gitrack.databinding.ItemIssueBinding
-import dev.borisochieng.gitrack.ui.models.Issue
+import dev.borisochieng.gitrack.presentation.models.Issue
 
 class IssueAdapter(
     private val onIssueClickListener: SetRecyclerViewItemClickListener<Issue>

@@ -3,11 +3,10 @@ package dev.borisochieng.gitrack.data
 import androidx.annotation.WorkerThread
 import dev.borisochieng.gitrack.domain.GithubService
 import dev.borisochieng.gitrack.domain.models.User
-import dev.borisochieng.gitrack.ui.models.Issue
-import dev.borisochieng.gitrack.ui.models.Repository
-import dev.borisochieng.gitrack.ui.models.RepositorySearchResult
-import dev.borisochieng.gitrack.ui.models.SingleIssue
-import kotlinx.coroutines.flow.Flow
+import dev.borisochieng.gitrack.presentation.models.Issue
+import dev.borisochieng.gitrack.presentation.models.Repository
+import dev.borisochieng.gitrack.presentation.models.RepositorySearchResult
+import dev.borisochieng.gitrack.presentation.models.SingleIssue
 
 class GitTrackRepository(
     private val apiService: GithubService

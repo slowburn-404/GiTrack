@@ -1,32 +1,39 @@
-package dev.borisochieng.gitrack.ui.fragments
+package dev.borisochieng.gitrack.presentation.fragments
 
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
+import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
-import android.widget.AutoCompleteTextView
+import android.widget.ImageView
+import android.widget.PopupMenu
 import androidx.activity.OnBackPressedCallback
+import androidx.annotation.MenuRes
+import androidx.core.content.ContextCompat
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.google.android.material.chip.Chip
+import com.google.android.material.chip.ChipGroup
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.progressindicator.CircularProgressIndicator
 import com.google.android.material.search.SearchView
+import com.google.android.material.textview.MaterialTextView
 import dev.borisochieng.gitrack.GitTrackApplication
 import dev.borisochieng.gitrack.R
 import dev.borisochieng.gitrack.databinding.FragmentUserRepositoriesBinding
-import dev.borisochieng.gitrack.ui.models.Repository
-import dev.borisochieng.gitrack.ui.adapters.SetRecyclerViewItemClickListener
-import dev.borisochieng.gitrack.ui.adapters.RepositoryAdapter
-import dev.borisochieng.gitrack.ui.adapters.SearchAdapter
-import dev.borisochieng.gitrack.ui.models.RepositoryParcelable
-import dev.borisochieng.gitrack.ui.models.RepositorySearchResult
-import dev.borisochieng.gitrack.ui.viewmodels.UserRepositoriesViewModel
-import dev.borisochieng.gitrack.ui.viewmodels.UserRepositoriesViewModelFactory
+import dev.borisochieng.gitrack.presentation.models.Repository
+import dev.borisochieng.gitrack.presentation.adapters.SetRecyclerViewItemClickListener
+import dev.borisochieng.gitrack.presentation.adapters.RepositoryAdapter
+import dev.borisochieng.gitrack.presentation.adapters.SearchAdapter
+import dev.borisochieng.gitrack.presentation.models.RepositoryParcelable
+import dev.borisochieng.gitrack.presentation.models.RepositorySearchResult
+import dev.borisochieng.gitrack.presentation.viewmodels.UserRepositoriesViewModel
+import dev.borisochieng.gitrack.presentation.viewmodels.UserRepositoriesViewModelFactory
 import dev.borisochieng.gitrack.utils.AccessTokenManager
 
 class UserRepositoriesFragment : Fragment() {
@@ -40,7 +47,10 @@ class UserRepositoriesFragment : Fragment() {
     private lateinit var repositoryProgressCircular: CircularProgressIndicator
     private lateinit var searchProgressCircular: CircularProgressIndicator
     private lateinit var repositorySearchView: SearchView
-    private lateinit var sortByExposedDropDownMenu: AutoCompleteTextView
+    private lateinit var languagesChipGroup: ChipGroup
+    private lateinit var sortByTextView: MaterialTextView
+    private lateinit var sortByImageView: ImageView
+
 
     private lateinit var username: String
 
@@ -63,13 +73,23 @@ class UserRepositoriesFragment : Fragment() {
         initSearchRecyclerView()
         getUserFromViewModel()
         handleBackPress()
-        sortBy()
         getSearchResultFromAPI()
+        filterByLanguage()
 
 
         binding.repositorySearchBar.setOnMenuItemClickListener {
             showDialog()
             true
+        }
+
+        sortByTextView.setOnClickListener { v: View ->
+            sortByImageView.setImageDrawable(
+                ContextCompat.getDrawable(
+                    requireContext(),
+                    R.drawable.ic_arrow_up
+                )
+            )
+            showSortByMenu(v, R.menu.menu_sort_by)
         }
 
         return binding.root
@@ -82,8 +102,10 @@ class UserRepositoriesFragment : Fragment() {
             searchProgressCircular = searchCircularProgress
             searchResultsRecyclerView = rvRepositorySearchResults
             repositorySearchView = svRepository
-            sortByExposedDropDownMenu = actvSortby
             tvNoRepos.visibility = View.GONE
+            languagesChipGroup = cgLanguages
+            sortByTextView = tvSortBy
+            sortByImageView = ivDropDown
         }
     }
 
@@ -142,7 +164,13 @@ class UserRepositoriesFragment : Fragment() {
         userRepositoriesViewModel.getRepositories(username)
         userRepositoriesViewModel.repositoriesLiveData.observe(viewLifecycleOwner) { repositoriesList ->
             if (repositoriesList?.isNotEmpty() == true) {
+                val languagesList = mutableListOf<String>()
                 repositoryAdapter.setList(repositoriesList)
+                repositoriesList.flatMap { repository -> repository.languages!! }
+                    .forEach { language ->
+                        languagesList.add(language)
+                    }
+                addLanguagesToChipGroup(languagesList.toSet())
             } else {
                 repositoryRecyclerView.visibility = View.GONE
                 binding.tvNoRepos.visibility = View.VISIBLE
@@ -184,6 +212,7 @@ class UserRepositoriesFragment : Fragment() {
                 s?.let { query ->
                     if (query.isNotEmpty()) {
                         getSearchResultsFromViewModel(s.toString())
+                        scrollToTopOfRV(searchResultsRecyclerView)
                     }
                 }
             }
@@ -219,14 +248,89 @@ class UserRepositoriesFragment : Fragment() {
             }.show()
     }
 
-    private fun sortBy() {
-        val filterConditions = resources.getStringArray(R.array.sortby_items)
-        sortByExposedDropDownMenu.setOnItemClickListener { _, _, position, _ ->
-            userRepositoriesViewModel.sortBy(filterConditions[position])
-            //scroll to the top of the recycler view
-            repositoryRecyclerView.post {
-                repositoryRecyclerView.scrollToPosition(0)
+    private fun sortBy(sortOption: String) {
+        userRepositoriesViewModel.sortBy(sortOption)
+        scrollToTopOfRV(repositoryRecyclerView)
+    }
+
+    private fun showSortByMenu(v: View, @MenuRes menuRes: Int) {
+        val popupMenu = PopupMenu(requireContext(), v)
+        popupMenu.menuInflater.inflate(menuRes, popupMenu.menu)
+
+        popupMenu.setOnMenuItemClickListener { menuItem: MenuItem ->
+            when (menuItem.itemId) {
+                R.id.oldest -> {
+                    sortBy(menuItem.title.toString())
+                    sortByTextView.text = menuItem.title
+                    true
+                }
+
+                R.id.most_issues -> {
+                    sortBy(menuItem.title.toString())
+                    sortByTextView.text = menuItem.title
+                    true
+                }
+
+                else -> {
+                    sortBy(menuItem.title.toString())
+                    sortByTextView.text = menuItem.title
+                    true
+                }
             }
+        }
+        popupMenu.setOnDismissListener {
+            sortByImageView.setImageDrawable(
+                ContextCompat.getDrawable(
+                    requireContext(),
+                    R.drawable.ic_arrow_down
+                )
+            )
+        }
+        popupMenu.show()
+
+
+    }
+
+    private fun addLanguagesToChipGroup(languages: Set<String>) {
+        languagesChipGroup.removeAllViews()
+        languages.forEach { language ->
+            val languageChip = Chip(requireContext())
+            languageChip.apply {
+                text = language
+                isCheckable = true
+            }
+            languagesChipGroup.addView(languageChip)
+        }
+    }
+
+    private fun getFilteredListFromViewModel() {
+        userRepositoriesViewModel.filteredListLiveData.observe(viewLifecycleOwner) { filteredList ->
+            if (filteredList.isNotEmpty()) {
+                repositoryAdapter.setList(filteredList)
+            }
+        }
+    }
+
+    private fun filterByLanguage() {
+        languagesChipGroup.setOnCheckedStateChangeListener { group, _ ->
+            sortByTextView.text = resources.getString(R.string.sort_by)
+            val selectedChipId = group.checkedChipId
+            if (selectedChipId != -1) {
+                val selectedChip = group.findViewById<Chip>(selectedChipId)
+                val selectedLanguage = selectedChip.text.toString()
+                userRepositoriesViewModel.filterByLanguage(selectedLanguage)
+                getFilteredListFromViewModel()
+            } else {
+                userRepositoriesViewModel.clearFilter()
+                scrollToTopOfRV(repositoryRecyclerView)
+
+            }
+        }
+    }
+
+    private fun scrollToTopOfRV(recyclerView: RecyclerView) {
+        recyclerView.post {
+            recyclerView.scrollToPosition(0)
         }
     }
 

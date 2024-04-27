@@ -1,4 +1,4 @@
-package dev.borisochieng.gitrack.ui.viewmodels
+package dev.borisochieng.gitrack.presentation.viewmodels
 
 import android.util.Log
 import androidx.lifecycle.LiveData
@@ -8,8 +8,8 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
 import dev.borisochieng.gitrack.data.GitTrackRepository
 import dev.borisochieng.gitrack.domain.models.User
-import dev.borisochieng.gitrack.ui.models.Repository
-import dev.borisochieng.gitrack.ui.models.RepositorySearchResult
+import dev.borisochieng.gitrack.presentation.models.Repository
+import dev.borisochieng.gitrack.presentation.models.RepositorySearchResult
 import kotlinx.coroutines.launch
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter
@@ -26,6 +26,9 @@ class UserRepositoriesViewModel(
 
     private val _searchResultsLiveData = MutableLiveData<List<RepositorySearchResult>>()
     val searchResultsLiveData: LiveData<List<RepositorySearchResult>> = _searchResultsLiveData
+
+    private val _filteredListLiveData = MutableLiveData<List<Repository>>()
+    val filteredListLiveData = _filteredListLiveData
 
     fun getUser() =
         viewModelScope.launch {
@@ -62,24 +65,50 @@ class UserRepositoriesViewModel(
             }
         }
 
-    fun sortBy(filterCondition: String) =
+    fun sortBy(sortCondition: String) =
         viewModelScope.launch {
-            val originalList = _repositoriesLiveData.value
-            val filteredList = when (filterCondition) {
-                "Most Recent" -> {
-                    originalList?.sortedByDescending { parseDate(it.createdAt) }
+            val originalList = _repositoriesLiveData.value ?: return@launch
+            val filteredList = _filteredListLiveData.value
+            val sortedList = when (sortCondition) {
+                "Oldest" -> {
+                    (filteredList ?: originalList).sortedBy{ parseDate(it.createdAt) }
                 }
 
                 "Most Stars" -> {
-                    originalList?.sortedByDescending { it.starCount }
+                    (filteredList ?: originalList).sortedByDescending { it.starCount }
                 }
 
                 else -> {
-                    originalList?.sortedByDescending { it.issueCount }
+                    (filteredList ?: originalList).sortedByDescending { it.issueCount }
                 }
             }
-            _repositoriesLiveData.value = filteredList
+            if(filteredList != null) {
+                _filteredListLiveData.value = sortedList
+            }else{
+                _repositoriesLiveData.value = sortedList
+            }
         }
+
+    fun filterByLanguage(selectedLanguage: String) {
+        viewModelScope.launch {
+            //return early if the list is null
+            val originalList = _repositoriesLiveData.value ?: return@launch
+            val filteredList = if (selectedLanguage.isBlank()) {
+                originalList
+            } else {
+                originalList.filter {repository ->
+                    repository.languages?.contains(selectedLanguage) == true
+                }
+            }
+            _filteredListLiveData.value = filteredList
+        }
+    }
+    fun clearFilter() {
+        viewModelScope.launch {
+            val originalList = _repositoriesLiveData.value ?: return@launch
+            _filteredListLiveData.value = originalList
+        }
+    }
 
 
     private fun parseDate(dateString: String): LocalDate {

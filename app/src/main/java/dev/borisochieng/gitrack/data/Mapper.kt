@@ -8,10 +8,10 @@ import dev.borisochieng.SingleIssueQuery
 import dev.borisochieng.UserQuery
 import dev.borisochieng.UserRepositoriesQuery
 import dev.borisochieng.gitrack.domain.models.User
-import dev.borisochieng.gitrack.ui.models.Issue
-import dev.borisochieng.gitrack.ui.models.Repository
-import dev.borisochieng.gitrack.ui.models.RepositorySearchResult
-import dev.borisochieng.gitrack.ui.models.SingleIssue
+import dev.borisochieng.gitrack.presentation.models.Issue
+import dev.borisochieng.gitrack.presentation.models.Repository
+import dev.borisochieng.gitrack.presentation.models.RepositorySearchResult
+import dev.borisochieng.gitrack.presentation.models.SingleIssue
 import java.util.Locale
 
 fun UserQuery.Viewer.toSimpleUser(): User {
@@ -27,10 +27,9 @@ fun UserRepositoriesQuery.Data.toSimpleRepository(): List<Repository> {
             starCount = node.stargazerCount,
             issueCount = node.issues.totalCount,
             createdAt = formatCreatedAt(node.createdAt),
-            labels = node.labels?.nodes?.mapNotNull { label ->
-                label?.name
+            languages = node.languages?.nodes?.mapNotNull { language ->
+                language?.name
             } ?: emptyList())
-
     } ?: emptyList()
 }
 

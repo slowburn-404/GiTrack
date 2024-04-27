@@ -1,19 +1,19 @@
 query UserRepositories($login: String!, $last: Int!) {
     user(login: $login) {
-        repositories(last: $last) {
+        repositories(last: $last, orderBy: {field: CREATED_AT, direction: DESC}) {
             nodes{
                 databaseId
                 name
                 description
                 stargazerCount
                 createdAt
-                owner {
-                    login
-                }
-                labels(last: $last) {
+                languages(last: $last){
                     nodes {
                         name
                     }
+                }
+                owner {
+                    login
                 }
                 issues {
                     totalCount

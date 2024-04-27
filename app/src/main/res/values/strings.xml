@@ -10,7 +10,7 @@
     <string name="account">Create one</string>
     <string name="username">/username</string>
     <string name="logout">Logout</string>
-    <string name="search_repositories">Search public repositories</string>
+    <string name="search_repositories">Search public repositories on GitHub</string>
     <string name="search_issues">Search issues</string>
     <string name="repository_title">Repository title</string>
     <string name="repository_desc">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce in ipsum sit amet quam faucibus maximus. Ut lobortis enim rutrum sagittis ultricies. Donec egestas rhoncus erat, nec mattis velit pulvinar eget. Integer nec rhoncus ligula, quis efficitur neque. Suspendisse malesuada, ligula eget maximus porta, nunc nunc consectetur augue, sed interdum nisl augue in augue. Suspendisse feugiat gravida interdum. Vestibulum semper ultricies ipsum, sed porta felis</string>
@@ -18,9 +18,9 @@
     <string name="issues">issues</string>
     <string name="single_issue">Issue</string>
     <string name="sort_by">Sort by:</string>
-    <string name="most_recent">Most Recent</string>
+    <string name="oldest">Oldest</string>
     <string name="most_issues">Most Issues</string>
-    <string name="most_starred">Most Starred</string>
+    <string name="most_starred">Most Stars</string>
     <string name="comments">Comments</string>
     <string name="repositories">repositories</string>
     <string name="repository">/repository</string>
@@ -36,4 +36,5 @@
     <string name="star_count">Star count</string>
     <string name="no_repositories">You have no repositories. \n Head over to GitHub and create one</string>
     <string name="no_issues">This repository has no issues</string>
+    <string name="no_match">No match</string>
 </resources>

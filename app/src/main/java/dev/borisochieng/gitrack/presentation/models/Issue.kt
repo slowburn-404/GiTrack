@@ -1,6 +1,4 @@
-package dev.borisochieng.gitrack.ui.models
-
-import android.content.res.ColorStateList
+package dev.borisochieng.gitrack.presentation.models
 
 data class Issue(
     val issueTitle: String,

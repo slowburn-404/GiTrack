@@ -1,11 +1,11 @@
-package dev.borisochieng.gitrack.ui.adapters
+package dev.borisochieng.gitrack.presentation.adapters
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.AsyncListDiffer
 import androidx.recyclerview.widget.RecyclerView
 import dev.borisochieng.gitrack.databinding.ItemRepositoryBinding
-import dev.borisochieng.gitrack.ui.models.Repository
+import dev.borisochieng.gitrack.presentation.models.Repository
 import androidx.recyclerview.widget.DiffUtil
 
 class RepositoryAdapter(private val onRepositoryClickListener: SetRecyclerViewItemClickListener<Repository>) :

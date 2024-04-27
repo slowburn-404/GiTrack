@@ -1,4 +1,4 @@
-package dev.borisochieng.gitrack.ui.viewmodels
+package dev.borisochieng.gitrack.presentation.viewmodels
 
 import android.util.Log
 import androidx.lifecycle.MutableLiveData
@@ -6,8 +6,8 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
 import dev.borisochieng.gitrack.data.GitTrackRepository
-import dev.borisochieng.gitrack.ui.models.Issue
-import dev.borisochieng.gitrack.ui.models.IssueSearchResult
+import dev.borisochieng.gitrack.presentation.models.Issue
+import dev.borisochieng.gitrack.presentation.models.IssueSearchResult
 import kotlinx.coroutines.launch
 import java.util.Locale
 
@@ -20,7 +20,7 @@ class RepositoryIssuesViewModel(
     private val _searchIssueLiveData = MutableLiveData<List<IssueSearchResult>>()
     val searchResultLiveData = _searchIssueLiveData
 
-    private val _filteredListLiveData = MutableLiveData<List<Issue>>()
+    private val _filteredListLiveData = MutableLiveData<List<Issue>?>()
     val filteredListLiveData = _filteredListLiveData
 
     fun getIssues(name: String, owner: String) =
@@ -51,13 +51,31 @@ class RepositoryIssuesViewModel(
             }
         }
     }
+
     fun filterByLabel(filterOptions: Set<String>) {
         viewModelScope.launch {
-            val filteredList = _issuesLiveData.value?.filter { issue ->
-                issue.labels.containsAll(filterOptions)
+            val originalList = _issuesLiveData.value ?: return@launch
+            val previousFilteredList = _filteredListLiveData.value ?: originalList
+
+            val filteredList = if (filterOptions.isNotEmpty()) {
+                originalList.filter { issue ->
+                    issue.labels.containsAll(filterOptions)
+                }
+            } else {
+                originalList
             }
 
-            _filteredListLiveData.value = filteredList ?: emptyList()
+            // If the current filteredList is different from the previous one, update _filteredListLiveData
+            if (filteredList != previousFilteredList) {
+                _filteredListLiveData.value = filteredList
+            }
+        }
+    }
+
+    fun clearFilter() {
+        viewModelScope.launch {
+            val originalList = _issuesLiveData.value ?: return@launch
+            _filteredListLiveData.value = originalList
         }
     }
 

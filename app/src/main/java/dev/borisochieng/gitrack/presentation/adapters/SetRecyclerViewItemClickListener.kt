@@ -1,4 +1,4 @@
-package dev.borisochieng.gitrack.ui.adapters
+package dev.borisochieng.gitrack.presentation.adapters
 
 fun interface SetRecyclerViewItemClickListener<T> {
     fun setOnItemClickListener(item: T)
