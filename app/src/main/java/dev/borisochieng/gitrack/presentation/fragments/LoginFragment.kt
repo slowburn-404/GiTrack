@@ -1,4 +1,4 @@
-package dev.borisochieng.gitrack.ui.fragments
+package dev.borisochieng.gitrack.presentation.fragments
 
 import android.content.Intent
 import android.net.Uri
@@ -17,8 +17,8 @@ import dev.borisochieng.gitrack.data.models.AccessTokenResponse
 import dev.borisochieng.gitrack.data.GitHubAuthService
 import dev.borisochieng.gitrack.data.RetrofitClient
 import dev.borisochieng.gitrack.databinding.FragmentLoginBinding
-import dev.borisochieng.gitrack.ui.viewmodels.LoginViewModel
-import dev.borisochieng.gitrack.ui.viewmodels.LoginViewModelFactory
+import dev.borisochieng.gitrack.presentation.viewmodels.LoginViewModel
+import dev.borisochieng.gitrack.presentation.viewmodels.LoginViewModelFactory
 import dev.borisochieng.gitrack.utils.AccessTokenManager
 import dev.borisochieng.gitrack.utils.Constants.CLIENT_ID
 import dev.borisochieng.gitrack.utils.Constants.CLIENT_SECRET

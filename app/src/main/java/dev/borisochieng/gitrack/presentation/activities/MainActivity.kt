@@ -1,4 +1,4 @@
-package dev.borisochieng.gitrack.ui.activities
+package dev.borisochieng.gitrack.presentation.activities
 
 import android.content.Intent
 import android.os.Bundle

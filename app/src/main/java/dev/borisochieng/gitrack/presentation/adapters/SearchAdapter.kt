@@ -1,4 +1,4 @@
-package dev.borisochieng.gitrack.ui.adapters
+package dev.borisochieng.gitrack.presentation.adapters
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
@@ -6,7 +6,7 @@ import androidx.recyclerview.widget.AsyncListDiffer
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import dev.borisochieng.gitrack.databinding.ItemSearchBinding
-import dev.borisochieng.gitrack.ui.models.RepositorySearchResult
+import dev.borisochieng.gitrack.presentation.models.RepositorySearchResult
 
 class SearchAdapter(
     private val onSearchResultItemClickListener: SetRecyclerViewItemClickListener<RepositorySearchResult>

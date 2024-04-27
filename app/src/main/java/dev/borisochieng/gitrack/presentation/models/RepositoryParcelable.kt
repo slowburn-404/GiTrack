@@ -1,4 +1,4 @@
-package dev.borisochieng.gitrack.ui.models
+package dev.borisochieng.gitrack.presentation.models
 
 import android.os.Parcel
 import android.os.Parcelable

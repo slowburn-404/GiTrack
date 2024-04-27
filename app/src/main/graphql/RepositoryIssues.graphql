@@ -1,6 +1,6 @@
 query RepositoryIssues($name: String!, $owner: String!, $first: Int!) {
     repository(name: $name, owner: $owner) {
-        issues(first: $first) {
+        issues(first: $first, orderBy: {field: CREATED_AT, direction: DESC}) {
                 nodes {
                     title
                     state

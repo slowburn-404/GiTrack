@@ -1,6 +1,6 @@
 query UserRepositories($login: String!, $last: Int!) {
     user(login: $login) {
-        repositories(last: $last) {
+        repositories(last: $last, orderBy: {field: CREATED_AT, direction: DESC}) {
             nodes{
                 databaseId
                 name

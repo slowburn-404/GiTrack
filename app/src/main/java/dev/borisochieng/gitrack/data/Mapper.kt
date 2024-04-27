@@ -8,10 +8,10 @@ import dev.borisochieng.SingleIssueQuery
 import dev.borisochieng.UserQuery
 import dev.borisochieng.UserRepositoriesQuery
 import dev.borisochieng.gitrack.domain.models.User
-import dev.borisochieng.gitrack.ui.models.Issue
-import dev.borisochieng.gitrack.ui.models.Repository
-import dev.borisochieng.gitrack.ui.models.RepositorySearchResult
-import dev.borisochieng.gitrack.ui.models.SingleIssue
+import dev.borisochieng.gitrack.presentation.models.Issue
+import dev.borisochieng.gitrack.presentation.models.Repository
+import dev.borisochieng.gitrack.presentation.models.RepositorySearchResult
+import dev.borisochieng.gitrack.presentation.models.SingleIssue
 import java.util.Locale
 
 fun UserQuery.Viewer.toSimpleUser(): User {

@@ -1,4 +1,4 @@
-package dev.borisochieng.gitrack.ui.viewmodels
+package dev.borisochieng.gitrack.presentation.viewmodels
 
 import android.util.Log
 import androidx.lifecycle.LiveData
@@ -8,8 +8,8 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
 import dev.borisochieng.gitrack.data.GitTrackRepository
 import dev.borisochieng.gitrack.domain.models.User
-import dev.borisochieng.gitrack.ui.models.Repository
-import dev.borisochieng.gitrack.ui.models.RepositorySearchResult
+import dev.borisochieng.gitrack.presentation.models.Repository
+import dev.borisochieng.gitrack.presentation.models.RepositorySearchResult
 import kotlinx.coroutines.launch
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter
@@ -70,8 +70,8 @@ class UserRepositoriesViewModel(
             val originalList = _repositoriesLiveData.value ?: return@launch
             val filteredList = _filteredListLiveData.value
             val sortedList = when (sortCondition) {
-                "Most Recent" -> {
-                    (filteredList ?: originalList).sortedByDescending { parseDate(it.createdAt) }
+                "Oldest" -> {
+                    (filteredList ?: originalList).sortedBy{ parseDate(it.createdAt) }
                 }
 
                 "Most Stars" -> {
@@ -96,8 +96,8 @@ class UserRepositoriesViewModel(
             val filteredList = if (selectedLanguage.isBlank()) {
                 originalList
             } else {
-                originalList.filter {
-                    it.languages?.contains(selectedLanguage) == true
+                originalList.filter {repository ->
+                    repository.languages?.contains(selectedLanguage) == true
                 }
             }
             _filteredListLiveData.value = filteredList

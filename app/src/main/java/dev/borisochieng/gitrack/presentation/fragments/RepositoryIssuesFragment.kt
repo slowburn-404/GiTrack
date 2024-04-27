@@ -1,4 +1,4 @@
-package dev.borisochieng.gitrack.ui.fragments
+package dev.borisochieng.gitrack.presentation.fragments
 
 import android.os.Bundle
 import android.text.Editable
@@ -17,16 +17,17 @@ import com.google.android.material.chip.Chip
 import com.google.android.material.chip.ChipGroup
 import com.google.android.material.progressindicator.CircularProgressIndicator
 import com.google.android.material.search.SearchView
+import com.google.android.material.textview.MaterialTextView
 import dev.borisochieng.gitrack.GitTrackApplication
 import dev.borisochieng.gitrack.databinding.FragmentRepositoryIssuesBinding
-import dev.borisochieng.gitrack.ui.models.Issue
-import dev.borisochieng.gitrack.ui.adapters.IssueAdapter
-import dev.borisochieng.gitrack.ui.adapters.SearchIssuesAdapter
-import dev.borisochieng.gitrack.ui.adapters.SetRecyclerViewItemClickListener
-import dev.borisochieng.gitrack.ui.models.IssueSearchResult
-import dev.borisochieng.gitrack.ui.models.SingleIssueParcelable
-import dev.borisochieng.gitrack.ui.viewmodels.RepositoryIssuesViewModel
-import dev.borisochieng.gitrack.ui.viewmodels.RepositoryIssuesViewModelFactory
+import dev.borisochieng.gitrack.presentation.models.Issue
+import dev.borisochieng.gitrack.presentation.adapters.IssueAdapter
+import dev.borisochieng.gitrack.presentation.adapters.SearchIssuesAdapter
+import dev.borisochieng.gitrack.presentation.adapters.SetRecyclerViewItemClickListener
+import dev.borisochieng.gitrack.presentation.models.IssueSearchResult
+import dev.borisochieng.gitrack.presentation.models.SingleIssueParcelable
+import dev.borisochieng.gitrack.presentation.viewmodels.RepositoryIssuesViewModel
+import dev.borisochieng.gitrack.presentation.viewmodels.RepositoryIssuesViewModelFactory
 
 class RepositoryIssuesFragment : Fragment() {
     private var _binding: FragmentRepositoryIssuesBinding? = null
@@ -39,6 +40,7 @@ class RepositoryIssuesFragment : Fragment() {
     private lateinit var progressIndicator: CircularProgressIndicator
     private lateinit var labelsChipGroup: ChipGroup
     private lateinit var searchResultSearchView: SearchView
+    private lateinit var noIssuesTextView: MaterialTextView
 
     private val navArgs: RepositoryIssuesFragmentArgs by navArgs<RepositoryIssuesFragmentArgs>()
 
@@ -82,6 +84,7 @@ class RepositoryIssuesFragment : Fragment() {
             labelsChipGroup = cgLabels
             searchResultRecyclerView = rvIssuesSearchResults
             searchResultSearchView = svIssues
+            noIssuesTextView = tvNoIssues
             tvNoIssues.visibility = View.GONE
         }
     }
@@ -151,7 +154,7 @@ class RepositoryIssuesFragment : Fragment() {
                     }
             } else {
                 issuesRecyclerView.visibility = View.GONE
-                binding.tvNoIssues.visibility = View.VISIBLE
+                noIssuesTextView.visibility = View.VISIBLE
             }
             progressIndicator.hide()
         }
@@ -211,13 +214,16 @@ class RepositoryIssuesFragment : Fragment() {
     }
 
     private fun filterBySelectedLabels() {
-        val selectedChipValues = mutableListOf<String>()
+        val selectedChipValues = mutableSetOf<String>()
         labelsChipGroup.setOnCheckedStateChangeListener { group, checkedIds ->
+            selectedChipValues.clear()
+
             checkedIds.forEach { checkedId ->
                 val selectedChip = group.findViewById<Chip>(checkedId)
                 selectedChipValues.add("${selectedChip.text}")
             }
-            repositoryIssuesViewModel.filterByLabel(selectedChipValues.toSet())
+
+            repositoryIssuesViewModel.filterByLabel(selectedChipValues)
             getFilteredListFromViewModel()
         }
 
@@ -225,7 +231,9 @@ class RepositoryIssuesFragment : Fragment() {
 
     private fun getFilteredListFromViewModel() {
         repositoryIssuesViewModel.filteredListLiveData.observe(viewLifecycleOwner) { filteredIssues ->
-            issuesAdapter.setList(filteredIssues)
+            filteredIssues?.let { filteredIssuesList ->
+                issuesAdapter.setList(filteredIssuesList)
+            }
         }
     }
 

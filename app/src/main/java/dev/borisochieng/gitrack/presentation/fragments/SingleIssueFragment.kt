@@ -1,4 +1,4 @@
-package dev.borisochieng.gitrack.ui.fragments
+package dev.borisochieng.gitrack.presentation.fragments
 
 import android.os.Bundle
 import androidx.fragment.app.Fragment
@@ -10,8 +10,8 @@ import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import dev.borisochieng.gitrack.GitTrackApplication
 import dev.borisochieng.gitrack.databinding.FragmentIssueBinding
-import dev.borisochieng.gitrack.ui.viewmodels.SingleIssueViewModel
-import dev.borisochieng.gitrack.ui.viewmodels.SingleIssueViewModelFactory
+import dev.borisochieng.gitrack.presentation.viewmodels.SingleIssueViewModel
+import dev.borisochieng.gitrack.presentation.viewmodels.SingleIssueViewModelFactory
 
 class SingleIssueFragment : Fragment() {
     private var _binding : FragmentIssueBinding? = null
