@@ -11,17 +11,14 @@ import dev.borisochieng.gitrack.presentation.models.SingleIssue
 class GitTrackRepository(
     private val apiService: GithubService
 ) {
-    @WorkerThread
     suspend fun getUser(): User =
         apiService.getUser()
 
-    @WorkerThread
     suspend fun getRepositories(
         username: String
     ): List<Repository> =
         apiService.getUserRepositories(username)
 
-    @WorkerThread
     suspend fun getRepositoryIssues(
         repositoryName: String,
         repositoryOwner: String,
@@ -29,7 +26,6 @@ class GitTrackRepository(
         apiService.getRepositoryIssue(repositoryName, repositoryOwner)
 
 
-    @WorkerThread
     suspend fun getSingleIssue(
         username: String,
         owner: String,
@@ -37,7 +33,6 @@ class GitTrackRepository(
     ): SingleIssue =
         apiService.getSingleIssue(username, owner, number)
 
-    @WorkerThread
     suspend fun searchPublicRepositories(
         query: String
     ): List<RepositorySearchResult> =

@@ -5,11 +5,11 @@ import android.content.SharedPreferences
 
 object AccessTokenManager {
     private const val PREF_NAME = "AccessTokenPrefs"
-    private const val KEY_ACCESS_TOKEN = "accessToken"
+    const val KEY_ACCESS_TOKEN = "accessToken"
 
 
     //create shared preferences
-    private fun getSharedPreferences(context: Context): SharedPreferences =
+    fun getSharedPreferences(context: Context): SharedPreferences =
         context.getSharedPreferences(
             PREF_NAME, Context.MODE_PRIVATE
         )
