@@ -26,7 +26,7 @@ class GithubServiceImpl(
 
     override suspend fun getUserRepositories(username: String): List<Repository> {
         return apolloClient
-                .query(UserRepositoriesQuery(username, 50))
+                .query(UserRepositoriesQuery(username, PAGING_SIZE))
                 .execute()
                 .data
                 ?.toSimpleRepository()
@@ -38,7 +38,7 @@ class GithubServiceImpl(
         repositoryOwner: String
     ): List<Issue> {
         return apolloClient
-            .query(RepositoryIssuesQuery(repositoryName, repositoryOwner, 50))
+            .query(RepositoryIssuesQuery(repositoryName, repositoryOwner, PAGING_SIZE))
             .execute()
             .data
             ?.toSimpleIssue()
@@ -48,7 +48,7 @@ class GithubServiceImpl(
 
     override suspend fun getSingleIssue(name: String, owner: String, number: Int): SingleIssue {
         return apolloClient
-            .query(SingleIssueQuery(name, owner, number, 50))
+            .query(SingleIssueQuery(name, owner, number, PAGING_SIZE))
             .execute()
             .data
             ?.toSimpleSingleIssue()
@@ -69,5 +69,9 @@ class GithubServiceImpl(
             .data
             ?.toSimpleRepositorySearchResult()
             ?: emptyList()
+    }
+
+    companion object  {
+        private const val PAGING_SIZE = 20
     }
 }

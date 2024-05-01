@@ -13,9 +13,6 @@ import androidx.navigation.fragment.findNavController
 import com.google.android.material.snackbar.Snackbar
 import dev.borisochieng.gitrack.GitTrackApplication
 import dev.borisochieng.gitrack.R
-import dev.borisochieng.gitrack.data.models.AccessTokenResponse
-import dev.borisochieng.gitrack.data.GitHubAuthService
-import dev.borisochieng.gitrack.data.RetrofitClient
 import dev.borisochieng.gitrack.databinding.FragmentLoginBinding
 import dev.borisochieng.gitrack.presentation.viewmodels.LoginViewModel
 import dev.borisochieng.gitrack.presentation.viewmodels.LoginViewModelFactory
@@ -23,9 +20,6 @@ import dev.borisochieng.gitrack.utils.AccessTokenManager
 import dev.borisochieng.gitrack.utils.Constants.CLIENT_ID
 import dev.borisochieng.gitrack.utils.Constants.CLIENT_SECRET
 import dev.borisochieng.gitrack.utils.Constants.GITHUB_AUTH_URL
-import retrofit2.Call
-import retrofit2.Callback
-import retrofit2.Response
 import java.util.UUID
 
 class LoginFragment : Fragment() {
@@ -35,7 +29,7 @@ class LoginFragment : Fragment() {
     private var isResumedFromDeepLink = false
 
     private val loginViewModel: LoginViewModel by viewModels {
-        LoginViewModelFactory((requireActivity().application as GitTrackApplication).gitTrackRepository)
+        LoginViewModelFactory((requireActivity().application as GitTrackApplication).authRepository)
     }
 
     override fun onCreateView(
@@ -79,48 +73,33 @@ class LoginFragment : Fragment() {
     private fun getCodeFromUri(uri: Uri?): String? = uri?.getQueryParameter("code")
 
 
-    //APIService call to exchange code for access token
-    private fun requestAccessToken(
-        code: String?
-    ) {
-
-        val authService = RetrofitClient.instance.create(GitHubAuthService::class.java)
-
-        val call: Call<AccessTokenResponse>? = code?.let {
-            authService.getAccessToken(CLIENT_ID, CLIENT_SECRET, code = it)
+    private fun getAccessTokenFromViewModel(code: String?) {
+        binding.piLogin.show()
+        binding.bTLogin.isEnabled = false
+        code?.let {
+            loginViewModel.getAccessToken(CLIENT_ID, CLIENT_SECRET, it)
         }
 
-        call?.enqueue(object : Callback<AccessTokenResponse> {
-            override fun onResponse(
-                call: Call<AccessTokenResponse>, response: Response<AccessTokenResponse>
-            ) {
-                if (response.isSuccessful) {
-                    val accessToken = response.body()?.accessToken
-                    accessToken?.let {
-                        AccessTokenManager.saveAccessToken(
-                            requireContext(), it
-                        )
-                        binding.piLogin.show()
-                        binding.bTLogin.isEnabled = false
-                        findNavController().navigate(R.id.action_loginFragment_to_userRepositoriesFragment)
+        loginViewModel.accessToken.observe(viewLifecycleOwner) { accessTokenResponse ->
+            if (accessTokenResponse != null) {
+                AccessTokenManager.saveAccessToken(
+                    requireContext(),
+                    accessTokenResponse.accessToken
+                )
 
-                    }
+                findNavController().navigate(R.id.action_loginFragment_to_userRepositoriesFragment)
 
-                } else {
-                    //TODO better error handling
-                    Snackbar.make(
-                        binding.root, "Something went wrong kindly try again", Snackbar.LENGTH_LONG
-                    ).show()
-                }
+                AccessTokenManager.getAccessToken(requireContext())
+                    ?.let { Log.d("AccessToken", it) }
+            } else {
+                Snackbar.make(
+                    binding.root,
+                    "Something went wrong please try again",
+                    Snackbar.LENGTH_SHORT
+                ).show()
             }
+        }
 
-            override fun onFailure(call: Call<AccessTokenResponse>, t: Throwable) {
-                //TODO better error handling
-                Snackbar.make(binding.root, "${t.message}", Snackbar.LENGTH_LONG).show()
-                Log.e("APIService Call Error", t.message.toString())
-            }
-
-        })
     }
 
     private fun handleDeepLink() {
@@ -128,7 +107,7 @@ class LoginFragment : Fragment() {
         Log.d("Deeplink data", dataFromDeepLink.toString())
         dataFromDeepLink?.let { uri ->
             val code = getCodeFromUri(uri)
-            requestAccessToken(code)
+            getAccessTokenFromViewModel(code)
             //clear deeplink
             requireActivity().intent?.data = null
         }
