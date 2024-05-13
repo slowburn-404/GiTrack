@@ -1,4 +1,4 @@
-package dev.borisochieng.gitrack.data
+package dev.borisochieng.gitrack.data.mapper
 
 import android.icu.text.SimpleDateFormat
 import android.icu.util.TimeZone
@@ -8,11 +8,13 @@ import dev.borisochieng.SingleIssueQuery
 import dev.borisochieng.UserQuery
 import dev.borisochieng.UserRepositoriesQuery
 import dev.borisochieng.gitrack.domain.models.User
-import dev.borisochieng.gitrack.presentation.models.Issue
-import dev.borisochieng.gitrack.presentation.models.Repository
-import dev.borisochieng.gitrack.presentation.models.RepositorySearchResult
-import dev.borisochieng.gitrack.presentation.models.SingleIssue
+import dev.borisochieng.gitrack.domain.models.Issue
+import dev.borisochieng.gitrack.domain.models.Repository
+import dev.borisochieng.gitrack.domain.models.RepositorySearchResult
+import dev.borisochieng.gitrack.domain.models.SingleIssue
 import java.util.Locale
+
+// Maps API response to domain level objects
 
 fun UserQuery.Viewer.toSimpleUser(): User {
     return User(username = login)

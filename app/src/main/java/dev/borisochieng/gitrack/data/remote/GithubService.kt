@@ -1,10 +1,10 @@
-package dev.borisochieng.gitrack.domain
+package dev.borisochieng.gitrack.data.remote
 
 import dev.borisochieng.gitrack.domain.models.User
-import dev.borisochieng.gitrack.presentation.models.Issue
-import dev.borisochieng.gitrack.presentation.models.Repository
-import dev.borisochieng.gitrack.presentation.models.RepositorySearchResult
-import dev.borisochieng.gitrack.presentation.models.SingleIssue
+import dev.borisochieng.gitrack.domain.models.Issue
+import dev.borisochieng.gitrack.domain.models.Repository
+import dev.borisochieng.gitrack.domain.models.RepositorySearchResult
+import dev.borisochieng.gitrack.domain.models.SingleIssue
 
 interface GithubService {
 

@@ -7,8 +7,7 @@
     <string name="password">Password</string>
     <string name="login">Login with Github</string>
     <string name="create_account">Don\'t have an account?</string>
-    <string name="account">Create one</string>
-    <string name="username">/username</string>
+    <string name="screen_title">/%s</string>
     <string name="logout">Logout</string>
     <string name="search_repositories">Search public repositories on GitHub</string>
     <string name="search_issues">Search issues</string>
@@ -23,7 +22,6 @@
     <string name="most_starred">Most Stars</string>
     <string name="comments">Comments</string>
     <string name="repositories">repositories</string>
-    <string name="repository">/repository</string>
     <plurals name="comments">
         <item quantity="one">%d comment</item>
         <item quantity="other">%d comments</item>

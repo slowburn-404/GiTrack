@@ -1,4 +1,4 @@
-package dev.borisochieng.gitrack.data
+package dev.borisochieng.gitrack.data.remote
 
 import dev.borisochieng.gitrack.data.models.AccessTokenResponse
 import dev.borisochieng.gitrack.utils.Constants.GITHUB_TOKEN_URL

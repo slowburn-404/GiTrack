@@ -52,7 +52,7 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
             android:padding="4dp"
-            android:text="@string/repository"
+            android:text="@string/screen_title"
             android:textAppearance="@style/TextAppearance.Material3.HeadlineSmall"
             android:textColor="@color/md_theme_primary" />
 

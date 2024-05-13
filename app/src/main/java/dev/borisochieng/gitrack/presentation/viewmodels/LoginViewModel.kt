@@ -1,12 +1,10 @@
 package dev.borisochieng.gitrack.presentation.viewmodels
 
-import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
-import dev.borisochieng.gitrack.data.GitTrackRepository
-import dev.borisochieng.gitrack.data.GithubAuthRepository
+import dev.borisochieng.gitrack.data.repositories.AuthRepository
 import dev.borisochieng.gitrack.data.models.AccessTokenResponse
 import kotlinx.coroutines.launch
 import retrofit2.Call
@@ -14,7 +12,7 @@ import retrofit2.Callback
 import retrofit2.Response
 
 class LoginViewModel(
-    private val authRepository: GithubAuthRepository
+    private val authRepository: AuthRepository
 ) : ViewModel() {
     private val _accessToken = MutableLiveData<AccessTokenResponse?>()
     val accessToken = _accessToken
@@ -46,7 +44,7 @@ class LoginViewModel(
 
         }
 
-    class LoginViewModelFactory(private val authRepository: GithubAuthRepository) :
+    class LoginViewModelFactory(private val authRepository: AuthRepository) :
         ViewModelProvider.Factory {
 
         override fun <T : ViewModel> create(modelClass: Class<T>): T {

@@ -6,8 +6,8 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
-import dev.borisochieng.gitrack.data.GitTrackRepository
-import dev.borisochieng.gitrack.presentation.models.SingleIssue
+import dev.borisochieng.gitrack.data.repositories.GitTrackRepository
+import dev.borisochieng.gitrack.domain.models.SingleIssue
 import kotlinx.coroutines.launch
 
 class SingleIssueViewModel(

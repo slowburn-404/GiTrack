@@ -10660,7 +10660,7 @@ type EnqueuePullRequestPayload {
 }
 
 """
-An account to manage multiple organizations with consolidated policy and billing.
+An screen_title to manage multiple organizations with consolidated policy and billing.
 """
 type Enterprise implements AnnouncementBanner & Node {
   """
@@ -10928,16 +10928,16 @@ enum EnterpriseAdministratorInvitationOrderField {
 }
 
 """
-The possible administrator roles in an enterprise account.
+The possible administrator roles in an enterprise screen_title.
 """
 enum EnterpriseAdministratorRole {
   """
-  Represents an owner of the enterprise account.
+  Represents an owner of the enterprise screen_title.
   """
   OWNER
 
   """
-  Represents a billing manager of the enterprise account.
+  Represents a billing manager of the enterprise screen_title.
   """
   BILLING_MANAGER
 }
@@ -10957,28 +10957,28 @@ enum EnterpriseAllowPrivateRepositoryForkingPolicyValue {
   SAME_ORGANIZATION
 
   """
-  Members can fork a repository to their user account or within the same organization.
+  Members can fork a repository to their user screen_title or within the same organization.
   """
   SAME_ORGANIZATION_USER_ACCOUNTS
 
   """
-  Members can fork a repository to their enterprise-managed user account or an organization inside this enterprise.
+  Members can fork a repository to their enterprise-managed user screen_title or an organization inside this enterprise.
   """
   ENTERPRISE_ORGANIZATIONS_USER_ACCOUNTS
 
   """
-  Members can fork a repository to their user account.
+  Members can fork a repository to their user screen_title.
   """
   USER_ACCOUNTS
 
   """
-  Members can fork a repository to their user account or an organization, either inside or outside of this enterprise.
+  Members can fork a repository to their user screen_title or an organization, either inside or outside of this enterprise.
   """
   EVERYWHERE
 }
 
 """
-Metadata for an audit entry containing enterprise account information.
+Metadata for an audit entry containing enterprise screen_title information.
 """
 interface EnterpriseAuditEntryData {
   """
@@ -12145,7 +12145,7 @@ enum EnterpriseServerInstallationOrderField {
 }
 
 """
-A user account on an Enterprise Server installation.
+A user screen_title on an Enterprise Server installation.
 """
 type EnterpriseServerUserAccount implements Node {
   """
@@ -12244,7 +12244,7 @@ type EnterpriseServerUserAccountEdge {
 }
 
 """
-An email belonging to a user account on an Enterprise Server installation.
+An email belonging to a user screen_title on an Enterprise Server installation.
 """
 type EnterpriseServerUserAccountEmail implements Node {
   """
@@ -12319,7 +12319,7 @@ type EnterpriseServerUserAccountEmailEdge {
 }
 
 """
-Ordering options for Enterprise Server user account email connections.
+Ordering options for Enterprise Server user screen_title email connections.
 """
 input EnterpriseServerUserAccountEmailOrder {
   """
@@ -12334,7 +12334,7 @@ input EnterpriseServerUserAccountEmailOrder {
 }
 
 """
-Properties by which Enterprise Server user account email connections can be ordered.
+Properties by which Enterprise Server user screen_title email connections can be ordered.
 """
 enum EnterpriseServerUserAccountEmailOrderField {
   """
@@ -12344,7 +12344,7 @@ enum EnterpriseServerUserAccountEmailOrderField {
 }
 
 """
-Ordering options for Enterprise Server user account connections.
+Ordering options for Enterprise Server user screen_title connections.
 """
 input EnterpriseServerUserAccountOrder {
   """
@@ -12359,7 +12359,7 @@ input EnterpriseServerUserAccountOrder {
 }
 
 """
-Properties by which Enterprise Server user account connections can be ordered.
+Properties by which Enterprise Server user screen_title connections can be ordered.
 """
 enum EnterpriseServerUserAccountOrderField {
   """
@@ -12499,7 +12499,7 @@ enum EnterpriseServerUserAccountsUploadSyncState {
 }
 
 """
-An account for a user who is an admin of an enterprise or a member of an enterprise through one or more organizations.
+An screen_title for a user who is an admin of an enterprise or a member of an enterprise through one or more organizations.
 """
 type EnterpriseUserAccount implements Actor & Node {
   """
@@ -15438,7 +15438,7 @@ enum IssueTimelineItemsItemType {
 }
 
 """
-Represents a user signing up for a GitHub account.
+Represents a user signing up for a GitHub screen_title.
 """
 type JoinedGitHubContribution implements Contribution {
   """
@@ -21964,12 +21964,12 @@ enum OrgRemoveMemberAuditEntryReason {
   SAML_SSO_ENFORCEMENT_REQUIRES_EXTERNAL_IDENTITY
 
   """
-  User account has been deleted
+  User screen_title has been deleted
   """
   USER_ACCOUNT_DELETED
 
   """
-  User was removed from organization during account recovery
+  User was removed from organization during screen_title recovery
   """
   TWO_FACTOR_ACCOUNT_RECOVERY
 }
@@ -22937,7 +22937,7 @@ type OrgUpdateMemberRepositoryInvitationPermissionAuditEntry implements AuditEnt
 }
 
 """
-An account on GitHub, with one or more owners, that has repositories, members and teams.
+An screen_title on GitHub, with one or more owners, that has repositories, members and teams.
 """
 type Organization implements Actor & AnnouncementBanner & MemberStatusable & Node & PackageOwner & ProfileOwner & ProjectOwner & ProjectV2Owner & ProjectV2Recent & RepositoryDiscussionAuthor & RepositoryDiscussionCommentAuthor & RepositoryOwner & Sponsorable & UniformResourceLocatable {
   """
@@ -35819,7 +35819,7 @@ A repository interaction limit.
 """
 enum RepositoryInteractionLimit {
   """
-  Users that have recently created their account will be unable to interact with the repository.
+  Users that have recently created their screen_title will be unable to interact with the repository.
   """
   EXISTING_USERS
 
@@ -39285,7 +39285,7 @@ enum SocialAccountProvider {
 union Sponsor = Organization|User
 
 """
-A GitHub account and the total amount in USD they've paid for sponsorships to a particular maintainer. Does not include payments made via Patreon.
+A GitHub screen_title and the total amount in USD they've paid for sponsorships to a particular maintainer. Does not include payments made via Patreon.
 """
 type SponsorAndLifetimeValue {
   """
@@ -42329,7 +42329,7 @@ Represents textual data as UTF-8 character sequences. This type is most often us
 scalar String
 
 """
-A Stripe Connect account for receiving sponsorship funds from GitHub Sponsors.
+A Stripe Connect screen_title for receiving sponsorship funds from GitHub Sponsors.
 """
 type StripeConnectAccount {
   """
@@ -48226,7 +48226,7 @@ type UpdateUserListsForItemPayload {
 }
 
 """
-A user is an individual's account on GitHub that owns repositories and can make new content.
+A user is an individual's screen_title on GitHub that owns repositories and can make new content.
 """
 type User implements Actor & Node & PackageOwner & ProfileOwner & ProjectOwner & ProjectV2Owner & ProjectV2Recent & RepositoryDiscussionAuthor & RepositoryDiscussionCommentAuthor & RepositoryOwner & Sponsorable & UniformResourceLocatable {
   """

@@ -1,4 +1,4 @@
-package dev.borisochieng.gitrack.presentation.models
+package dev.borisochieng.gitrack.domain.models
 
 data class Issue(
     val issueTitle: String,

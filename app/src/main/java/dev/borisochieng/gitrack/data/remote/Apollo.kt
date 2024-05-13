@@ -1,4 +1,4 @@
-package dev.borisochieng.gitrack.data
+package dev.borisochieng.gitrack.data.remote
 
 import com.apollographql.apollo3.ApolloClient
 import com.apollographql.apollo3.network.okHttpClient

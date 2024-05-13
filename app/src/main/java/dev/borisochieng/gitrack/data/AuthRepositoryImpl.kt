@@ -1,10 +1,11 @@
 package dev.borisochieng.gitrack.data
 
+import dev.borisochieng.gitrack.data.remote.GitHubAuthService
 import dev.borisochieng.gitrack.data.models.AccessTokenResponse
 import retrofit2.Call
 import retrofit2.Retrofit
 
-class GithubAuthServiceImpl(
+class AuthRepositoryImpl(
     private val retrofit: Retrofit
 ) : GitHubAuthService {
     override fun getAccessToken(
