@@ -29,7 +29,6 @@ import dev.borisochieng.gitrack.presentation.adapters.SetRecyclerViewItemClickLi
 import dev.borisochieng.gitrack.presentation.models.IssueSearchResult
 import dev.borisochieng.gitrack.presentation.models.SingleIssueParcelable
 import dev.borisochieng.gitrack.presentation.viewmodels.RepositoryIssuesViewModel
-import dev.borisochieng.gitrack.presentation.viewmodels.RepositoryIssuesViewModelFactory
 
 class RepositoryIssuesFragment : Fragment() {
     private var _binding: FragmentRepositoryIssuesBinding? = null
@@ -47,7 +46,7 @@ class RepositoryIssuesFragment : Fragment() {
     private val navArgs: RepositoryIssuesFragmentArgs by navArgs<RepositoryIssuesFragmentArgs>()
 
     private val repositoryIssuesViewModel: RepositoryIssuesViewModel by viewModels {
-        RepositoryIssuesViewModelFactory((requireActivity().application as GitTrackApplication).gitTrackRepository)
+       (requireActivity().application as GitTrackApplication).sharedViewModelFactory
     }
 
     override fun onCreateView(

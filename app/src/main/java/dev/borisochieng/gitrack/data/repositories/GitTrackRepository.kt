@@ -18,14 +18,14 @@ class GitTrackRepository(
 
     suspend fun getRepositories(
         username: String
-    ): List<Repository> = withContext(Dispatchers.IO) {
+    ): List<Repository>? = withContext(Dispatchers.IO) {
         githubService.getUserRepositories(username)
     }
 
     suspend fun getRepositoryIssues(
         repositoryName: String,
         repositoryOwner: String,
-    ): List<Issue> = withContext(Dispatchers.IO) {
+    ): List<Issue>? = withContext(Dispatchers.IO) {
         githubService.getRepositoryIssue(repositoryName, repositoryOwner)
     }
 
@@ -37,7 +37,7 @@ class GitTrackRepository(
 
     suspend fun searchPublicRepositories(
         query: String
-    ): List<RepositorySearchResult> = withContext(Dispatchers.IO) {
+    ): List<RepositorySearchResult>? = withContext(Dispatchers.IO) {
         githubService.searchPublicRepositories(query)
     }
 }

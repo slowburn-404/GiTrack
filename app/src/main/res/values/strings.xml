@@ -15,7 +15,7 @@
     <string name="repository_desc">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce in ipsum sit amet quam faucibus maximus. Ut lobortis enim rutrum sagittis ultricies. Donec egestas rhoncus erat, nec mattis velit pulvinar eget. Integer nec rhoncus ligula, quis efficitur neque. Suspendisse malesuada, ligula eget maximus porta, nunc nunc consectetur augue, sed interdum nisl augue in augue. Suspendisse feugiat gravida interdum. Vestibulum semper ultricies ipsum, sed porta felis</string>
     <string name="status">Open</string>
     <string name="issues">issues</string>
-    <string name="single_issue">Issue</string>
+    <string name="single_issue">Issue #%s</string>
     <string name="sort_by">Sort by:</string>
     <string name="oldest">Oldest</string>
     <string name="most_issues">Most Issues</string>

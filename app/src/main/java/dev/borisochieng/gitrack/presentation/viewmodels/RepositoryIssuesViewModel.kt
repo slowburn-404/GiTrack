@@ -3,7 +3,6 @@ package dev.borisochieng.gitrack.presentation.viewmodels
 import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
 import dev.borisochieng.gitrack.data.repositories.GitTrackRepository
 import dev.borisochieng.gitrack.domain.models.Issue
@@ -31,13 +30,16 @@ class RepositoryIssuesViewModel(
     fun getIssues(name: String, owner: String) =
         viewModelScope.launch {
             try {
-                val issues = gitTrackRepository.getRepositoryIssues(name, owner)
+                //return early if there are no issues
+                val issues = gitTrackRepository.getRepositoryIssues(name, owner) ?: return@launch
+
+                val sortedIssues = withContext(Dispatchers.Default) {
+                    issues.sortedByDescending { it.number }
+                }
 
                 withContext(Dispatchers.Main) {
-                    issues.let {
-                        _issuesLiveData.value = it
-                        getLabels(it)
-                    }
+                    _issuesLiveData.value = sortedIssues
+                    getLabels(sortedIssues)
                 }
 
             } catch (e: Exception) {
@@ -49,8 +51,9 @@ class RepositoryIssuesViewModel(
 
     private fun getLabels(issuesList: List<Issue>) =
         viewModelScope.launch(Dispatchers.Default) {
+            //flatten the list of labels from all issues and convert to set to remove duplicates
             val labelSet =
-            issuesList.flatMap {it.labels }.toSet()
+                issuesList.flatMap { it.labels }.toSet()
 
             withContext(Dispatchers.Main) {
                 _labelsLiveData.value = labelSet
@@ -60,7 +63,6 @@ class RepositoryIssuesViewModel(
     fun filterByLabel(filterOptions: Set<String>) =
         viewModelScope.launch(Dispatchers.Default) {
             val originalList = _issuesLiveData.value ?: return@launch
-            //val previousFilteredList = _filteredListLiveData.value ?: originalList
 
             val filteredList = if (filterOptions.isNotEmpty()) {
                 originalList.filter { issue ->
@@ -98,13 +100,14 @@ class RepositoryIssuesViewModel(
             }
         }
 
-
+    /*
     fun clearFilter() {
         viewModelScope.launch {
             val originalList = _issuesLiveData.value ?: return@launch
             _filteredListLiveData.value = originalList
         }
     }
+     */
 
 
     private fun transformIssueToSearchResult(issuesList: List<Issue>?): List<IssueSearchResult> =
@@ -116,17 +119,4 @@ class RepositoryIssuesViewModel(
             )
         } ?: emptyList()
 
-}
-
-class RepositoryIssuesViewModelFactory(
-    private val gitTrackRepository: GitTrackRepository
-) : ViewModelProvider.Factory {
-    override fun <T : ViewModel> create(modelClass: Class<T>): T {
-        if (modelClass.isAssignableFrom(RepositoryIssuesViewModel::class.java)) {
-            @Suppress("UNCHECKED_CAST")
-            return RepositoryIssuesViewModel(gitTrackRepository) as T
-        }
-        throw IllegalArgumentException("Unknown ViewModel Class")
-
-    }
 }

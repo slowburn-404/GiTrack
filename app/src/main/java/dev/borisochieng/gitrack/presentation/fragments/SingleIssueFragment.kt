@@ -9,9 +9,9 @@ import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import dev.borisochieng.gitrack.GitTrackApplication
+import dev.borisochieng.gitrack.R
 import dev.borisochieng.gitrack.databinding.FragmentIssueBinding
 import dev.borisochieng.gitrack.presentation.viewmodels.SingleIssueViewModel
-import dev.borisochieng.gitrack.presentation.viewmodels.SingleIssueViewModelFactory
 
 class SingleIssueFragment : Fragment() {
     private var _binding : FragmentIssueBinding? = null
@@ -20,7 +20,7 @@ class SingleIssueFragment : Fragment() {
     private val navArgs: SingleIssueFragmentArgs by navArgs<SingleIssueFragmentArgs>()
 
     private val singleIssueViewModel: SingleIssueViewModel by viewModels {
-        SingleIssueViewModelFactory((requireActivity().application as GitTrackApplication).gitTrackRepository)
+       (requireActivity().application as GitTrackApplication).sharedViewModelFactory
     }
 
     override fun onCreateView(
@@ -38,7 +38,7 @@ class SingleIssueFragment : Fragment() {
         val repoOwner = navArgs.singleIssue.repoOwner
         val issueNumber = navArgs.singleIssue.issueNumber
 
-        binding.mtIssue.title = "Issue #$issueNumber"
+        binding.mtIssue.title = resources.getString(R.string.single_issue, "$issueNumber")
 
         getIssueFromViewModel(repoName, repoOwner, issueNumber)
 
