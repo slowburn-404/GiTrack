@@ -48,7 +48,7 @@
             android:layout_width="24dp"
             android:layout_height="24dp"
             android:layout_margin="4dp"
-            android:contentDescription="@string/username"
+            android:contentDescription="@string/screen_title"
             android:src="@drawable/ic_avatar"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/tv_issue_title" />

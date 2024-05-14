@@ -7,13 +7,18 @@ import dev.borisochieng.SingleIssueQuery
 import dev.borisochieng.UserQuery
 import dev.borisochieng.gitrack.domain.models.User
 import dev.borisochieng.UserRepositoriesQuery
-import dev.borisochieng.gitrack.domain.GithubService
-import dev.borisochieng.gitrack.presentation.models.Issue
-import dev.borisochieng.gitrack.presentation.models.Repository
-import dev.borisochieng.gitrack.presentation.models.RepositorySearchResult
-import dev.borisochieng.gitrack.presentation.models.SingleIssue
+import dev.borisochieng.gitrack.data.mapper.toSimpleIssue
+import dev.borisochieng.gitrack.data.mapper.toSimpleRepository
+import dev.borisochieng.gitrack.data.mapper.toSimpleRepositorySearchResult
+import dev.borisochieng.gitrack.data.mapper.toSimpleSingleIssue
+import dev.borisochieng.gitrack.data.mapper.toSimpleUser
+import dev.borisochieng.gitrack.data.remote.GithubService
+import dev.borisochieng.gitrack.domain.models.Issue
+import dev.borisochieng.gitrack.domain.models.Repository
+import dev.borisochieng.gitrack.domain.models.RepositorySearchResult
+import dev.borisochieng.gitrack.domain.models.SingleIssue
 
-class GithubServiceImpl(
+class GitHubServiceImpl(
     private val apolloClient: ApolloClient
 ) : GithubService {
     override suspend fun getUser(): User {

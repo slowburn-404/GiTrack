@@ -26,12 +26,12 @@ import com.google.android.material.textview.MaterialTextView
 import dev.borisochieng.gitrack.GitTrackApplication
 import dev.borisochieng.gitrack.R
 import dev.borisochieng.gitrack.databinding.FragmentUserRepositoriesBinding
-import dev.borisochieng.gitrack.presentation.models.Repository
+import dev.borisochieng.gitrack.domain.models.Repository
 import dev.borisochieng.gitrack.presentation.adapters.SetRecyclerViewItemClickListener
 import dev.borisochieng.gitrack.presentation.adapters.RepositoryAdapter
 import dev.borisochieng.gitrack.presentation.adapters.SearchAdapter
 import dev.borisochieng.gitrack.presentation.models.RepositoryParcelable
-import dev.borisochieng.gitrack.presentation.models.RepositorySearchResult
+import dev.borisochieng.gitrack.domain.models.RepositorySearchResult
 import dev.borisochieng.gitrack.presentation.viewmodels.UserRepositoriesViewModel
 import dev.borisochieng.gitrack.presentation.viewmodels.UserRepositoriesViewModelFactory
 import dev.borisochieng.gitrack.utils.AccessTokenManager
@@ -72,6 +72,7 @@ class UserRepositoriesFragment : Fragment() {
         initRecyclerView()
         initSearchRecyclerView()
         getUserFromViewModel()
+        getLanguagesFromViewModel()
         handleBackPress()
         getSearchResultFromAPI()
         filterByLanguage()
@@ -159,18 +160,21 @@ class UserRepositoriesFragment : Fragment() {
             findNavController().navigate(action)
         }
 
+    private fun getUserFromViewModel() {
+        userRepositoriesViewModel.userLiveData.observe(viewLifecycleOwner) {
+            binding.tvUsername.text = resources.getString(R.string.screen_title, it.username)
+            username = it.username
+            getRepositoriesFromViewModel(it.username)
+        }
+        userRepositoriesViewModel.getUser()
+    }
+
     private fun getRepositoriesFromViewModel(username: String) {
         repositoryProgressCircular.show()
         userRepositoriesViewModel.getRepositories(username)
         userRepositoriesViewModel.repositoriesLiveData.observe(viewLifecycleOwner) { repositoriesList ->
             if (repositoriesList?.isNotEmpty() == true) {
-                val languagesList = mutableListOf<String>()
                 repositoryAdapter.setList(repositoriesList)
-                repositoriesList.flatMap { repository -> repository.languages!! }
-                    .forEach { language ->
-                        languagesList.add(language)
-                    }
-                addLanguagesToChipGroup(languagesList.toSet())
             } else {
                 repositoryRecyclerView.visibility = View.GONE
                 binding.tvNoRepos.visibility = View.VISIBLE
@@ -180,13 +184,12 @@ class UserRepositoriesFragment : Fragment() {
 
     }
 
-    private fun getUserFromViewModel() {
-        userRepositoriesViewModel.userLiveData.observe(viewLifecycleOwner) {
-            binding.tvUsername.text = "/${it.username}"
-            username = it.username
-            getRepositoriesFromViewModel(it.username)
+    private fun getLanguagesFromViewModel() {
+        userRepositoriesViewModel.languagesLiveData.observe(viewLifecycleOwner) { languages ->
+            languages?.let {
+                addLanguagesToChipGroup(it)
+            }
         }
-        userRepositoriesViewModel.getUser()
     }
 
     private fun getSearchResultsFromViewModel(query: String) {
@@ -315,6 +318,7 @@ class UserRepositoriesFragment : Fragment() {
         languagesChipGroup.setOnCheckedStateChangeListener { group, _ ->
             sortByTextView.text = resources.getString(R.string.sort_by)
             val selectedChipId = group.checkedChipId
+            //chip selection check
             if (selectedChipId != -1) {
                 val selectedChip = group.findViewById<Chip>(selectedChipId)
                 val selectedLanguage = selectedChip.text.toString()
