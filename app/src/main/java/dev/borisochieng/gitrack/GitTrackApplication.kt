@@ -8,6 +8,7 @@ import dev.borisochieng.gitrack.data.repositories.AuthRepository
 import dev.borisochieng.gitrack.data.GitHubAuthServiceImpl
 import dev.borisochieng.gitrack.data.GitHubServiceImpl
 import dev.borisochieng.gitrack.data.remote.RetrofitClient
+import dev.borisochieng.gitrack.presentation.viewmodels.SharedViewModelFactory
 import dev.borisochieng.gitrack.utils.AccessTokenManager
 
 class GitTrackApplication : Application() {
@@ -25,24 +26,28 @@ class GitTrackApplication : Application() {
         accessTokenObserver =
             SharedPreferences.OnSharedPreferenceChangeListener { _, key ->
                 if (key == AccessTokenManager.KEY_ACCESS_TOKEN) {
-                    initializeGitrackRepository()
+                    initializeGiTrackRepository()
                 }
             }
         AccessTokenManager.getSharedPreferences(this)
             .registerOnSharedPreferenceChangeListener(accessTokenObserver)
-        initializeGitrackRepository()
+        initializeGiTrackRepository()
     }
 
-    val authRepository by lazy { AuthRepository(authServiceImpl) }
+    private val authRepository by lazy { AuthRepository(authServiceImpl) }
 
-    val gitTrackRepository: GitTrackRepository by lazy {
+    private val gitTrackRepository: GitTrackRepository by lazy {
         val accessToken = AccessTokenManager.getAccessToken(this)
         Apollo.accessToken = accessToken
         gitHubServiceImpl = GitHubServiceImpl(Apollo.instance)
         GitTrackRepository(gitHubServiceImpl)
     }
 
-    private fun initializeGitrackRepository() {
+    val sharedViewModelFactory by lazy {
+        SharedViewModelFactory(authRepository, gitTrackRepository)
+    }
+
+    private fun initializeGiTrackRepository() {
         val accessToken = AccessTokenManager.getAccessToken(this)
         accessToken?.let {
             gitTrackRepository

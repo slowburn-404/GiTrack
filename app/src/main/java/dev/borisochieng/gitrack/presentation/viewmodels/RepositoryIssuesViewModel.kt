@@ -3,7 +3,6 @@ package dev.borisochieng.gitrack.presentation.viewmodels
 import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
 import dev.borisochieng.gitrack.data.repositories.GitTrackRepository
 import dev.borisochieng.gitrack.domain.models.Issue
@@ -120,17 +119,4 @@ class RepositoryIssuesViewModel(
             )
         } ?: emptyList()
 
-}
-
-class RepositoryIssuesViewModelFactory(
-    private val gitTrackRepository: GitTrackRepository
-) : ViewModelProvider.Factory {
-    override fun <T : ViewModel> create(modelClass: Class<T>): T {
-        if (modelClass.isAssignableFrom(RepositoryIssuesViewModel::class.java)) {
-            @Suppress("UNCHECKED_CAST")
-            return RepositoryIssuesViewModel(gitTrackRepository) as T
-        }
-        throw IllegalArgumentException("Unknown ViewModel Class")
-
-    }
 }

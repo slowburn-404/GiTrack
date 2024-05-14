@@ -33,7 +33,6 @@ import dev.borisochieng.gitrack.presentation.adapters.SearchAdapter
 import dev.borisochieng.gitrack.presentation.models.RepositoryParcelable
 import dev.borisochieng.gitrack.domain.models.RepositorySearchResult
 import dev.borisochieng.gitrack.presentation.viewmodels.UserRepositoriesViewModel
-import dev.borisochieng.gitrack.presentation.viewmodels.UserRepositoriesViewModelFactory
 import dev.borisochieng.gitrack.utils.AccessTokenManager
 
 class UserRepositoriesFragment : Fragment() {
@@ -55,7 +54,7 @@ class UserRepositoriesFragment : Fragment() {
     private lateinit var username: String
 
     private val userRepositoriesViewModel: UserRepositoriesViewModel by viewModels {
-        UserRepositoriesViewModelFactory((requireActivity().application as GitTrackApplication).gitTrackRepository)
+        (requireActivity().application as GitTrackApplication).sharedViewModelFactory
     }
 
     override fun onCreateView(

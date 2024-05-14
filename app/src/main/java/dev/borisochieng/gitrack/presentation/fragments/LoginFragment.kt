@@ -15,7 +15,6 @@ import dev.borisochieng.gitrack.GitTrackApplication
 import dev.borisochieng.gitrack.R
 import dev.borisochieng.gitrack.databinding.FragmentLoginBinding
 import dev.borisochieng.gitrack.presentation.viewmodels.LoginViewModel
-import dev.borisochieng.gitrack.presentation.viewmodels.LoginViewModelFactory
 import dev.borisochieng.gitrack.utils.AccessTokenManager
 import dev.borisochieng.gitrack.utils.Constants.CLIENT_ID
 import dev.borisochieng.gitrack.utils.Constants.CLIENT_SECRET
@@ -29,7 +28,7 @@ class LoginFragment : Fragment() {
     private var isResumedFromDeepLink = false
 
     private val loginViewModel: LoginViewModel by viewModels {
-        LoginViewModelFactory((requireActivity().application as GitTrackApplication).authRepository)
+        (requireActivity().application as GitTrackApplication).sharedViewModelFactory
     }
 
     override fun onCreateView(

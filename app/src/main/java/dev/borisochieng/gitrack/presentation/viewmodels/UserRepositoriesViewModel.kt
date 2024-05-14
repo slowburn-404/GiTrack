@@ -4,7 +4,6 @@ import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
 import dev.borisochieng.gitrack.data.repositories.GitTrackRepository
 import dev.borisochieng.gitrack.domain.models.User
@@ -148,19 +147,5 @@ class UserRepositoriesViewModel(
     private fun parseDate(dateString: String): LocalDate {
         val formatter = DateTimeFormatter.ofPattern("dd MMMM yyyy", Locale.getDefault())
         return LocalDate.parse(dateString, formatter)
-    }
-}
-
-class UserRepositoriesViewModelFactory(
-    private val gitTrackRepository: GitTrackRepository
-) : ViewModelProvider.Factory {
-    override fun <T : ViewModel> create(modelClass: Class<T>): T {
-        if (modelClass.isAssignableFrom(UserRepositoriesViewModel::class.java)) {
-            @Suppress("UNCHECKED_CAST")
-            return UserRepositoriesViewModel(gitTrackRepository) as T
-        }
-
-        throw IllegalArgumentException("Unknown ViewModel Class")
-
     }
 }
