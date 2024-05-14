@@ -18,7 +18,7 @@ class LoginViewModel(
 
     fun getAccessToken(clientId: String, clientSecret: String, code: String?) =
         code?.let {
-            viewModelScope.launch(Dispatchers.IO) {
+            viewModelScope.launch {
                 try {
                     val response = authRepository.getAccessToken(clientId, clientSecret, it)
                     _accessToken.value = response

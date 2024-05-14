@@ -42,7 +42,6 @@ class GitTrackApplication : Application() {
         GitTrackRepository(gitHubServiceImpl)
     }
 
-
     private fun initializeGitrackRepository() {
         val accessToken = AccessTokenManager.getAccessToken(this)
         accessToken?.let {

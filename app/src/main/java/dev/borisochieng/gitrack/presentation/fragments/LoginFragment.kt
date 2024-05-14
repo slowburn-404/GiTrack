@@ -46,8 +46,6 @@ class LoginFragment : Fragment() {
         if (accessToken != null)
             findNavController().navigate(R.id.action_loginFragment_to_userRepositoriesFragment)
 
-        Log.d("Auth URL", generateGitHubURL())
-
         return binding.root
     }
 

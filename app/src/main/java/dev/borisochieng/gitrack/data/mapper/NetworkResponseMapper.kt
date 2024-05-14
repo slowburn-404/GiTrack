@@ -48,8 +48,6 @@ fun RepositoryIssuesQuery.Data.toSimpleIssue(): List<Issue> {
                 label?.name
             }?.toSet() ?: emptySet()
         )
-    }?.sortedByDescending {
-        it.number
     } ?: emptyList()
 }
 
@@ -77,9 +75,7 @@ fun SearchPublicRepositoryQuery.Data.toSimpleRepositorySearchResult(): List<Repo
                 starCount = it.stargazerCount
             )
         }
-    }?.sortedByDescending {
-        it.starCount
-    } ?: emptyList()
+    }?: emptyList()
 }
 
 private fun formatCreatedAt(createdAt: Any): String {
