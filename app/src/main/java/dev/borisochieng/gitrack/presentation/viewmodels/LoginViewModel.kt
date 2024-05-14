@@ -6,10 +6,8 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
 import dev.borisochieng.gitrack.data.repositories.AuthRepository
 import dev.borisochieng.gitrack.data.models.AccessTokenResponse
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
-import retrofit2.Call
-import retrofit2.Callback
-import retrofit2.Response
 
 class LoginViewModel(
     private val authRepository: AuthRepository
@@ -20,42 +18,30 @@ class LoginViewModel(
 
     fun getAccessToken(clientId: String, clientSecret: String, code: String?) =
         code?.let {
-            viewModelScope.launch {
-                val call = authRepository.getAccessToken(clientId, clientSecret, it)
-
-                call.enqueue(object : Callback<AccessTokenResponse> {
-                    override fun onResponse(
-                        call: Call<AccessTokenResponse>,
-                        response: Response<AccessTokenResponse>
-                    ) {
-                        if (response.isSuccessful) {
-                            _accessToken.value = response.body()
-                        }
-                    }
-
-                    override fun onFailure(call: Call<AccessTokenResponse>, t: Throwable) {
-                        t.printStackTrace()
-                        _accessToken.value = null
-                    }
-
-                })
+            viewModelScope.launch(Dispatchers.IO) {
+                try {
+                    val response = authRepository.getAccessToken(clientId, clientSecret, it)
+                    _accessToken.value = response
+                } catch (e: Exception) {
+                    e.printStackTrace()
+                }
             }
         }
 
-        }
+}
 
-    class LoginViewModelFactory(private val authRepository: AuthRepository) :
-        ViewModelProvider.Factory {
+class LoginViewModelFactory(private val authRepository: AuthRepository) :
+    ViewModelProvider.Factory {
 
-        override fun <T : ViewModel> create(modelClass: Class<T>): T {
-            if (modelClass.isAssignableFrom(LoginViewModel::class.java)) {
+    override fun <T : ViewModel> create(modelClass: Class<T>): T {
+        if (modelClass.isAssignableFrom(LoginViewModel::class.java)) {
 
-                @Suppress("UNCHECKED_CAST")
-                return LoginViewModel(authRepository) as T
-
-            }
-
-            throw IllegalArgumentException("Unknown ViewModel class")
+            @Suppress("UNCHECKED_CAST")
+            return LoginViewModel(authRepository) as T
 
         }
+
+        throw IllegalArgumentException("Unknown ViewModel class")
+
     }
+}

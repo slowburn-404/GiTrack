@@ -2,17 +2,17 @@ package dev.borisochieng.gitrack.data
 
 import dev.borisochieng.gitrack.data.remote.GitHubAuthService
 import dev.borisochieng.gitrack.data.models.AccessTokenResponse
-import retrofit2.Call
 import retrofit2.Retrofit
 
-class AuthRepositoryImpl(
+class GitHubAuthServiceImpl(
     private val retrofit: Retrofit
 ) : GitHubAuthService {
-    override fun getAccessToken(
+
+    override suspend fun getAccessToken(
         clientId: String,
         clientSecret: String,
         code: String
-    ): Call<AccessTokenResponse> =
+    ): AccessTokenResponse =
         retrofit.create(GitHubAuthService::class.java)
             .getAccessToken(clientId, clientSecret, code)
 }

@@ -5,22 +5,22 @@ import android.content.SharedPreferences
 import dev.borisochieng.gitrack.data.remote.Apollo
 import dev.borisochieng.gitrack.data.repositories.GitTrackRepository
 import dev.borisochieng.gitrack.data.repositories.AuthRepository
-import dev.borisochieng.gitrack.data.AuthRepositoryImpl
-import dev.borisochieng.gitrack.data.GitTrackRepositoryImpl
+import dev.borisochieng.gitrack.data.GitHubAuthServiceImpl
+import dev.borisochieng.gitrack.data.GitHubServiceImpl
 import dev.borisochieng.gitrack.data.remote.RetrofitClient
 import dev.borisochieng.gitrack.utils.AccessTokenManager
 
 class GitTrackApplication : Application() {
 
-    private lateinit var gitTrackRepositoryImpl: GitTrackRepositoryImpl
-    private lateinit var authServiceImpl: AuthRepositoryImpl
+    private lateinit var gitHubServiceImpl: GitHubServiceImpl
+    private lateinit var authServiceImpl: GitHubAuthServiceImpl
     private lateinit var accessTokenObserver: SharedPreferences.OnSharedPreferenceChangeListener
 
 
     override fun onCreate() {
         super.onCreate()
         //listen for access token changes and initialize it with apollo
-        authServiceImpl = AuthRepositoryImpl(RetrofitClient.instance)
+        authServiceImpl = GitHubAuthServiceImpl(RetrofitClient.instance)
 
         accessTokenObserver =
             SharedPreferences.OnSharedPreferenceChangeListener { _, key ->
@@ -38,8 +38,8 @@ class GitTrackApplication : Application() {
     val gitTrackRepository: GitTrackRepository by lazy {
         val accessToken = AccessTokenManager.getAccessToken(this)
         Apollo.accessToken = accessToken
-        gitTrackRepositoryImpl = GitTrackRepositoryImpl(Apollo.instance)
-        GitTrackRepository(gitTrackRepositoryImpl)
+        gitHubServiceImpl = GitHubServiceImpl(Apollo.instance)
+        GitTrackRepository(gitHubServiceImpl)
     }
 
 

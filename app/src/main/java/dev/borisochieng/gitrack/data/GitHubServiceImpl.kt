@@ -18,7 +18,7 @@ import dev.borisochieng.gitrack.domain.models.Repository
 import dev.borisochieng.gitrack.domain.models.RepositorySearchResult
 import dev.borisochieng.gitrack.domain.models.SingleIssue
 
-class GitTrackRepositoryImpl(
+class GitHubServiceImpl(
     private val apolloClient: ApolloClient
 ) : GithubService {
     override suspend fun getUser(): User {
