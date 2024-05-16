@@ -20,7 +20,7 @@ class UserRepositoriesViewModel(
     private val gitTrackRepository: GitTrackRepository
 ) : ViewModel() {
     private val _repositoriesLiveData = MutableLiveData<List<Repository>?>()
-    val repositoriesLiveData get() = _repositoriesLiveData
+    val repositoriesLiveData: LiveData<List<Repository>?> get() = _repositoriesLiveData
 
     private val _userLiveData = MutableLiveData<User>()
     val userLiveData: LiveData<User> get() = _userLiveData
@@ -29,10 +29,10 @@ class UserRepositoriesViewModel(
     val searchResultsLiveData: LiveData<List<RepositorySearchResult>> get() = _searchResultsLiveData
 
     private val _filteredListLiveData = MutableLiveData<List<Repository>>()
-    val filteredListLiveData get() = _filteredListLiveData
+    val filteredListLiveData: LiveData<List<Repository>> get() = _filteredListLiveData
 
     private val _languagesLiveData = MutableLiveData<Set<String>>()
-    val languagesLiveData get() = _languagesLiveData
+    val languagesLiveData: LiveData<Set<String>> get() = _languagesLiveData
 
 
     fun getUser() =
@@ -53,7 +53,7 @@ class UserRepositoriesViewModel(
                 val userRepositories = gitTrackRepository.getRepositories(username) ?: return@launch
 
                 val sortedRepositories = withContext(Dispatchers.Default) {
-                    userRepositories.sortedBy { it.createdAt }
+                    userRepositories.sortedByDescending { it.createdAt }
                 }
                 _repositoriesLiveData.value = sortedRepositories
                 getLanguages(sortedRepositories)

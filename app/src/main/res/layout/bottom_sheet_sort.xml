@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <com.google.android.material.bottomsheet.BottomSheetDragHandleView
+            android:id="@+id/drag_handle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="8dp"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/tv_sort_by"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingStart="12dp"
+            android:paddingEnd="12dp"
+            android:paddingBottom="12dp"
+            android:text="@string/sort_by"
+            android:textAppearance="@style/TextAppearance.Gitrack.TitleLarge"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/drag_handle" />
+
+        <com.google.android.material.divider.MaterialDivider
+            android:id="@+id/divider"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="8dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tv_sort_by" />
+
+        <com.google.android.material.card.MaterialCardView
+            android:id="@+id/card_oldest"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:backgroundTint="@android:color/transparent"
+            android:clickable="true"
+            app:cardCornerRadius="0dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/divider"
+            app:strokeWidth="0dp">
+
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/tv_oldest"
+                android:layout_width="match_parent"
+                android:layout_height="48dp"
+                android:padding="12dp"
+                android:text="@string/oldest"
+                android:textAppearance="@style/TextAppearance.Gitrack.BodyLarge" />
+        </com.google.android.material.card.MaterialCardView>
+
+        <com.google.android.material.card.MaterialCardView
+            android:id="@+id/card_most_stars"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:backgroundTint="@android:color/transparent"
+            android:clickable="true"
+            app:cardCornerRadius="0dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/card_oldest"
+            app:strokeWidth="0dp">
+
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/tv_most_starred"
+                android:layout_width="match_parent"
+                android:layout_height="48dp"
+                android:padding="12dp"
+                android:text="@string/most_starred"
+                android:textAppearance="@style/TextAppearance.Gitrack.BodyLarge" />
+        </com.google.android.material.card.MaterialCardView>
+
+        <com.google.android.material.card.MaterialCardView
+            android:id="@+id/card_most_issues"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:backgroundTint="@android:color/transparent"
+            android:clickable="true"
+            app:cardCornerRadius="0dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/card_most_stars"
+            app:strokeWidth="0dp">
+
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/tv_most_issues"
+                android:layout_width="match_parent"
+                android:layout_height="48dp"
+                android:padding="12dp"
+                android:text="@string/most_issues"
+                android:textAppearance="@style/TextAppearance.Gitrack.BodyLarge" />
+        </com.google.android.material.card.MaterialCardView>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

@@ -1,6 +1,7 @@
 package dev.borisochieng.gitrack.presentation.viewmodels
 
 import android.util.Log
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -16,16 +17,16 @@ class RepositoryIssuesViewModel(
     private val gitTrackRepository: GitTrackRepository
 ) : ViewModel() {
     private val _issuesLiveData = MutableLiveData<List<Issue>>()
-    val issuesLiveData get() = _issuesLiveData
+    val issuesLiveData: LiveData<List<Issue>> get() = _issuesLiveData
 
     private val _searchIssueLiveData = MutableLiveData<List<IssueSearchResult>>()
-    val searchResultLiveData get() = _searchIssueLiveData
+    val searchResultLiveData: LiveData<List<IssueSearchResult>> get() = _searchIssueLiveData
 
     private val _filteredListLiveData = MutableLiveData<List<Issue>?>()
-    val filteredListLiveData get() = _filteredListLiveData
+    val filteredListLiveData: LiveData<List<Issue>?> get() = _filteredListLiveData
 
     private val _labelsLiveData = MutableLiveData<Set<String>>()
-    val labelsLiveData get() = _labelsLiveData
+    val labelsLiveData: LiveData<Set<String>> get() = _labelsLiveData
 
     fun getIssues(name: String, owner: String) =
         viewModelScope.launch {

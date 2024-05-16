@@ -8,7 +8,7 @@ import kotlinx.coroutines.sync.withLock
 class Store<T>(initialState: T) {
 
     private val _stateFlow = MutableStateFlow(initialState)
-    val stateFlow: StateFlow<T> = _stateFlow
+    val stateFlow: StateFlow<T> get() = _stateFlow
 
     private val mutex = Mutex()
 
