@@ -23,50 +23,44 @@
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:padding="8dp"
             android:layout_marginStart="8dp"
             android:layout_marginEnd="8dp"
             android:orientation="horizontal"
+            android:padding="8dp"
             app:layout_scrollFlags="scroll|enterAlways|snap">
+
+            <com.google.android.material.chip.Chip
+                android:id="@+id/chip_sort_by"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="4dp"
+                android:text="@string/sort_by"
+                android:textAppearance="@style/TextAppearance.Material3.BodyMedium"
+                app:chipIcon="@drawable/ic_arrow_down"
+                app:ensureMinTouchTargetSize="true"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
             <HorizontalScrollView
                 android:id="@+id/hsv_languages"
-                android:layout_width="match_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:scrollbars="none"
                 android:padding="4dp"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintBottom_toTopOf="@id/tv_sort_by"
-                app:layout_constraintStart_toStartOf="parent">
+                android:layout_marginStart="6dp"
+                android:scrollbars="none"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toEndOf="@id/chip_sort_by"
+                app:layout_constraintTop_toTopOf="parent">
 
                 <com.google.android.material.chip.ChipGroup
                     android:id="@+id/cg_languages"
+                    style="@style/TextAppearance.Gitrack.BodyMedium"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     app:singleLine="true"
-                    app:singleSelection="true"/>
+                    app:singleSelection="true" />
             </HorizontalScrollView>
-
-            <com.google.android.material.textview.MaterialTextView
-                style="@style/TextAppearance.Material3.BodyMedium"
-                android:id="@+id/tv_sort_by"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/sort_by"
-                android:padding="4dp"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/hsv_languages"
-                app:layout_constraintBottom_toBottomOf="parent"/>
-
-            <ImageView
-                android:id="@+id/iv_drop_down"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:src="@drawable/ic_arrow_down"
-                android:padding="4dp"
-                app:layout_constraintStart_toEndOf="@+id/tv_sort_by"
-                app:layout_constraintTop_toBottomOf="@id/hsv_languages"
-                app:layout_constraintBottom_toBottomOf="parent"
-                android:contentDescription="@string/sort_by" />
 
 
         </androidx.constraintlayout.widget.ConstraintLayout>

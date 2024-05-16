@@ -16,7 +16,7 @@
     <string name="status">Open</string>
     <string name="issues">issues</string>
     <string name="single_issue">Issue #%s</string>
-    <string name="sort_by">Sort by:</string>
+    <string name="sort_by">Sort by</string>
     <string name="oldest">Oldest</string>
     <string name="most_issues">Most Issues</string>
     <string name="most_starred">Most Stars</string>

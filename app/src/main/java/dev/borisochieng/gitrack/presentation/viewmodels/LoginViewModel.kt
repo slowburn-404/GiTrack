@@ -1,5 +1,6 @@
 package dev.borisochieng.gitrack.presentation.viewmodels
 
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -11,8 +12,7 @@ class LoginViewModel(
     private val authRepository: AuthRepository
 ) : ViewModel() {
     private val _accessToken = MutableLiveData<AccessTokenResponse?>()
-    val accessToken = _accessToken
-
+    val accessToken: LiveData<AccessTokenResponse?> = _accessToken
 
     fun getAccessToken(clientId: String, clientSecret: String, code: String?) =
         code?.let {
@@ -25,5 +25,4 @@ class LoginViewModel(
                 }
             }
         }
-
 }
